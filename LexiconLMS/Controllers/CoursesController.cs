@@ -46,7 +46,7 @@ namespace LexiconLMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Course course)
+        public ActionResult Create([Bind(Include = "Name,Description,StartDate,EndDate")] Course course)
         {
             if (ModelState.IsValid)
             {
@@ -63,14 +63,14 @@ namespace LexiconLMS.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("Create");
             }
             Course course = db.Courses.Find(id);
             if (course == null)
             {
                 return HttpNotFound();
             }
-            return View(course);
+            return View("Create",course);
         }
 
         // POST: Courses/Edit/5
