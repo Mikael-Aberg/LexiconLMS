@@ -22,3 +22,48 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.center-block {
+    margin-top: 10px;
+    width: 500px;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+    .center-block label {
+        padding-top: 5px;
+    }
+
+#submitbtn {
+    width: 250px;
+    display: block;
+    margin-top: 30px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.welcome-text {
+    text-align: center;
+    font-size: 50px;
+    width: 700px;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 20px;
+}
+
+.row > img{
+    margin-top:50px;
+    margin-bottom:30px;
+}
+
+@media(max-width:767px) {
+    .center-block {
+        width: 300px;
+    }
+
+    #submitbtn {
+        width: 200px;
+    }
+}
