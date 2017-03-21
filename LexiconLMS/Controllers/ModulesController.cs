@@ -46,7 +46,7 @@ namespace LexiconLMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Module module)
+        public ActionResult Create([Bind(Include = "Name,Description,StartDate,EndDate")] Module module)
         {
             if (ModelState.IsValid)
             {
@@ -63,14 +63,14 @@ namespace LexiconLMS.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("Create");
             }
             Module module = db.Modules.Find(id);
             if (module == null)
             {
                 return HttpNotFound();
             }
-            return View(module);
+            return View("Create",module);
         }
 
         // POST: Modules/Edit/5
