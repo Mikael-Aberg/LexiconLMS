@@ -50,10 +50,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Activity.Moduel, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Activity.Module, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("Activity.ModuelId", Model.ModuleList, "", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Activity.Moduel, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Activity.Module, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -78,6 +78,16 @@
     <h3>@Html.DisplayFor(x => module.Name)</h3>
 
     <table class="table">
+
+        <tr>
+            <th>@Html.DisplayNameFor(x => module.Activities.First().Type.Name)</th>
+            <th>@Html.DisplayNameFor(x => module.Activities.First().Name)</th>
+            <th>@Html.DisplayNameFor(x => module.Activities.First().Description)</th>
+            <th>@Html.DisplayNameFor(x => module.Activities.First().StartTime)</th>
+            <th>@Html.DisplayNameFor(x => module.Activities.First().EndTime)</th>
+            <th></th>
+            <th></th>
+        </tr>
 
         @foreach (var activity in module.Activities.OrderByDescending(x => x.Id))
         {
