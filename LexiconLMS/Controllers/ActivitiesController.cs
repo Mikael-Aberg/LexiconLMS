@@ -36,9 +36,27 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Activities/Create
-        public ActionResult Create()
+        public ActionResult Create(int? courseId, int? activityId = null)
         {
-            return View();
+            if (courseId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var course = db.Courses.Find(courseId);
+            if (course == null)
+            {
+                return HttpNotFound();
+            }
+
+            var model = new ActivityCreateViewModel { Modules = course.Modules, CourseId = courseId };
+            model.ModuleList = new SelectList(model.Modules, "Id", "Name");
+            model.Types = new SelectList(db.ActivityTypes.ToList(), "Id", "Name");
+            if (activityId != null)
+            {
+                model.Activity = db.Activities.Find(activityId);
+            }
+
+            return View(model);
         }
 
         // POST: Activities/Create
@@ -46,16 +64,34 @@ namespace LexiconLMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,StartTime,EndTime")] Activity activity)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,StartTime,EndTime,ModuelId,TypeId")] Activity activity, int? courseId)
         {
             if (ModelState.IsValid)
             {
-                db.Activities.Add(activity);
+                if (activity.Id > 0)
+                {
+                    db.Entry(activity).State = EntityState.Modified;
+                }
+                else
+                {
+                    db.Activities.Add(activity);
+                }
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create", new { courseId = courseId });
             }
 
-            return View(activity);
+            var errors = ModelState
+                .Where(x => x.Value.Errors.Count > 0)
+                .Select(x => new { x.Key, x.Value.Errors })
+                .ToArray();
+
+            var course = db.Courses.Find(courseId);
+            var model = new ActivityCreateViewModel { Modules = course.Modules, CourseId = courseId };
+            model.ModuleList = new SelectList(model.Modules, "Id", "Name");
+            model.Types = new SelectList(db.ActivityTypes.ToList(), "Id", "Name");
+            model.Activity = activity;
+
+            return View(model);
         }
 
         // GET: Activities/Edit/5
@@ -70,6 +106,8 @@ namespace LexiconLMS.Controllers
             {
                 return HttpNotFound();
             }
+
+
             return View(activity);
         }
 
