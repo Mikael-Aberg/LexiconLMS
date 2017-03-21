@@ -12,7 +12,7 @@ using LexiconLMS.Models;
 
 namespace LexiconLMS.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Teacher")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
