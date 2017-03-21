@@ -1,0 +1,55 @@
+﻿@model LexiconLMS.Models.ModuleListViewModel
+
+@{
+    ViewBag.Title = "List";
+}
+
+<div class="container">
+    <h1>@Model.CourseName</h1>
+    <hr />
+
+    @foreach (var module in Model.Modules)
+    {
+        <div id="headerDiv">
+            <h3>@module.Name</h3>
+            @if (User.IsInRole("Teacher"))
+            {
+                @Html.ActionLink("Redigera", "Edit", "Modules", new { id = Model.Id }, null)
+            }
+            @Html.ActionLink("Detaljer", "Details", "Activities", new { id = Model.Id }, null)
+        </div>
+
+        <table class="table-small table bottom-margin">
+            <tr>
+                <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Type)</th>
+                <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Name)</th>
+                <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Description)</th>
+                <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().StartTime)</th>
+                <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().EndTime)</th>
+                <th nowrap></th>
+                <th nowrap></th>
+            </tr>
+
+            @foreach (var activity in module.Activities)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => activity.Type.Name)</td>
+                    <td>@Html.DisplayFor(x => activity.Name)</td>
+                    <td>@Html.DisplayFor(x => activity.Description)</td>
+                    <td>@Html.DisplayFor(x => activity.StartTime)</td>
+                    <td>@Html.DisplayFor(x => activity.EndTime)</td>
+                    <td>@Html.ActionLink("Detaljer", "Details", "Activities", new { id = activity.Id }, null)</td>
+
+                    <td>
+                        @if (User.IsInRole("Teacher"))
+                        {
+                            @Html.ActionLink("Redigera", "Edit", "Activities", new { id = activity.Id }, null)
+                        }
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+
+</div>
