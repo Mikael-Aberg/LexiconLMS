@@ -74,7 +74,7 @@ namespace LexiconLMS.Migrations
                 do
                 {
                     user.FirstName = FirstNames[r.Next(0, FirstNames.Count)];
-                    user.LastName = LastNames[r.Next(0, FirstNames.Count)];
+                    user.LastName = LastNames[r.Next(0, LastNames.Count)];
 
                     user.Email = user.FirstName + "." + user.LastName + "@lexicon.se";
                     user.UserName = user.Email;
