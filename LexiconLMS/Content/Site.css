@@ -105,3 +105,8 @@ textarea {
     width:95%;
     margin-left:auto;
 }
+
+.century, .decade, .year, .month{
+    margin:5px;
+    font-weight:600;
+}
