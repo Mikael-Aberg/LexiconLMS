@@ -10,6 +10,7 @@ using LexiconLMS.Models;
 
 namespace LexiconLMS.Controllers
 {
+    [Authorize]
     public class ModulesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -39,6 +40,18 @@ namespace LexiconLMS.Controllers
         public ActionResult Create()
         {
             return View();
+        }
+
+        public ActionResult List(int id)
+        {
+            var model = db.Courses.Select(x => new ModuleListViewModel
+            {
+                Id = x.Id,
+                CourseName = x.Name,
+                Modules = x.Modules
+            }).First();
+
+            return View(model);
         }
 
         // POST: Modules/Create
