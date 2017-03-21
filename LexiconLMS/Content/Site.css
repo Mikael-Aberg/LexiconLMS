@@ -80,3 +80,28 @@ textarea {
         font-size: 40px;
     }
 }
+
+#headerDiv{
+    margin-bottom:20px;
+}
+
+#headerDiv a, #headerDiv h3{
+    display:inline;
+}
+
+#headerDiv a{
+    float:right;
+}
+
+#headerDiv a:first-of-type{
+    margin-left:30px;
+}
+
+.bottom-margin{
+    margin-bottom:60px;
+}
+
+.table-small{
+    width:95%;
+    margin-left:auto;
+}
