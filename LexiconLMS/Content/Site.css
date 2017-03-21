@@ -53,9 +53,10 @@ textarea {
     padding-bottom: 20px;
 }
 
-.row > img{
-    margin-top:50px;
-    margin-bottom:30px;
+.row > img {
+    margin-top: 50px;
+    margin-bottom: 30px;
+    width:60%;
 }
 
 @media(max-width:767px) {
@@ -65,5 +66,9 @@ textarea {
 
     #submitbtn {
         width: 200px;
+    }
+
+    .welcome-text {
+        font-size: 40px;
     }
 }
