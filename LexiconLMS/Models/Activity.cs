@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace LexiconLMS.Models
 {
@@ -30,7 +28,8 @@ namespace LexiconLMS.Models
         public int TypeId { get; set; }
 
         [ForeignKey("ModuelId")]
-        public virtual Module Moduel { get; set; }
+        [DisplayName("Modul")]
+        public virtual Module Module { get; set; }
         [ForeignKey("TypeId")]
         [DisplayName("Typ")]
         public virtual ActivityType Type { get; set; }

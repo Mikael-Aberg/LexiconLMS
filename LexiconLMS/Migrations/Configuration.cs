@@ -153,18 +153,18 @@ namespace LexiconLMS.Migrations
 
             var activities = new[]
             {
-                new Activity {Name = "Övning 11", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Moduel = modules[0], Type = types[0]},
-                new Activity {Name = "E-learning 12", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Moduel = modules[0], Type = types[1]},
-                new Activity {Name = "Föreläsning 5", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Moduel = modules[1], Type = types[2]},
-                new Activity {Name = "Övning 2", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Moduel = modules[1], Type = types[0]},
-                new Activity {Name = "E-learning 3", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Moduel = modules[2], Type = types[1]},
-                new Activity {Name = "Föreläsning 4", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Moduel = modules[2], Type = types[2]},
-                new Activity {Name = "Övning 5", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Moduel = modules[3], Type = types[0]},
-                new Activity {Name = "E-learning 15", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Moduel = modules[3], Type = types[1]},
-                new Activity {Name = "Föreläsning 3", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Moduel = modules[4], Type = types[2]},
-                new Activity {Name = "Övning 7", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Moduel = modules[4], Type = types[0]},
-                new Activity {Name = "E-learning 4", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Moduel = modules[5], Type = types[1]},
-                new Activity {Name = "Föreläsning 2", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Moduel = modules[5], Type = types[2]},
+                new Activity {Name = "Övning 11", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[0], Type = types[0]},
+                new Activity {Name = "E-learning 12", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[0], Type = types[1]},
+                new Activity {Name = "Föreläsning 5", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[1], Type = types[2]},
+                new Activity {Name = "Övning 2", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[1], Type = types[0]},
+                new Activity {Name = "E-learning 3", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[2], Type = types[1]},
+                new Activity {Name = "Föreläsning 4", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[2], Type = types[2]},
+                new Activity {Name = "Övning 5", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[3], Type = types[0]},
+                new Activity {Name = "E-learning 15", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[3], Type = types[1]},
+                new Activity {Name = "Föreläsning 3", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[4], Type = types[2]},
+                new Activity {Name = "Övning 7", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[4], Type = types[0]},
+                new Activity {Name = "E-learning 4", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[5], Type = types[1]},
+                new Activity {Name = "Föreläsning 2", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[5], Type = types[2]},
             };
 
             context.Activities.AddOrUpdate(x => x.Name, activities);

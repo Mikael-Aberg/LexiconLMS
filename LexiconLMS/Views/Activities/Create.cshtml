@@ -50,10 +50,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Activity.Moduel, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Activity.Module, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("Activity.ModuelId", Model.ModuleList, "", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Activity.Moduel, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Activity.Module, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -67,11 +67,11 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="@( ((Model.Activity != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default" />
             </div>
         </div>
     </div>
-}
+            }
 
 @foreach (var module in Model.Modules)
 {
@@ -79,10 +79,21 @@
 
     <table class="table">
 
+        <tr>
+            <th>@Html.DisplayNameFor(x => module.Activities.First().Type.Name)</th>
+            <th>@Html.DisplayNameFor(x => module.Activities.First().Name)</th>
+            <th>@Html.DisplayNameFor(x => module.Activities.First().Description)</th>
+            <th>@Html.DisplayNameFor(x => module.Activities.First().StartTime)</th>
+            <th>@Html.DisplayNameFor(x => module.Activities.First().EndTime)</th>
+            <th></th>
+            <th></th>
+        </tr>
+
         @foreach (var activity in module.Activities.OrderByDescending(x => x.Id))
         {
             <tr>
                 <td>@Html.DisplayFor(x => activity.Type.Name)</td>
+                <td>@Html.DisplayFor(x => activity.Name)</td>
                 <td>@Html.DisplayFor(x => activity.Description)</td>
                 <td>@Html.DisplayFor(x => activity.StartTime)</td>
                 <td>@Html.DisplayFor(x => activity.EndTime)</td>
