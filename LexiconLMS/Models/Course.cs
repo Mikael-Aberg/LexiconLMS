@@ -15,10 +15,8 @@ namespace LexiconLMS.Models
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         [Display(Name = "Startdatum")]
-        [DataType(DataType.DateTime)]
         public DateTime StartDate { get; set; }
         [Display(Name = "Slutdatum")]
-        [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
 
         public virtual ICollection<ApplicationUser> Students { get; set; }
