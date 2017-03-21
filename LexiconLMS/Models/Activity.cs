@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -14,8 +15,10 @@ namespace LexiconLMS.Models
         [DisplayName("Beskrivning")]
         public string Description { get; set; }
         [DisplayName("Start tid")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime StartTime { get; set; }
         [DisplayName("Slut tid")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime EndTime { get; set; }
 
         public virtual Module Moduel { get; set; }
