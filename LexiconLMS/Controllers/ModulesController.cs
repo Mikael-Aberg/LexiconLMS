@@ -42,16 +42,29 @@ namespace LexiconLMS.Controllers
             return View();
         }
 
-        public ActionResult List(int id)
+        // GET: Modules/List/2
+        public ActionResult List(int? id)
         {
-            var model = db.Courses.Select(x => new ModuleListViewModel
+            if (id == null)
             {
-                Id = x.Id,
-                CourseName = x.Name,
-                Modules = x.Modules
-            }).First();
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
-            return View(model);
+            var model = db.Courses.FirstOrDefault(x => x.Id == id);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new ModuleListViewModel
+            {
+                Id = model.Id,
+                CourseName = model.Name,
+                Modules = model.Modules
+            };
+
+            return View(viewModel);
         }
 
         // POST: Modules/Create
