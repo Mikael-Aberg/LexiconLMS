@@ -7,7 +7,12 @@
 @*<h2>Create</h2>*@
 
 
-@using (Html.BeginForm()) 
+@{ var ajaxOptions = new AjaxOptions
+    {
+        UpdateTargetId = "ModulesCreateDiv",
+        HttpMethod = "POST"
+    }; }
+@using (Ajax.BeginForm("Create", "Modules", ajaxOptions))
 {
     @Html.AntiForgeryToken()
     
@@ -50,7 +55,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Lägg till" class="btn btn-default" />
+                <input type="submit" value="Lägg till" class="btn btn-default modules" />
             </div>
         </div>
     </div>
@@ -60,6 +65,22 @@
     @Html.ActionLink("Back to List", "Index")
 </div>*@
 
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datepicker")
 }
+
+<div id="partialViewDiv"></div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script>
+
+    var url = '@Url.Action("Index", "Modules", new { courseId = -1})'.replace("-1", 1);
+    $("#ModulesListDiv").load(url);
+
+    $(".modules").click(function () {
+        var url = '@Url.Action("Index", "Modules", new { courseId = -1})'.replace("-1", 1);
+        $("#ModulesListDiv").load(url);
+    });
+</script>

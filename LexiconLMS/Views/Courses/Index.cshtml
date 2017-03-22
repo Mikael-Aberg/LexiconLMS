@@ -41,6 +41,7 @@
             @Html.DisplayFor(modelItem => item.EndDate)
         </td>
         <td>
+            <input type="button" value="Edit" class="editcourse" />
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
@@ -49,3 +50,14 @@
 }
 
 </table>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script>
+
+
+
+    $(".editcourse").click(function () {
+        var url = '@Url.Action("Edit", "Courses", new { id = -1})'.replace("-1", 1);
+        $("#CoursesCreateDiv").load(url);
+    });
+</script>

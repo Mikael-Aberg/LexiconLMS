@@ -6,11 +6,18 @@
 
 @*<h2>Create</h2>*@
 
-
-@using (Html.BeginForm())
+@{ var ajaxOptions = new AjaxOptions
+    {
+        UpdateTargetId = "CoursesCreateDiv",
+        HttpMethod = "POST"
+    }; }
+@using (Ajax.BeginForm("Create", "Courses", ajaxOptions))
 {
+    @*@Html.EditorForModel()
+    <input type="submit" />*@
+
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.Id) @*<--- Added for edit to work*@
+
     <div class="form-horizontal">
         @*<h4>Course</h4>
             <hr />*@
@@ -57,11 +64,17 @@
                 @Html.ActionLink("Spara och lägg till moduler", "../Modules/List/1")
             </div>
             <div class="col-md-3">
-                <input type="submit" value="Spara och avsluta" class="btn btn-default" />
+                <input type="submit" value="Spara och avsluta" class="btn btn-default courses" />
             </div>
         </div>
     </div>
+    <input type="button" class="teacher" value="Click me!" />
+
+    //Html.RenderAction("Index");
+
 }
+
+
 
 @*<div>
         @Html.ActionLink("Back to List", "Index")
@@ -74,3 +87,17 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/datepicker")
 }
+
+<div id="partialViewDiv"></div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script>
+    
+    var url = '@Url.Action("Index", "Courses", new { courseId = -1})'.replace("-1", 1);
+    $("#CoursesListDiv").load(url);
+    
+    $(".courses").click(function () {
+        var url = '@Url.Action("Index", "Courses", new { courseId = -1})'.replace("-1", 1);
+        $("#CoursesListDiv").load(url);
+    });
+</script>

@@ -20,6 +20,12 @@ namespace LexiconLMS.Controllers
             return View(db.Courses.ToList());
         }
 
+        // GET: Courses
+        public ActionResult MasterView()
+        {
+            return View();
+        }
+
         // GET: Courses/Details/5
         public ActionResult Details(int? id)
         {
@@ -38,24 +44,27 @@ namespace LexiconLMS.Controllers
         // GET: Courses/Create
         public ActionResult Create()
         {
-            return View();
+            return PartialView();
         }
+
+
 
         // POST: Courses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,Description,StartDate,EndDate")] Course course)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Course course)
         {
             if (ModelState.IsValid)
             {
                 db.Courses.Add(course);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return PartialView();
+                //return RedirectToAction("Create");
             }
 
-            return View(course);
+            return PartialView(course);
         }
 
         // GET: Courses/Edit/5
@@ -63,14 +72,14 @@ namespace LexiconLMS.Controllers
         {
             if (id == null)
             {
-                return View("Create");
+                return PartialView("Edit");
             }
             Course course = db.Courses.Find(id);
             if (course == null)
             {
                 return HttpNotFound();
             }
-            return View("Create",course);
+            return PartialView("Edit",course);
         }
 
         // POST: Courses/Edit/5
@@ -84,9 +93,9 @@ namespace LexiconLMS.Controllers
             {
                 db.Entry(course).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return PartialView("Create",course);
             }
-            return View(course);
+            return PartialView(course);
         }
 
         // GET: Courses/Delete/5

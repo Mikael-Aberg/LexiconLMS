@@ -18,7 +18,7 @@ namespace LexiconLMS.Controllers
         // GET: Modules
         public ActionResult Index()
         {
-            return View(db.Modules.ToList());
+            return PartialView(db.Modules.ToList());
         }
 
         // GET: Modules/Details/5
@@ -39,7 +39,7 @@ namespace LexiconLMS.Controllers
         // GET: Modules/Create
         public ActionResult Create()
         {
-            return View();
+            return PartialView();
         }
 
         // GET: Modules/List/2
@@ -78,7 +78,7 @@ namespace LexiconLMS.Controllers
             {
                 db.Modules.Add(module);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return PartialView("Create");
             }
 
             return View(module);
@@ -89,14 +89,14 @@ namespace LexiconLMS.Controllers
         {
             if (id == null)
             {
-                return View("Create");
+                return PartialView("Create");
             }
             Module module = db.Modules.Find(id);
             if (module == null)
             {
                 return HttpNotFound();
             }
-            return View("Create",module);
+            return PartialView("Create",module);
         }
 
         // POST: Modules/Edit/5
@@ -110,7 +110,7 @@ namespace LexiconLMS.Controllers
             {
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create");
             }
             return View(module);
         }
