@@ -20,6 +20,7 @@ namespace LexiconLMS.Models
         [DisplayName("Slut datum")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
+        public int CourseId { get; set; }
 
         public virtual Course Course { get; set; }
         public virtual ICollection<Activity> Activities { get; set; }
