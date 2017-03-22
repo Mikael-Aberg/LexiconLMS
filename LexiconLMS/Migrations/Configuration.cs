@@ -89,10 +89,10 @@ namespace LexiconLMS.Migrations
                     if (month.Length < 2) month = "0" + month;
                     if (day.Length < 2) day = "0" + day;
 
-                    string number1 = r.Next(0, 9).ToString();
-                    string number2 = r.Next(0, 9).ToString();
-                    string number3 = r.Next(0, 9).ToString();
-                    string number4 = r.Next(0, 9).ToString();
+                    string number1 = r.Next(1, 9).ToString();
+                    string number2 = r.Next(1, 9).ToString();
+                    string number3 = r.Next(1, 9).ToString();
+                    string number4 = r.Next(1, 9).ToString();
 
                     user.SocialSecurityNumber = year + month + day + "-" + number1 + number2 + number3 + number4;
 
