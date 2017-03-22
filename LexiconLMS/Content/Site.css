@@ -37,14 +37,14 @@ textarea {
 
 .center-block-text{
     margin-top: 10px;
-    width: 200px;
+    width: 250px;
     display: block;
     margin-right: auto;
     margin-left: auto;
 }
 
 #submitbtn {
-    width: 250px;
+    width: 200px;
     display: block;
     margin-top: 30px;
     margin-right: auto;
