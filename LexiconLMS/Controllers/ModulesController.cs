@@ -38,9 +38,22 @@ namespace LexiconLMS.Controllers
 
         // GET: Modules/Create
         [Authorize(Roles = "Teacher")]
-        public ActionResult Create()
+        public ActionResult Create(int? courseId, int? moduleId = null)       
         {
-            return View();
+            if (courseId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var course = db.Courses.Find(courseId);
+            if (course == null)
+            {
+                return HttpNotFound();
+            }
+
+            var model = new ModuleCreateViewModel { Modules = course.Modules, CourseId = courseId };
+            if (moduleId != null) model.Module = db.Modules.Find(moduleId);
+
+            return View(model);
         }
 
         // GET: Modules/List/2
@@ -74,16 +87,35 @@ namespace LexiconLMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public ActionResult Create([Bind(Include = "Name,Description,StartDate,EndDate")] Module module)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Module module, int? courseId)
         {
             if (ModelState.IsValid)
             {
-                db.Modules.Add(module);
+                if (module.Id > 0)
+                {
+                    if (courseId != null)
+                    {
+                        module.CourseId = (int)courseId;
+                        db.Entry(module).State = EntityState.Modified;
+                    }
+                }
+                else
+                {
+                    if (courseId != null)
+                    {
+                        module.CourseId = (int)courseId;
+                        db.Modules.Add(module);
+                    }
+                }
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create", new { courseId = courseId });
             }
 
-            return View(module);
+            var course = db.Courses.Find(courseId);
+            var model = new ModuleCreateViewModel { Modules = course.Modules, CourseId = courseId };
+            model.Module = module;
+
+            return View(model);
         }
 
         // GET: Modules/Edit/5
@@ -99,7 +131,7 @@ namespace LexiconLMS.Controllers
             {
                 return HttpNotFound();
             }
-            return View("Create",module);
+            return View("Create", module);
         }
 
         // POST: Modules/Edit/5

@@ -29,6 +29,7 @@ namespace LexiconLMS.Models
         [DisplayName("Slutdatum")]
         [Required(ErrorMessage = "Du måste fylla i ett slutdatum.")]
         public DateTime EndDate { get; set; }
+        public int CourseId { get; set; }
 
         public virtual Course Course { get; set; }
         public virtual ICollection<Activity> Activities { get; set; }

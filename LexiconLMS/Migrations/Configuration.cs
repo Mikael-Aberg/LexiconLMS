@@ -89,10 +89,10 @@ namespace LexiconLMS.Migrations
                     if (month.Length < 2) month = "0" + month;
                     if (day.Length < 2) day = "0" + day;
 
-                    string number1 = r.Next(0, 9).ToString();
-                    string number2 = r.Next(0, 9).ToString();
-                    string number3 = r.Next(0, 9).ToString();
-                    string number4 = r.Next(0, 9).ToString();
+                    string number1 = r.Next(1, 9).ToString();
+                    string number2 = r.Next(1, 9).ToString();
+                    string number3 = r.Next(1, 9).ToString();
+                    string number4 = r.Next(1, 9).ToString();
 
                     user.SocialSecurityNumber = year + month + day + "-" + number1 + number2 + number3 + number4;
 
@@ -133,12 +133,12 @@ namespace LexiconLMS.Migrations
 
             var modules = new[]
             {
-                new Module {Name = "JavaEE", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), Course = courses[0] },
-                new Module {Name = "JSP", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), Course = courses[0] },
-                new Module {Name = "C#", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), Course = courses[1] },
-                new Module {Name = "MVC", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), Course = courses[1] },
-                new Module {Name = "Office365", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), Course = courses[2] },
-                new Module {Name = "Projektledning", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), Course = courses[2] },
+                new Module {Name = "JavaEE", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), CourseId = courses[0].Id },
+                new Module {Name = "JSP", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), CourseId = courses[0].Id },
+                new Module {Name = "C#", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), CourseId = courses[1].Id },
+                new Module {Name = "MVC", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), CourseId = courses[1].Id },
+                new Module {Name = "Office365", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), CourseId = courses[2].Id },
+                new Module {Name = "Projektledning", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), CourseId = courses[2].Id },
             };
 
             context.Modules.AddOrUpdate(x => x.Name, modules);
