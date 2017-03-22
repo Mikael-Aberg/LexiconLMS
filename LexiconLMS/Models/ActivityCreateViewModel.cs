@@ -9,11 +9,15 @@ namespace LexiconLMS.Models
 {
     public class ActivityCreateViewModel
     {
+        [DisplayName("Aktivitet")]
         public Activity Activity { get; set; }
+
         [DisplayName("Modul")]
         public SelectList ModuleList { get; set; }
+
         [DisplayName("Typ")]
         public SelectList Types { get; set; }
+
         public int? CourseId { get; set; }
         public ICollection<Module> Modules { get; set; }
     }
