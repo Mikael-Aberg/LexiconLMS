@@ -36,8 +36,9 @@ namespace LexiconLMS.Controllers
             return View(module);
         }
 
-        // GET: Activities/Create
-        public ActionResult Create(int? courseId, int? moduleId = null)
+        // GET: Modules/Create
+        [Authorize(Roles = "Teacher")]
+        public ActionResult Create(int? courseId, int? moduleId = null)       
         {
             if (courseId == null)
             {
@@ -85,6 +86,7 @@ namespace LexiconLMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Module module, int? courseId)
         {
             if (ModelState.IsValid)
@@ -117,6 +119,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Modules/Edit/5
+        [Authorize(Roles = "Teacher")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -136,6 +139,7 @@ namespace LexiconLMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Module module)
         {
             if (ModelState.IsValid)
@@ -148,6 +152,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Modules/Delete/5
+        [Authorize(Roles = "Teacher")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -165,6 +170,7 @@ namespace LexiconLMS.Controllers
         // POST: Modules/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult DeleteConfirmed(int id)
         {
             Module module = db.Modules.Find(id);
