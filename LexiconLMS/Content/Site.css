@@ -81,30 +81,26 @@ textarea {
     }
 }
 
-#headerDiv {
-    margin-bottom: 20px;
+.headerDiv a, .headerDiv h3 {
+    display: inline;
 }
 
-    #headerDiv a, #headerDiv h3 {
-        display: inline;
-    }
+.headerDiv span{
+    margin-left:15px;
+}
 
-    #headerDiv a {
-        float: right;
-    }
+.headerDiv a {
+    float: right;
+}
 
-        #headerDiv a:first-of-type {
-            margin-left: 30px;
-        }
+    .headerDiv a:first-of-type {
+        margin-left: 30px;
+    }
 
 .bottom-margin {
     margin-bottom: 60px;
 }
 
-.table-small {
-    width: 95%;
-    margin-left: auto;
-}
 
 .century, .decade, .year, .month {
     margin: 5px;
@@ -121,14 +117,14 @@ textarea {
     text-decoration: none;
 }
 
-.panel-body{
+.panel-body {
     border-top: 1px solid #ddd;
 }
 
-.panel-group{
-    margin-top:50px;
+.panel-group {
+    margin-top: 50px;
 }
 
-#courseButtons{
-    margin-left:20px;
+#courseButtons {
+    margin-left: 20px;
 }

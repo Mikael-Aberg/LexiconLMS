@@ -4,47 +4,62 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Course</h4>
+
+
+
+<div class="container">
+    <h1>@Model.Name</h1>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+    <h4>@Model.Description</h4>
+    <div class="panel-group">
+        @foreach (var module in Model.Modules)
+        {
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <div class="panel panel-default">
+                <div class="panel-heading headerDiv">
+                    <h3>@module.Name</h3><span>@module.StartDate.ToShortDateString() - @module.EndDate.ToShortDateString()</span>
+                    @if (User.IsInRole("Teacher"))
+                    {
+                        @Html.ActionLink("Redigera", "Create", "CreateCourse", new { courseId = Model.Id, moduleId = module.Id, moduleShow = true }, null)
+                    }
+                </div>
+                <div class="panel-body">
+                    <h5>@module.Description</h5>
+                    @if (module.Description.Length > 0)
+                    {
+                        <hr />
+                    }
+                    <table class="table">
+                        <tr>
+                            <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Type)</th>
+                            <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Name)</th>
+                            <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Description)</th>
+                            <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().StartTime)</th>
+                            <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().EndTime)</th>
+                            <th nowrap></th>
+                            <th nowrap></th>
+                        </tr>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-
-    </dl>
+                        @foreach (var activity in module.Activities)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(x => activity.Type.Name)</td>
+                                <td>@Html.DisplayFor(x => activity.Name)</td>
+                                <td>@Html.DisplayFor(x => activity.Description)</td>
+                                <td>@Html.DisplayFor(x => activity.StartTime)</td>
+                                <td>@Html.DisplayFor(x => activity.EndTime)</td>
+                                <td>
+                                    @if (User.IsInRole("Teacher"))
+                                    {
+                                        @Html.ActionLink("Redigera", "Create", "CreateCourse", new { courseId = Model.Id, activityId = activity.Id, activityShow = true }, null)
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

@@ -156,7 +156,16 @@
                         {
                             <tr>
                                 <td>@Html.DisplayFor(x => module.Name)</td>
-                                <td>@Html.DisplayFor(x => module.Description)</td>
+                                <td>
+                                    @if (module.Description.Length > 25)
+                                    {
+                                        @Html.DisplayFor(x => module.Description).ToString().Substring(0, 25)@:...
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(x => module.Description)
+                                    }
+                                </td>
                                 <td>@Html.DisplayFor(x => module.StartDate)</td>
                                 <td>@Html.DisplayFor(x => module.EndDate)</td>
                                 <td>@Html.ActionLink("Redigera", "Create", new { courseId = Model.ModuleModel.CourseId, moduleId = module.Id, moduleShow = true })</td>

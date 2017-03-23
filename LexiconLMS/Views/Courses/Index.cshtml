@@ -3,12 +3,7 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<br />
 <table class="table">
     <tr>
         <th>
@@ -33,7 +28,17 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @if (item.Description != null)
+                {
+                    if (item.Description.Length > 25)
+                    {
+                        @Html.DisplayFor(modelItem => item.Description).ToString().Substring(0, 20)@:...
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Description)
+                    }
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartDate)
@@ -42,9 +47,9 @@
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Create", "CreateCourse", new { courseId = item.Id, courseShow = true }, null) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Redigera", "Create", "CreateCourse", new { courseId = item.Id, courseShow = true }, null) |
+                @Html.ActionLink("Detaljer", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Ta bort", "Delete", new { id = item.Id })
             </td>
         </tr>
     }
