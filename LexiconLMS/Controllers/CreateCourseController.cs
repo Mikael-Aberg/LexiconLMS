@@ -18,7 +18,7 @@ namespace LexiconLMS.Controllers
             return View();
         }
 
-        public ActionResult Create(int? courseId, int? moduleId, int? activityId)
+        public ActionResult Create(int? courseId, int? moduleId, int? activityId, bool courseShow = false, bool moduleShow = false, bool activityShow = false)
         {
             var viewModel = new CreateCourseViewModel();
             viewModel.ModuleModel = new ModuleCreateViewModel();
@@ -32,7 +32,8 @@ namespace LexiconLMS.Controllers
                 viewModel.ModuleModel.Modules = viewModel.Course.Modules.ToList();
 
                 viewModel.ActivityModel.CourseId = courseId;
-                viewModel.ActivityModel.Modules = viewModel.Course.Modules.ToList();
+                viewModel.ActivityModel.Modules = viewModel.Course.Modules.OrderBy(x => x.StartDate).ToList();
+                //Activities sorted in HTML
                 viewModel.ActivityModel.ModuleList = new SelectList(viewModel.Course.Modules.ToList(), "Id", "Name");
                 viewModel.ActivityModel.Types = new SelectList(db.ActivityTypes.ToList(), "Id", "Name");
             }
@@ -45,23 +46,42 @@ namespace LexiconLMS.Controllers
                 viewModel.ActivityModel.Activity = db.Activities.Find(activityId);
             }
 
+            viewModel.CourseIn = (!moduleShow && !activityShow || courseShow) ? "in" : "";
+            viewModel.ModuleIn = (moduleShow) ? "in" : "";
+            viewModel.ActivityIn = (activityShow) ? "in" : "";
+
+            if (courseId != null && !activityShow)
+            {
+                viewModel.ModuleIn = "in";
+            }
+
             return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public ActionResult CreateCourse([Bind(Include = "Name,Description,StartDate,EndDate")] Course course)
+        public ActionResult CreateCourse([Bind(Include = "Name,Description,StartDate,EndDate")] Course course, int? courseId)
         {
             if (ModelState.IsValid)
             {
-                db.Courses.Add(course);
+                if (courseId > 0)
+                {
+                    course.Id = (int)courseId;
+                    db.Entry(course).State = EntityState.Modified;
+                }
+                else
+                {
+                    db.Courses.Add(course);
+                }
+
                 db.SaveChanges();
-                return RedirectToAction("Create", new { courseId = course.Id });
+                return RedirectToAction("Create", new { courseId = course.Id, moduleShow = true });
             }
 
             var viewModel = new CreateCourseViewModel();
-
+            viewModel.ActivityModel = new ActivityCreateViewModel();
+            viewModel.ModuleModel = new ModuleCreateViewModel();
             viewModel.Course = course;
 
             return View("Create", viewModel);
@@ -74,6 +94,8 @@ namespace LexiconLMS.Controllers
         {
             var module = moduleModel.Module;
             var courseId = moduleModel.CourseId;
+
+            if (module.Id == 0) module.Id = -1;
 
             if (ModelState.IsValid)
             {
@@ -94,7 +116,7 @@ namespace LexiconLMS.Controllers
                     }
                 }
                 db.SaveChanges();
-                return RedirectToAction("Create", new { courseId = courseId });
+                return RedirectToAction("Create", new { courseId = courseId, moduleShow = true });
             }
 
             var course = db.Courses.Find(courseId);
@@ -106,7 +128,7 @@ namespace LexiconLMS.Controllers
                 ModuleModel = model
             };
 
-            return View(viewModel);
+            return View("create",viewModel);
         }
 
         [HttpPost]
@@ -128,7 +150,7 @@ namespace LexiconLMS.Controllers
                     db.Activities.Add(activity);
                 }
                 db.SaveChanges();
-                return RedirectToAction("Create", new { courseId = courseId });
+                return RedirectToAction("Create", new { courseId = courseId, activityShow = true });
             }
 
             var course = db.Courses.Find(courseId);
