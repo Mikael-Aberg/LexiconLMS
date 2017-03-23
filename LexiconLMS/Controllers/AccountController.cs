@@ -12,7 +12,8 @@ using LexiconLMS.Models;
 
 namespace LexiconLMS.Controllers
 {
-    [Authorize(Roles = "Teacher")]
+    [Authorize]
+    //[Authorize(Roles = "Teacher")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -163,7 +164,11 @@ namespace LexiconLMS.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    //if (User.IsInRole("Teacher"))
+                    //{
+                        return RedirectToAction("Index", "Courses");
+                    //}  
+                    //return RedirectToAction("Index", "HomeStudent");
                 }
                 AddErrors(result);
             }
@@ -392,7 +397,8 @@ namespace LexiconLMS.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+
+            return RedirectToAction("Login", "Account");
         }
 
         //
@@ -449,7 +455,11 @@ namespace LexiconLMS.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            //if (User.IsInRole("Teacher"))
+            //{
+                return RedirectToAction("Index", "Courses");
+            //}
+            //return RedirectToAction("Index", "HomeStudent");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
