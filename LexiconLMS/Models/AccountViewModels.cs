@@ -80,9 +80,9 @@ namespace LexiconLMS.Models
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Du måste fylla i ett personnummer.")]
-        //[RegularExpression(@"^(?:19|[2-9][0-9]){0,1}(?:[0-9]{2})(?!0229|0230|0231|0431|0631|0931|1131)
-        //    (?:(?:0[1-9])|(?:1[0-2]))(?:(?:0[1-9])|(?:1[0-9])|(?:2[0-9])|(?:3[01]))[-+](?!0000)(?:[0-9]{4})$", 
-        //    ErrorMessage = "Felaktigt format på personnummer!")]
+        [RegularExpression(@"^(?:19|[2-9][0-9]){0,1}(?:[0-9]{2})(?!0229|0230|0231|0431|0631|0931|1131)
+            (?:(?:0[1-9])|(?:1[0-2]))(?:(?:0[1-9])|(?:1[0-9])|(?:2[0-9])|(?:3[01]))[-+](?!0000)(?:[0-9]{4})$",
+            ErrorMessage = "Felaktigt format på personnummer! (yyyymmdd-xxxx)")]
         [DisplayName("Personnummer")]
         public string SocialSecurityNumber { get; set; }
 
@@ -104,8 +104,12 @@ namespace LexiconLMS.Models
         public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "Du måste fylla i en kurs.")]
+        public int CourseId { get; set; }
+
         [Display(Name = "Kurser")]
         public SelectList Courses { get; set; }
+
+        public string Msg { get; set; }
     }
 
     public class ResetPasswordViewModel

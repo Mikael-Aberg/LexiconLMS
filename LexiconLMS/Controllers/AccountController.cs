@@ -148,11 +148,12 @@ namespace LexiconLMS.Controllers
 
         //
         // GET: /Account/Register
-        public ActionResult Register()
+        public ActionResult Register(string msg = "")
         {
             var viewModel = new RegisterViewModel();
 
             viewModel.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
+            viewModel.Msg = msg;
 
             return View(viewModel);
         }
@@ -161,15 +162,16 @@ namespace LexiconLMS.Controllers
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model, int? courseId)
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, SocialSecurityNumber = model.SocialSecurityNumber ,FirstName = model.FirstName, LastName = model.LastName, Email = model.Email, CourseId = model.CourseId };
+                Console.WriteLine();
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -179,12 +181,14 @@ namespace LexiconLMS.Controllers
 
                     //if (User.IsInRole("Teacher"))
                     //{
-                        return RedirectToAction("Index", "Courses");
+                        return RedirectToAction("Register", "Account", new { msg = $" - {user.FullName} har blivit registrerad"});
                     //}  
                     //return RedirectToAction("Index", "HomeStudent");
                 }
                 AddErrors(result);
             }
+
+            model.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
 
             // If we got this far, something failed, redisplay form
             return View(model);

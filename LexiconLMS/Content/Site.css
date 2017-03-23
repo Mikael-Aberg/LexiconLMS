@@ -128,3 +128,16 @@ textarea {
 #courseButtons {
     margin-left: 20px;
 }
+
+#redisterHeadDiv{
+    margin-top:20px;
+}
+
+#redisterHeadDiv h2{
+    display:inline;
+}
+
+#redisterHeadDiv span{
+    display:inline;
+    vertical-align:text-bottom;
+}
