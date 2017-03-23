@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -168,6 +169,48 @@ namespace LexiconLMS.Controllers
             };
 
             return View(activityViewModel);
+        }
+
+        public ActionResult DeleteModule(int courseId, int moduleId)
+        {
+            if (moduleId < 1)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Module module = db.Modules.Find(moduleId);
+            if (module == null)
+            {
+                return HttpNotFound();
+            }
+            db.Modules.Remove(module);
+            db.SaveChanges();
+            return RedirectToAction("Create", new { courseId = courseId, moduleShow = true });
+        }
+
+        public ActionResult DeleteActivity(int courseId, int activityId)
+        {
+            if (activityId < 1)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Activity activity = db.Activities.Find(activityId);
+            if (activity == null)
+            {
+                return HttpNotFound();
+            }
+            db.Activities.Remove(activity);
+            db.SaveChanges();
+            return RedirectToAction("Create", new { courseId = courseId, activityShow = true });
+        }
+
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

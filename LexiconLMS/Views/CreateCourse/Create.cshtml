@@ -67,9 +67,7 @@
 
                             @if (Model.Course != null)
                             {
-
                                 <input id="createNew" type="button" value="Skapa ny kurs" class="btn btn-default" />
-
                             }
                         </div>
                     </div>
@@ -162,7 +160,7 @@
                                 <td>@Html.DisplayFor(x => module.StartDate)</td>
                                 <td>@Html.DisplayFor(x => module.EndDate)</td>
                                 <td>@Html.ActionLink("Redigera", "Create", new { courseId = Model.ModuleModel.CourseId, moduleId = module.Id, moduleShow = true })</td>
-                                <td>@Html.ActionLink("Ta bort", "Delete", new { Id = module.Id })</td>
+                                <td>@Html.ActionLink("Ta bort", "DeleteModule", new { courseId = Model.ActivityModel.CourseId, moduleId = module.Id })</td>
                             </tr>
                         }
                     </table>
@@ -283,7 +281,7 @@
                                     <td>@Html.DisplayFor(x => activity.StartTime)</td>
                                     <td>@Html.DisplayFor(x => activity.EndTime)</td>
                                     <td>@Html.ActionLink("Redigera", "Create", new { courseId = Model.ActivityModel.CourseId, activityId = activity.Id, activityShow = true })</td>
-                                    <td>@Html.ActionLink("Ta bort", "Delete", new { Id = activity.Id })</td>
+                                    <td>@Html.ActionLink("Ta bort", "DeleteActivity", new { courseId = Model.ActivityModel.CourseId, activityId = activity.Id })</td>
                                 </tr>
                             }
                         </table>
