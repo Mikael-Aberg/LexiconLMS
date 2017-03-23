@@ -16,8 +16,7 @@ namespace LexiconLMS.Models
         public string Name { get; set; }
 
         [Display(Name = "Beskrivning")]    
-        [Required(ErrorMessage = "Du måste fylla i en beskrivning.")]
-        [StringLength(500, MinimumLength = 1, ErrorMessage = "Beskrivningen får max vara 500 tecken långt.")]
+        [StringLength(500, ErrorMessage = "Beskrivningen får max vara 500 tecken långt.")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
