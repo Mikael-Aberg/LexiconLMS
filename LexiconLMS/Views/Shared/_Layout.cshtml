@@ -24,6 +24,8 @@
                     <li>@Html.ActionLink("Moduler", "List", "Modules", new { id = 1}, null)</li>
                     <li>@Html.ActionLink("Kurser", "Index", "Courses")</li>
                     <li>@Html.ActionLink("Aktiviteter", "Create", "Activities", new { courseId = 1 }, null)</li>
+                    <li>@Html.ActionLink("Byt lösenord", "ChangePassword", "Manage")</li>
+                    <li>@Html.ActionLink("Lägg till elev", "Register", "Account")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
