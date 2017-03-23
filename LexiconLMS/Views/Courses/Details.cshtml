@@ -26,10 +26,14 @@
                 </div>
                 <div class="panel-body">
                     <h5>@module.Description</h5>
-                    @if (module.Description.Length > 0)
+                    @if (module.Description != null)
                     {
-                        <hr />
+                        if (module.Description.Length > 0)
+                        {
+                            <hr />
+                        }
                     }
+
                     <table class="table">
                         <tr>
                             <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Type)</th>
@@ -46,7 +50,19 @@
                             <tr>
                                 <td>@Html.DisplayFor(x => activity.Type.Name)</td>
                                 <td>@Html.DisplayFor(x => activity.Name)</td>
-                                <td>@Html.DisplayFor(x => activity.Description)</td>
+                                <td>
+                                    @if (module.Description != null)
+                                    {
+                                        if (module.Description.Length > 25)
+                                        {
+                                            @Html.DisplayFor(x => activity.Description).ToString().Substring(0, 25)@:...
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayFor(x => activity.Description)
+                                        }
+                                    } 
+                                </td>
                                 <td>@Html.DisplayFor(x => activity.StartTime)</td>
                                 <td>@Html.DisplayFor(x => activity.EndTime)</td>
                                 <td>
