@@ -51,7 +51,7 @@ namespace LexiconLMS.Controllers
             viewModel.ModuleIn = (moduleShow) ? "in" : "";
             viewModel.ActivityIn = (activityShow) ? "in" : "";
 
-            if (courseId != null && !activityShow)
+            if (courseId != null && !activityShow && !courseShow)
             {
                 viewModel.ModuleIn = "in";
             }
