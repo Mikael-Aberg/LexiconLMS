@@ -9,7 +9,7 @@ namespace LexiconLMS.Models
 {
     public class Module
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required(ErrorMessage = "Du måste fylla i ett modulnamn.")]
         [StringLength(200, MinimumLength = 1, ErrorMessage = "Modulnamnet får max vara 200 tecken långt.")]

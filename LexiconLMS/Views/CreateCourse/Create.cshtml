@@ -1,0 +1,308 @@
+﻿@model LexiconLMS.Models.CreateCourseViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseCourse" class="accordion-header-link">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Kurs @( ((Model.Course != null) ? ": " + Model.Course.Name : "") )
+                </h4>
+            </div>
+        </a>
+        <div id="collapseCourse" class="panel-collapse collapse @Model.CourseIn">
+            <div class="panel-body">
+                @using (Html.BeginForm("CreateCourse", "CreateCourse", FormMethod.Post, new { @id = "courseForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        @if (Model.Course != null)
+                        {
+                            <input id="courseId" name="courseId" type="hidden" value="@Model.Course.Id" />
+                        }
+                    </div>
+                    <div class="form-horizontal">
+                        <br />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Course.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Course.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Course.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Course.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.Course.Description, new { @class = "form-control", @rows = 3, @style = "resize: none;" })
+                                @Html.ValidationMessageFor(model => model.Course.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Course.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Course.StartDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.Course.StartDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Course.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Course.EndDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.Course.EndDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="btn-group form-group" id="courseButtons">
+
+                            <input type="submit" value="Spara och lägg till moduler" class="btn btn-default" />
+
+                            @if (Model.Course != null)
+                            {
+
+                                <input id="createNew" type="button" value="Skapa ny kurs" class="btn btn-default" />
+
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseModule" class="accordion-header-link">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Moduler
+                </h4>
+            </div>
+        </a>
+        <div id="collapseModule" class="panel-collapse collapse @Model.ModuleIn">
+            <div class="panel-body">
+                @using (Html.BeginForm("CreateModule", "CreateCourse", FormMethod.Post))
+                {
+                    if (Model.Course != null)
+                    {
+                        @Html.HiddenFor(x => x.ModuleModel.CourseId)
+                    }
+
+                    @Html.AntiForgeryToken()
+
+                    if (Model.ModuleModel != null)
+                    {
+                        @Html.HiddenFor(x => x.ModuleModel.Module.Id)
+                    }
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ModuleModel.Module.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ModuleModel.Module.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ModuleModel.Module.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ModuleModel.Module.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ModuleModel.Module.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ModuleModel.Module.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ModuleModel.Module.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ModuleModel.Module.StartDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.ModuleModel.Module.StartDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ModuleModel.Module.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ModuleModel.Module.EndDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.ModuleModel.Module.EndDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="@( ((Model.ModuleModel.Module != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @if (Model.ModuleModel.Modules != null)
+                {
+                    <table class="table">
+                        <tr>
+                            <th>@Html.DisplayNameFor(x => x.ModuleModel.Module.Name)</th>
+                            <th>@Html.DisplayNameFor(x => x.ModuleModel.Module.Description)</th>
+                            <th>@Html.DisplayNameFor(x => x.ModuleModel.Module.StartDate)</th>
+                            <th>@Html.DisplayNameFor(x => x.ModuleModel.Module.EndDate)</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        @foreach (var module in Model.ModuleModel.Modules)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(x => module.Name)</td>
+                                <td>@Html.DisplayFor(x => module.Description)</td>
+                                <td>@Html.DisplayFor(x => module.StartDate)</td>
+                                <td>@Html.DisplayFor(x => module.EndDate)</td>
+                                <td>@Html.ActionLink("Redigera", "Create", new { courseId = Model.ModuleModel.CourseId, moduleId = module.Id, moduleShow = true })</td>
+                                <td>@Html.ActionLink("Ta bort", "Delete", new { Id = module.Id })</td>
+                            </tr>
+                        }
+                    </table>
+                }
+                @if (Model.Course != null)
+                {
+                    <div class="col-md-offset-2 col-md-10">
+                        @Html.ActionLink("Lägg till aktiviteter", "Create", new { courseId = Model.Course.Id, activityShow = true }, new { @class = "btn btn-default" })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseActivity" class="accordion-header-link">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Aktiviteter
+                </h4>
+            </div>
+        </a>
+        <div id="collapseActivity" class="panel-collapse collapse @Model.ActivityIn">
+            <div class="panel-body">
+                @using (Html.BeginForm("CreateActivity", "CreateCourse", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.HiddenFor(x => x.ActivityModel.CourseId)
+
+                    if (Model.ActivityModel.Activity != null)
+                    {
+                        @Html.HiddenFor(x => x.ActivityModel.Activity.Id)
+                    }
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ActivityModel.Activity.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ActivityModel.Activity.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ActivityModel.Activity.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ActivityModel.Activity.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ActivityModel.Activity.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ActivityModel.Activity.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ActivityModel.Activity.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ActivityModel.Activity.StartTime, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.ActivityModel.Activity.StartTime, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ActivityModel.Activity.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ActivityModel.Activity.EndTime, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.ActivityModel.Activity.EndTime, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        @if (Model.ActivityModel.Modules != null)
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ActivityModel.Activity.Module, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("ActivityModel.Activity.ModuelId", Model.ActivityModel.ModuleList, "", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ActivityModel.Activity.Module, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ActivityModel.Activity.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("ActivityModel.Activity.TypeId", Model.ActivityModel.Types, "", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ActivityModel.Activity.Type, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="@( ((Model.ActivityModel.Activity != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                @if (Model.ActivityModel.Modules != null)
+                {
+                    foreach (var module in Model.ActivityModel.Modules)
+                    {
+                        <h3>@Html.DisplayFor(x => module.Name)</h3>
+
+                        <table class="table">
+
+                            <tr>
+                                <th>@Html.DisplayNameFor(x => module.Activities.First().Type)</th>
+                                <th>@Html.DisplayNameFor(x => module.Activities.First().Name)</th>
+                                <th>@Html.DisplayNameFor(x => module.Activities.First().Description)</th>
+                                <th>@Html.DisplayNameFor(x => module.Activities.First().StartTime)</th>
+                                <th>@Html.DisplayNameFor(x => module.Activities.First().EndTime)</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+
+                            @foreach (var activity in module.Activities.OrderBy(x => x.StartTime))
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(x => activity.Type.Name)</td>
+                                    <td>@Html.DisplayFor(x => activity.Name)</td>
+                                    <td>@Html.DisplayFor(x => activity.Description)</td>
+                                    <td>@Html.DisplayFor(x => activity.StartTime)</td>
+                                    <td>@Html.DisplayFor(x => activity.EndTime)</td>
+                                    <td>@Html.ActionLink("Redigera", "Create", new { courseId = Model.ActivityModel.CourseId, activityId = activity.Id, activityShow = true })</td>
+                                    <td>@Html.ActionLink("Ta bort", "Delete", new { Id = activity.Id })</td>
+                                </tr>
+                            }
+                        </table>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script>
+    $("#createNew").on("click", function () {
+        document.getElementById("courseId").value = 0;
+        $("#courseForm").submit();
+    });
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datepicker")
+}
