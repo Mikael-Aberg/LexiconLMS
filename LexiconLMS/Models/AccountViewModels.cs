@@ -104,8 +104,12 @@ namespace LexiconLMS.Models
         public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "Du måste fylla i en kurs.")]
+        public int CourseId { get; set; }
+
         [Display(Name = "Kurser")]
         public SelectList Courses { get; set; }
+
+        public string Msg { get; set; }
     }
 
     public class ResetPasswordViewModel
