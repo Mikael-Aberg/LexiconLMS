@@ -157,13 +157,16 @@
                             <tr>
                                 <td>@Html.DisplayFor(x => module.Name)</td>
                                 <td>
-                                    @if (module.Description.Length > 25)
+                                    @if (module.Description != null)
                                     {
-                                        @Html.DisplayFor(x => module.Description).ToString().Substring(0, 25)@:...
+                                        if (module.Description.Length > 25)
+                                        {
+                                            @Html.DisplayFor(x => module.Description).ToString().Substring(0, 25)@:...
                                     }
-                                    else
-                                    {
-                                        @Html.DisplayFor(x => module.Description)
+                                        else
+                                        {
+                                            @Html.DisplayFor(x => module.Description)
+                                        }
                                     }
                                 </td>
                                 <td>@Html.DisplayFor(x => module.StartDate)</td>
@@ -286,7 +289,19 @@
                                 <tr>
                                     <td>@Html.DisplayFor(x => activity.Type.Name)</td>
                                     <td>@Html.DisplayFor(x => activity.Name)</td>
-                                    <td>@Html.DisplayFor(x => activity.Description)</td>
+                                    <td>
+                                        @if (activity.Description != null)
+                                        {
+                                            if (activity.Description.Length > 25)
+                                            {
+                                                @Html.DisplayFor(x => activity.Description).ToString().Substring(0, 25)@:...
+                                            }
+                                            else
+                                            {
+                                                @Html.DisplayFor(x => activity.Description)
+                                            }
+                                        }
+                                    </td>
                                     <td>@Html.DisplayFor(x => activity.StartTime)</td>
                                     <td>@Html.DisplayFor(x => activity.EndTime)</td>
                                     <td>@Html.ActionLink("Redigera", "Create", new { courseId = Model.ActivityModel.CourseId, activityId = activity.Id, activityShow = true })</td>

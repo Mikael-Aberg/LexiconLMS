@@ -185,7 +185,8 @@ namespace LexiconLMS.Controllers
                     //}  
                     //return RedirectToAction("Index", "HomeStudent");
                 }
-                AddErrors(result);
+                if (result.Errors.Any(x => x.Contains("Password")))
+                AddErrors(new IdentityResult("Lösenord måste ha åtminstone en icke bokstav eller siffra karaktär.Lösenord måste ha minst en siffra('0' - '9').Lösenord måste ha minst ett versalt(\"A\" - \"Z\")."));
             }
 
             model.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
