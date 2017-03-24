@@ -4,13 +4,15 @@
     ViewBag.Title = "Details";
 }
 
-<div class="container">
-    <h1>@Model.Name</h1>
+<div class="container toppadding">
+    <div class="headerDiv">
+        <h1>@Model.Name</h1><span>@Model.StartDate.ToShortDateString() - @Model.EndDate.ToShortDateString()</span>
+    </div>
     <hr />
     <h4>@Model.Description</h4>
     <div class="panel-group">
         @foreach (var module in Model.Modules)
-        {
+            {
 
             <div class="panel panel-default">
                 <div class="panel-heading headerDiv">

@@ -81,10 +81,12 @@ textarea {
     }
 }
 
-.headerDiv a, .headerDiv h3 {
+.headerDiv a, .headerDiv h3, .headerDiv h1 {
     display: inline;
 }
-
+.toppadding{
+    padding-top:20px;
+}
 .headerDiv span{
     margin-left:15px;
 }
