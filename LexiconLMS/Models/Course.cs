@@ -22,10 +22,12 @@ namespace LexiconLMS.Models
 
         [Display(Name = "Startdatum")]
         [Required(ErrorMessage = "Du måste fylla i ett startdatum.")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime StartDate { get; set; }
 
         [Display(Name = "Slutdatum")]
         [Required(ErrorMessage = "Du måste fylla i ett slutdatum.")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime EndDate { get; set; }
 
         public virtual ICollection<ApplicationUser> Students { get; set; }

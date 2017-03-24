@@ -32,7 +32,7 @@
                 {
                     if (item.Description.Length > 25)
                     {
-                        @Html.DisplayFor(modelItem => item.Description).ToString().Substring(0, 20)@:...
+                       <p>@item.Description.Substring(0, 20)...</p>
                     }
                     else
                     {

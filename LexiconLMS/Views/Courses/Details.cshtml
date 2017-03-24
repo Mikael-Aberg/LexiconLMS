@@ -4,10 +4,6 @@
     ViewBag.Title = "Details";
 }
 
-
-
-
-
 <div class="container">
     <h1>@Model.Name</h1>
     <hr />
@@ -33,47 +29,49 @@
                             <hr />
                         }
                     }
-
-                    <table class="table">
-                        <tr>
-                            <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Type)</th>
-                            <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Name)</th>
-                            <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Description)</th>
-                            <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().StartTime)</th>
-                            <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().EndTime)</th>
-                            <th nowrap></th>
-                            <th nowrap></th>
-                        </tr>
-
-                        @foreach (var activity in module.Activities)
-                        {
+                    @if (module.Activities.Count > 0)
+                    {
+                        <table class="table">
                             <tr>
-                                <td>@Html.DisplayFor(x => activity.Type.Name)</td>
-                                <td>@Html.DisplayFor(x => activity.Name)</td>
-                                <td>
-                                    @if (module.Description != null)
-                                    {
-                                        if (module.Description.Length > 25)
-                                        {
-                                            @Html.DisplayFor(x => activity.Description).ToString().Substring(0, 25)@:...
-                                        }
-                                        else
-                                        {
-                                            @Html.DisplayFor(x => activity.Description)
-                                        }
-                                    } 
-                                </td>
-                                <td>@Html.DisplayFor(x => activity.StartTime)</td>
-                                <td>@Html.DisplayFor(x => activity.EndTime)</td>
-                                <td>
-                                    @if (User.IsInRole("Teacher"))
-                                    {
-                                        @Html.ActionLink("Redigera", "Create", "CreateCourse", new { courseId = Model.Id, activityId = activity.Id, activityShow = true }, null)
-                                    }
-                                </td>
+                                <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Type)</th>
+                                <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Name)</th>
+                                <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Description)</th>
+                                <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().StartTime)</th>
+                                <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().EndTime)</th>
+                                <th nowrap></th>
+                                <th nowrap></th>
                             </tr>
-                        }
-                    </table>
+
+                            @foreach (var activity in module.Activities)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(x => activity.Type.Name)</td>
+                                    <td>@Html.DisplayFor(x => activity.Name)</td>
+                                    <td>
+                                        @if (activity.Description != null)
+                                        {
+                                            if (activity.Description.Length > 25)
+                                            {
+                                                <p>@activity.Description.Substring(0, 25)...</p>
+                                            }
+                                            else
+                                            {
+                                                @Html.DisplayFor(x => activity.Description)
+                                            }
+                                        }
+                                    </td>
+                                    <td>@Html.DisplayFor(x => activity.StartTime)</td>
+                                    <td>@Html.DisplayFor(x => activity.EndTime)</td>
+                                    <td>
+                                        @if (User.IsInRole("Teacher"))
+                                        {
+                                            @Html.ActionLink("Redigera", "Create", "CreateCourse", new { courseId = Model.Id, activityId = activity.Id, activityShow = true }, null)
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    }
                 </div>
             </div>
         }
