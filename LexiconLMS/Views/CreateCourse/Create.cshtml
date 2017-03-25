@@ -17,60 +17,60 @@
             <div class="panel-body">
                 @using (Html.BeginForm("CreateCourse", "CreateCourse", FormMethod.Post, new { @id = "courseForm" }))
                 {
-                @Html.AntiForgeryToken()
-
-                <div class="form-group">
-                    @if (Model.Course != null)
-                        {
-                        <input id="courseId" name="courseId" type="hidden" value="@Model.Course.Id" />
-                        }
-                </div>
-                <div class="form-horizontal">
-                    <br />
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Course.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Course.Name, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Course.Name, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                    @Html.AntiForgeryToken()
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.Course.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextAreaFor(model => model.Course.Description, new { @class = "form-control", @rows = 3, @style = "resize: none;" })
-                            @Html.ValidationMessageFor(model => model.Course.Description, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Course.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Course.StartDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
-                            @Html.ValidationMessageFor(model => model.Course.StartDate, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Course.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Course.EndDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
-                            @Html.ValidationMessageFor(model => model.Course.EndDate, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <br />
-                    <div class="btn-group form-group" id="courseButtons">
-
-                        <input type="submit" value="Spara och lägg till moduler" class="btn btn-default" />
-
                         @if (Model.Course != null)
-                            {
-                            <input id="createNew" type="button" value="Skapa ny kurs" class="btn btn-default" />
-                            }
+                        {
+                            <input id="courseId" name="courseId" type="hidden" value="@Model.Course.Id" />
+                        }
                     </div>
-                </div>
+                    <div class="form-horizontal">
+                        <br />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Course.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Course.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Course.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Course.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.Course.Description, new { @class = "form-control", @rows = 3, @style = "resize: none;" })
+                                @Html.ValidationMessageFor(model => model.Course.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Course.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Course.StartDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.Course.StartDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Course.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Course.EndDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => model.Course.EndDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="btn-group form-group" id="courseButtons">
+
+                            <input type="submit" value="Spara och lägg till moduler" class="btn btn-default" />
+
+                            @if (Model.Course != null)
+                            {
+                                <input id="createNew" type="button" value="Skapa ny kurs" class="btn btn-default" />
+                            }
+                        </div>
+                    </div>
                 }
             </div>
         </div>
@@ -88,7 +88,10 @@
                 @using (Html.BeginForm("CreateModule", "CreateCourse", FormMethod.Post, new { @id = "ModuleForm" }))
                 {
                     <div id="moduleDiv">
-                        @Html.Action("CreateModuleInput", new { courseId = Model.Course.Id })
+                        @if (Model.Course != null)
+                        {
+                            @Html.Action("CreateModuleInput", new { courseId = Model.Course.Id })
+                        }
                     </div>
                     if (Model.Course != null)
                     {
@@ -101,15 +104,21 @@
                 }
 
                 <div id="moduleListDiv">
-                    @Html.Action("GetModuleList", new { courseId = Model.Course.Id })
+                    @if (Model.Course != null)
+                    {
+                        @Html.Action("GetModuleList", new { courseId = Model.Course.Id })
+                    }
                 </div>
-
-                @if (Model.Course != null)
+                @if (Model.ModuleModel.Modules != null)
                 {
-                    <div class="col-md-10">
-                        @Html.ActionLink("Lägg till aktiviteter", "Create", new { courseId = Model.Course.Id, activityShow = true }, new { @class = "btn btn-default" })
-                    </div>
+                    if (Model.ModuleModel.Modules.Count > 0)
+                    {
+                        <div class="col-md-10">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseActivity" class="btn btn-default">Lägg till aktiviteter</a>
+                        </div>
+                    }
                 }
+
             </div>
         </div>
     </div>
@@ -125,19 +134,31 @@
             <div class="panel-body">
                 @using (Html.BeginForm("CreateActivity", "CreateCourse", FormMethod.Post, new { @id = "ActivityForm" }))
                 {
-                <div id="activityDiv">
-                    @Html.Action("CreateActivityInput", new { courseId = Model.Course.Id })
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="button" id="ActivityBtn" value="@( ((Model.ActivityModel.Activity != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default" />
+                    <div id="activityDiv">
+                        @if (Model.Course != null)
+                        {
+                            @Html.Action("CreateActivityInput", new { courseId = Model.Course.Id })
+                        }
                     </div>
-                </div>
+
+                    if (Model.ModuleModel.Modules != null)
+                    {
+                        if (Model.ModuleModel.Modules.Count > 0)
+                        {
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="button" id="ActivityBtn" value="@( ((Model.ActivityModel.Activity != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default" />
+                                </div>
+                            </div>
+                        }
+                    }
                 }
 
                 <div id="activityListDiv">
-                    @Html.Action("GetActivityList", new { courseId = Model.Course.Id })
+                    @if (Model.Course != null)
+                    {
+                        @Html.Action("GetActivityList", new { courseId = Model.Course.Id })
+                    }
                 </div>
 
             </div>
@@ -146,30 +167,60 @@
 </div>
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script>
-        $("#createNew").on("click", function () {
-            document.getElementById("courseId").value = 0;
-            $("#courseForm").submit();
-        });
+    $("#createNew").on("click", function () {
+        document.getElementById("courseId").value = 0;
+        $("#courseForm").submit();
+    });
 </script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/datepicker")
     <script>
-            $(document).on('click', '#ModuleBtn', function () {
+        $(document).on('click', '#ModuleBtn', function () {
+            $.ajax({
+                url: '@Url.Action("CreateModule")',
+                type: 'POST',
+                data: $('#ModuleForm').serialize(),
+                success: function (data) {
+                    if (data) {
+                        $('#moduleDiv').html(data);
+                        $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
+                        $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
+                        $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
+                        $('.datepicker').datepicker({
+                            language: 'sv'
+                        });
+                        document.getElementById("ModuleBtn").value = "Lägg till";
+                        moduleEdit();
+                    }
+                    else {
+                        alert('NoData');
+                    }
+                },
+                error: function (xhr, textStatus, thrownError, data) {
+                    alert("Error: " + thrownError);
+                }
+            });
+        });
+
+        var moduleEdit = function () {
+            $(document).on('click', '.editModuleBtn', function () {
+                var value = $(this).attr('name');
                 $.ajax({
-                    url: '@Url.Action("CreateModule")',
-                    type: 'POST',
-                    data: $('#ModuleForm').serialize(),
+                    url: '@Url.Action("GetEditModule")',
+                    type: 'GET',
+                    data:{
+                        moduleId: value,
+                        courseId: @(((Model.Course != null)? Model.Course.Id : 0)),
+                    },
                     success: function (data) {
                         if (data) {
                             $('#moduleDiv').html(data);
-                            $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = Model.Course.Id })')
                             $('.datepicker').datepicker({
                                 language: 'sv'
                             });
-                            document.getElementById("ModuleBtn").value = "Lägg till";
-                            moduleEdit();
+                            document.getElementById("ModuleBtn").value = "Spara ändringar";
                         }
                         else {
                             alert('NoData');
@@ -180,36 +231,7 @@
                     }
                 });
             });
-
-            var moduleEdit = function () {
-                $(document).on('click', '.editModuleBtn', function () {
-                    var value = $(this).attr('name');
-
-                    $.ajax({
-                        url: '@Url.Action("GetEditModule")',
-                        type: 'GET',
-                        data:{
-                            moduleId: value,
-                            courseId: @Model.Course.Id,
-                        },
-                        success: function (data) {
-                            if (data) {
-                                $('#moduleDiv').html(data);
-                                $('.datepicker').datepicker({
-                                    language: 'sv'
-                                });
-                                document.getElementById("ModuleBtn").value = "Spara ändringar";
-                            }
-                            else {
-                                alert('NoData');
-                            }
-                        },
-                        error: function (xhr, textStatus, thrownError, data) {
-                            alert("Error: " + thrownError);
-                        }
-                    });
-                });
-            }
+        }
         moduleEdit();
 
         $(document).on('click', '#ActivityBtn', function () {
@@ -220,7 +242,7 @@
                 success: function (data) {
                     if (data) {
                         $('#activityDiv').html(data);
-                        $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = Model.Course.Id })')
+                        $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                         $('.datepicker').datepicker({
                             language: 'sv'
                         });
@@ -246,7 +268,7 @@
                     type: 'GET',
                     data:{
                         activityId: value,
-                        courseId: @Model.Course.Id,
+                        courseId: @(((Model.Course != null)? Model.Course.Id : 0)),
                     },
                     success: function (data) {
                         if (data) {
