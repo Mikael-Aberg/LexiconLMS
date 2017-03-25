@@ -117,20 +117,49 @@ namespace LexiconLMS.Controllers
                     }
                 }
                 db.SaveChanges();
-                return RedirectToAction("Create", new { courseId = courseId, moduleShow = true });
+                ModelState.Clear();
             }
 
             var course = db.Courses.Find(courseId);
             var model = new ModuleCreateViewModel { Modules = course.Modules, CourseId = courseId };
-            model.Module = module;
-            var viewModel = new CreateCourseViewModel()
-            {
-                Course = course,
-                ModuleModel = model
-            };
 
-            return View("create",viewModel);
+            return PartialView("_CreateModuleInput", model);
         }
+
+        public ActionResult CreateModuleInput(int? courseId, int? moduleId)
+        {
+            var viewModel = new ModuleCreateViewModel();
+            if (courseId != null)
+            {
+                viewModel.CourseId = courseId;
+                viewModel.Module = db.Modules.Find(moduleId);
+                viewModel.Modules = db.Courses.Find(courseId).Modules.ToList();
+            }
+
+            return PartialView("_CreateModuleInput", viewModel);
+        }
+
+        public ActionResult GetModuleList(int courseId)
+        {
+            return PartialView("_ModuleList", db.Courses.Find(courseId).Modules.ToList());
+        }
+
+        public ActionResult GetEditModule(int moduleId, int? courseId)
+        {
+            var viewModel = new ModuleCreateViewModel();
+            if (courseId != null)
+            {
+                viewModel.CourseId = courseId;
+                viewModel.Module = db.Modules.Find(moduleId);
+                viewModel.Modules = db.Courses.Find(courseId).Modules.ToList();
+                viewModel.Module = db.Courses.Find(courseId).Modules.FirstOrDefault(x => x.Id == moduleId);
+            }
+
+            return PartialView("_CreateModuleInput", viewModel);
+        }
+
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

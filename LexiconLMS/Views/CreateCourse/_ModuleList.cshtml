@@ -1,0 +1,39 @@
+﻿@model IEnumerable<LexiconLMS.Models.Module>
+
+@if (Model != null)
+{
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(x => x.Name)</th>
+            <th>@Html.DisplayNameFor(x => x.Description)</th>
+            <th>@Html.DisplayNameFor(x => x.StartDate)</th>
+            <th>@Html.DisplayNameFor(x => x.EndDate)</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var module in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(x => module.Name)</td>
+                <td>
+                    @if (module.Description != null)
+                    {
+                        if (module.Description.Length > 25)
+                        {
+                            <p>@module.Description.Substring(0, 25)...</p>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(x => module.Description)
+                        }
+                    }
+                </td>
+                <td>@Html.DisplayFor(x => module.StartDate)</td>
+                <td>@Html.DisplayFor(x => module.EndDate)</td>
+                <td><input type="button" value="Redigera" class="editBtn" name="@module.Id" /></td>
+            </tr>
+        }
+    </table>
+}
+
+

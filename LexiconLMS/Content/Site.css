@@ -143,3 +143,14 @@ textarea {
     display:inline;
     vertical-align:text-bottom;
 }
+
+.editBtn{
+    border:none;
+    outline:none;
+    background:none;
+    color:#337ab7;
+}
+
+.editBtn:hover{
+    text-decoration:underline;
+}

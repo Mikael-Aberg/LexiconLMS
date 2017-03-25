@@ -286,6 +286,8 @@
     <Content Include="Views\Documents\Index.cshtml" />
     <Content Include="Views\Modules\List.cshtml" />
     <Content Include="Views\CreateCourse\Create.cshtml" />
+    <Content Include="Views\CreateCourse\_CreateModuleInput.cshtml" />
+    <Content Include="Views\CreateCourse\_ModuleList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
