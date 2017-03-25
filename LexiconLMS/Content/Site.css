@@ -144,13 +144,13 @@ textarea {
     vertical-align:text-bottom;
 }
 
-.editBtn{
+.fake-link{
     border:none;
     outline:none;
     background:none;
     color:#337ab7;
 }
 
-.editBtn:hover{
+.fake-link:hover{
     text-decoration:underline;
 }
