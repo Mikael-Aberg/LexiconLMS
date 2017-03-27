@@ -65,6 +65,39 @@ namespace LexiconLMS.Controllers
             return View();
         }
 
+
+        //
+        // GET: /Account/Login
+        [AllowAnonymous]
+        public ActionResult List(int? Id, int? CourseId)
+        {
+            if (CourseId != null) Id = CourseId;
+            ViewBag.CourseId = -1;
+            var allusers = db.Users.Where(x => x.Course != null).ToList();
+            if (Id != null)
+            {
+                allusers = allusers.Where(x => x.Course.Id == Id).ToList();
+                ViewBag.CourseId = Id;
+            }
+            
+            var model = new List<ListUserViewModel>();
+            foreach (var user in allusers)
+            {
+                var u = new ListUserViewModel(user);
+                model.Add(u);
+            }
+            return PartialView(model);
+        }
+
+        [Authorize(Roles = "Teacher")]
+        public ActionResult Delete(string id, int? CourseId)
+        {
+            var user = db.Users.First(u => u.UserName == id);
+            db.Users.Remove(user);
+            db.SaveChanges();
+            return RedirectToAction("List", new { CourseId = CourseId });
+        }
+
         //
         // POST: /Account/Login
         [HttpPost]
@@ -167,7 +200,7 @@ namespace LexiconLMS.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, SocialSecurityNumber = model.SocialSecurityNumber ,FirstName = model.FirstName, LastName = model.LastName, Email = model.Email, CourseId = model.CourseId };
-                Console.WriteLine();
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

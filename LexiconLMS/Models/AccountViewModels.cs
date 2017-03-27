@@ -111,6 +111,44 @@ namespace LexiconLMS.Models
         public string Msg { get; set; }
     }
 
+    public class ListUserViewModel
+    {
+        public ListUserViewModel() { }
+
+        // Allow Initialization with an instance of ApplicationUser:
+        public ListUserViewModel(ApplicationUser user)
+        {
+            this.UserName = user.UserName;
+            this.FullName = user.FirstName + " " + user.LastName;
+            this.SocialSecurityNumber = user.SocialSecurityNumber;
+            if (user.CourseId != null)
+            {
+                this.CourseId = user.Course.Id;
+                this.CourseName = user.Course.Name;
+            }else
+            {
+                this.CourseName = "Ingen kurs";
+            }
+        }
+
+        public int CourseId { get; set; }
+
+        [Display(Name = "Användarnamn")]
+        public string UserName { get; set; }
+
+        [Display(Name = "Namn")]
+        public string FullName { get; set; }
+                        
+        [Display(Name = "Kurs")]
+        public string CourseName { get; set; }
+
+        [Display(Name = "Personnummer")]
+        public string SocialSecurityNumber { get; set; }
+
+       
+    }
+
+
     public class ResetPasswordViewModel
     {
         [Required]
