@@ -127,6 +127,8 @@ namespace LexiconLMS.Migrations
             List<string> LastNames = new List<string> { "Lieselotte", "Spitznogle", "Rains", "Probert", "Sullivan", "Skinner", "Zeelen", "VanAs", "Caro", "Esteves" };
             List<ApplicationUser> appUsers = new List<ApplicationUser>();
 
+            List<string> existingEmails = context.Users.Select(x => x.Email).ToList();
+
             var r = new Random();
             for (int i = 0; i < 15; i++)
             {
@@ -136,10 +138,11 @@ namespace LexiconLMS.Migrations
                 {
                     user.FirstName = FirstNames[r.Next(0, FirstNames.Count)];
                     user.LastName = LastNames[r.Next(0, LastNames.Count)];
-
+                    user.CourseId = courses[r.Next(0, courses.Count())].Id;
                     user.Email = user.FirstName + "." + user.LastName + "@lexicon.se";
                     user.UserName = user.Email;
-                } while (appUsers.Any(x => x.Email.Equals(user.Email)));
+
+                } while (appUsers.Any(x => x.Email.Equals(user.Email)) || existingEmails.Any(x => x.Equals(user.Email)));
 
                 do
                 {
