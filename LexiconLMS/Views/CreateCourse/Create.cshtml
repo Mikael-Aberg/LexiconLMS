@@ -185,12 +185,10 @@
                 success: function (data) {
                     if (data) {
                         $('#moduleDiv').html(data);
+                        datePicker();
                         $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
                         $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
-                        $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
-                        $('.datepicker').datepicker({
-                            language: 'sv'
-                        });
+                        $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', datePicker)
                         document.getElementById("ModuleBtn").value = "Lägg till";
                     }
                     else {
@@ -216,10 +214,8 @@
                     success: function (data) {
                         if (data) {
                             $('#moduleDiv').html(data);
-                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
-                            $('.datepicker').datepicker({
-                                language: 'sv'
-                            });
+                            datePicker();
+                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', datePicker)
                             document.getElementById("ModuleBtn").value = "Spara ändringar";
                         }
                         else {
@@ -247,9 +243,8 @@
                     success: function (data) {
                         if (data) {
                             $('#moduleListDiv').html(data);
+                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', datePicker)
                             $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
-                            $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
-                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                         }
                         else {
                             alert('NoData');
@@ -262,6 +257,13 @@
             });
         }
         deleteModule();
+
+        var datePicker = function(){
+            $('.datepicker').datepicker({
+                language: 'sv'
+            });
+        }
+        datePicker();
 
         var deleteActivity = function(){
             $(document).on('click', '.deleteActivityBtn', function () {
@@ -276,9 +278,8 @@
                     success: function (data) {
                         if (data) {
                             $('#moduleListDiv').html(data);
+                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', datePicker)
                             $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
-                            $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
-                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                         }
                         else {
                             alert('NoData');
@@ -300,14 +301,11 @@
                 success: function (data) {
                     if (data) {
                         $('#activityDiv').html(data);
+                        datePicker();
                         $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
                         $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                         $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
-                        $('.datepicker').datepicker({
-                            language: 'sv'
-                        });
                         document.getElementById("ActivityBtn").value = "Lägg till";
-                        activityEdit();
                     }
                     else {
                         alert('NoData');
@@ -333,9 +331,7 @@
                     success: function (data) {
                         if (data) {
                             $('#activityDiv').html(data);
-                            $('.datepicker').datepicker({
-                                language: 'sv'
-                            });
+                            datePicker();
                             document.getElementById("ActivityBtn").value = "Spara ändringar";
                         }
                         else {
