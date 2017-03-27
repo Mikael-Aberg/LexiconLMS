@@ -1,0 +1,44 @@
+﻿@model IEnumerable<LexiconLMS.Models.Module>
+
+@foreach (var module in Model)
+{
+    <h3>@Html.DisplayFor(x => module.Name)</h3>
+
+    <table class="table">
+
+        <tr>
+            <th>@Html.DisplayNameFor(x => x.Activities.FirstOrDefault().Type.Name)</th>
+            <th>@Html.DisplayNameFor(x => x.Activities.FirstOrDefault().Name)</th>
+            <th>@Html.DisplayNameFor(x => x.Activities.FirstOrDefault().Description)</th>
+            <th>@Html.DisplayNameFor(x => x.Activities.FirstOrDefault().StartTime)</th>
+            <th>@Html.DisplayNameFor(x => x.Activities.FirstOrDefault().EndTime)</th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        @foreach (var activity in module.Activities.OrderBy(x => x.StartTime))
+        {
+            <tr>
+                <td>@Html.DisplayFor(x => activity.Type.Name)</td>
+                <td>@Html.DisplayFor(x => activity.Name)</td>
+                <td>
+                    @if (activity.Description != null)
+                    {
+                        if (activity.Description.Length > 25)
+                        {
+                            <p>@activity.Description.Substring(0, 25)...</p>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(x => activity.Description)
+                        }
+                    }
+                </td>
+                <td>@Html.DisplayFor(x => activity.StartTime)</td>
+                <td>@Html.DisplayFor(x => activity.EndTime)</td>
+                <td><input type="button" value="Redigera" class="editActivityBtn fake-link" name="@activity.Id" /></td>
+                <td><input type="button" value="Ta bort" class="deleteActivityBtn fake-link" name="@activity.Id" /></td>
+            </tr>
+        }
+    </table>
+}

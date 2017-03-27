@@ -33,6 +33,9 @@ namespace LexiconLMS.Models
 
         public int CourseId { get; set; }
 
+        [DisplayName("Antal aktiviteter")]
+        public int NumberOfActivities { get { return (Activities != null) ? Activities.Count : 0; } }
+
         public virtual Course Course { get; set; }
         public virtual ICollection<Activity> Activities { get; set; }
         public virtual ICollection<Document> Documents { get; set; }

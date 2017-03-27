@@ -21,6 +21,21 @@ namespace LexiconLMS.Controllers
             return View(db.Activities.ToList());
         }
 
+        public ActionResult ActivityDetailsModal(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Activity activity = db.Activities.Find(id);
+            if (activity == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("_ActivityDetailsModal", activity);
+        }
+
+
         // GET: Activities/Details/5
         public ActionResult Details(int? id)
         {

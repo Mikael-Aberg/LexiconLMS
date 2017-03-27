@@ -1,0 +1,69 @@
+﻿@model IEnumerable<LexiconLMS.Models.SchedulePost>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+
+    <tr>
+        <th>@Html.DisplayNameFor(x => x.Date)</th>
+        <th>@Html.DisplayNameFor(x => x.Day)</th>
+        <th>@Html.DisplayNameFor(x => x.Module)</th>
+        <th>@Html.DisplayNameFor(x => x.Morning)</th>
+        <th>@Html.DisplayNameFor(x => x.Afternoon)</th>
+    </tr>
+
+    @foreach (var post in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(x => post.Date)</td>
+            <td>@Html.DisplayFor(x => post.Day)</td>
+            <td>@Html.DisplayFor(x => post.Module)</td>
+            <td>
+                @foreach (var link in post.Morning)
+                {
+                    <button value="@link.Id" class="showDetailsBtn fake-link">@Html.DisplayFor(x => link.Name)</button>
+                }
+
+            </td>
+            <td>
+                @foreach (var link in post.Afternoon)
+                {
+                    <button value="@link.Id" class="showDetailsBtn fake-link">@Html.DisplayFor(x => link.Name)</button>
+                }
+            </td>
+        </tr>
+    }
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="modalContent">
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(".showDetailsBtn").on("click", function () {
+            var value = $(this).val();
+            $.ajax({
+                url: '@Url.Action("ActivityDetailsModal", "Activities", null)',
+                data: { id: value },
+                type: "GET",
+                success: function (data) {
+                    $("#modalContent").html(data);
+                    $("#detailsModal").modal();
+                },
+                error: function (xhr, textStatus, thrownError, data) {
+                    alert("Error: " + thrownError);
+                }
+            });
+        });
+    </script>
+}
