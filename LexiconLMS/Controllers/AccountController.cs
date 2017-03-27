@@ -65,6 +65,32 @@ namespace LexiconLMS.Controllers
             return View();
         }
 
+
+        //
+        // GET: /Account/Login
+        [AllowAnonymous]
+        public ActionResult List()
+        {
+            
+            var allusers = db.Users.ToList();
+            var model = new List<ListUserViewModel>();
+            foreach (var user in allusers)
+            {
+                var u = new ListUserViewModel(user);
+                model.Add(u);
+            }
+            return View(model);
+        }
+
+        [Authorize(Roles = "Teacher")]
+        public ActionResult Delete(string id)
+        {
+            var user = db.Users.First(u => u.UserName == id);
+            db.Users.Remove(user);
+            db.SaveChanges();
+            return RedirectToAction("List");
+        }
+
         //
         // POST: /Account/Login
         [HttpPost]

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<LexiconLMS.Models.ListUserViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName )
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SocialSecurityNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseName )
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SocialSecurityNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseName )
+            </td>
+            <td>
+                @*@Html.ActionLink("Redigera", "Create", "CreateCourse", new { courseId = item.CourseName, courseShow = true }, null) |
+                @Html.ActionLink("Detaljer", "Details", new { id = item.UserName }) |
+                @Html.ActionLink("Ta bort", "Delete", "Account", new { id = item.UserName }, null)*@
+                <a id="DeleteLink" href="~/Account/Delete?id=@Html.DisplayFor(modelItem => item.UserName)">Ta bort</a>
+            </td>
+        </tr>
+    }
+</table>
+@*<script type="text/javascript">
+    document.getElementById("DeleteLink").href = "~/Account/Delete?id=@Html.DisplayFor(modelItem => item.UserName)";
+</script>*@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Launch demo modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
