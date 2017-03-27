@@ -69,7 +69,7 @@ namespace LexiconLMS.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult List(int? Id, int? CourseId)
+        public ActionResult List(int? Id, int? CourseId, string ControlRef = "", string ActionRef = "")
         {
             if (CourseId != null) Id = CourseId;
             ViewBag.CourseId = -1;
@@ -78,6 +78,9 @@ namespace LexiconLMS.Controllers
             {
                 allusers = allusers.Where(x => x.Course.Id == Id).ToList();
                 ViewBag.CourseId = Id;
+                ViewBag.ControlRef = ControlRef;
+                ViewBag.ActionRef = ActionRef;
+
             }
             
             var model = new List<ListUserViewModel>();
@@ -90,12 +93,19 @@ namespace LexiconLMS.Controllers
         }
 
         [Authorize(Roles = "Teacher")]
-        public ActionResult Delete(string id, int? CourseId)
+        public ActionResult Delete(string id, int? CourseId, string ControlRef = "", string ActionRef = "")
         {
             var user = db.Users.First(u => u.UserName == id);
             db.Users.Remove(user);
             db.SaveChanges();
-            return RedirectToAction("List", new { CourseId = CourseId });
+            if (ControlRef != "")
+            {
+                return RedirectToAction(ActionRef, ControlRef , new {Id = CourseId });
+            }else
+            {
+                return RedirectToAction("Register");
+            }
+            
         }
 
         //

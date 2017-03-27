@@ -76,9 +76,9 @@
     $(document).on('click', '.deleteUser', function () {
         var value = $(this).attr('name');
         document.getElementById("spanUser").innerHTML = value;
-        document.getElementById("deleteLink").href = "/Account/Delete?CourseId=@ViewBag.CourseId&id=" + value;
+        document.getElementById("deleteLink").href = "/Account/Delete?CourseId=@ViewBag.CourseId&ControlRef=@ViewBag.ControlRef&ActionRef=@ViewBag.ActionRef&id=" + value;
         $('#myModal').modal();
 
     });
 
-</script>
+</script>          
