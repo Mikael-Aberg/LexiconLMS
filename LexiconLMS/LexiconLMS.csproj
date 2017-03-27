@@ -194,6 +194,7 @@
     <Compile Include="Models\ModuleListViewModel.cs" />
     <Compile Include="Models\ScheduleLink.cs" />
     <Compile Include="Models\SchedulePost.cs" />
+    <Compile Include="Models\ScheduleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

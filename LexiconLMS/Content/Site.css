@@ -23,6 +23,10 @@ textarea {
     max-width: 280px;
 }
 
+.modal-header h2, .modal-header span{
+    display:inline;
+}
+
 .fake-link{
     background:none;
     border:none;
