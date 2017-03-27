@@ -123,12 +123,15 @@ namespace LexiconLMS.Models
             this.SocialSecurityNumber = user.SocialSecurityNumber;
             if (user.CourseId != null)
             {
+                this.CourseId = user.Course.Id;
                 this.CourseName = user.Course.Name;
             }else
             {
                 this.CourseName = "Ingen kurs";
             }
         }
+
+        public int CourseId { get; set; }
 
         [Display(Name = "Användarnamn")]
         public string UserName { get; set; }
