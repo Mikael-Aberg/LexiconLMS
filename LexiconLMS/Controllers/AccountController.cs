@@ -196,6 +196,55 @@ namespace LexiconLMS.Controllers
         }
 
         //
+        // GET: /Account/Register
+        public ActionResult RegisterTeacher(string msg = "")
+        {
+            var viewModel = new RegisterTeacherViewModel();
+
+            viewModel.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
+            viewModel.Msg = msg;
+
+            return View(viewModel);
+        }
+
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterTeacher(RegisterTeacherViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, SocialSecurityNumber = model.SocialSecurityNumber, FirstName = model.FirstName, LastName = model.LastName, Email = model.Email, CourseId = model.CourseId };
+                Console.WriteLine();
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    //if (User.IsInRole("Teacher"))
+                    //{
+                    return RedirectToAction("Register", "Account", new { msg = $" - {user.FullName} har blivit registrerad" });
+                    //}  
+                    //return RedirectToAction("Index", "HomeStudent");
+                }
+                if (result.Errors.Any(x => x.Contains("Password")))
+                    AddErrors(new IdentityResult("Lösenord måste ha åtminstone en icke bokstav eller siffra karaktär.Lösenord måste ha minst en siffra('0' - '9').Lösenord måste ha minst ett versalt(\"A\" - \"Z\")."));
+            }
+
+            model.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
