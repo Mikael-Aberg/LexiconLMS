@@ -27,12 +27,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
+            <td>                
                 @if (item.Description != null)
                 {
                     if (item.Description.Length > 25)
                     {
-                       <p>@item.Description.Substring(0, 20)...</p>
+                        <p>@item.Description.Substring(0, 20)...</p>
                     }
                     else
                     {
@@ -49,7 +49,8 @@
             <td>
                 @Html.ActionLink("Redigera", "Create", "CreateCourse", new { courseId = item.Id, courseShow = true }, null) |
                 @Html.ActionLink("Detaljer", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Ta bort", "Delete", new { id = item.Id })
+                @Html.ActionLink("Ta bort", "Delete", new { id = item.Id }) |
+                @Html.ActionLink("Schema", "Index", "Schedule", new { id = item.Id }, null)
             </td>
         </tr>
     }
