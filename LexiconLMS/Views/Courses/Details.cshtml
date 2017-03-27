@@ -77,5 +77,15 @@
                 </div>
             </div>
         }
+
+            <div class="panel panel-default">
+                <div class="panel-heading headerDiv">
+                    <h3>Elever</h3>
+                </div>
+                <div class="panel-body">
+                    @Html.Action("List", "Account", new { CourseId = Model.Id, ControlRef = "Courses", ActionRef = "Details" })
+                </div>
+            </div>
+
     </div>
 </div>
