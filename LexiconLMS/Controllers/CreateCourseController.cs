@@ -117,19 +117,64 @@ namespace LexiconLMS.Controllers
                     }
                 }
                 db.SaveChanges();
-                return RedirectToAction("Create", new { courseId = courseId, moduleShow = true });
+                ModelState.Clear();
             }
 
             var course = db.Courses.Find(courseId);
             var model = new ModuleCreateViewModel { Modules = course.Modules, CourseId = courseId };
-            model.Module = module;
-            var viewModel = new CreateCourseViewModel()
-            {
-                Course = course,
-                ModuleModel = model
-            };
 
-            return View("create",viewModel);
+            return PartialView("_CreateModuleInput", model);
+        }
+
+        public ActionResult CreateModuleInput(int? courseId, int? moduleId)
+        {
+            var viewModel = new ModuleCreateViewModel();
+            if (courseId != null)
+            {
+                viewModel.CourseId = courseId;
+                viewModel.Module = db.Modules.Find(moduleId);
+                viewModel.Modules = db.Courses.Find(courseId).Modules.ToList();
+            }
+
+            return PartialView("_CreateModuleInput", viewModel);
+        }
+
+        public ActionResult GetModuleList(int courseId)
+        {
+            return PartialView("_ModuleList", db.Courses.Find(courseId).Modules.ToList());
+        }
+
+        public ActionResult GetEditModule(int moduleId, int? courseId)
+        {
+            var viewModel = new ModuleCreateViewModel();
+            if (courseId != null)
+            {
+                viewModel.CourseId = courseId;
+                viewModel.Module = db.Modules.Find(moduleId);
+                viewModel.Modules = db.Courses.Find(courseId).Modules.ToList();
+            }
+
+            return PartialView("_CreateModuleInput", viewModel);
+        }
+
+        public ActionResult CreateActivityInput(int? moduleId, int? activityId, int? courseId)
+        {
+            var viewModel = new ActivityCreateViewModel();
+            if (courseId != null)
+            {
+                viewModel.CourseId = courseId;
+                viewModel.Activity = db.Activities.Find(activityId);
+                viewModel.Modules = db.Courses.Find(courseId).Modules.ToList();
+                viewModel.ModuleList = new SelectList(viewModel.Modules, "Id", "Name");
+                viewModel.Types = new SelectList(db.ActivityTypes.ToList(), "Id", "Name");
+            }
+
+            return PartialView("_CreateActivityInput", viewModel);
+        }
+
+        public ActionResult GetActivityList(int courseId)
+        {
+            return PartialView("_ActivityList", db.Courses.Find(courseId).Modules.ToList());
         }
 
         [HttpPost]
@@ -151,24 +196,15 @@ namespace LexiconLMS.Controllers
                     db.Activities.Add(activity);
                 }
                 db.SaveChanges();
-                return RedirectToAction("Create", new { courseId = courseId, activityShow = true });
+                ModelState.Clear();
             }
 
             var course = db.Courses.Find(courseId);
-            var model = new ModuleCreateViewModel { Modules = course.Modules, CourseId = courseId };
             var activityViewModel = new ActivityCreateViewModel { Modules = course.Modules, CourseId = courseId };
-            activityViewModel.ModuleList = new SelectList(activityViewModel.Modules, "Id", "Name");
+            activityViewModel.ModuleList = new SelectList(course.Modules.ToList(), "Id", "Name");
             activityViewModel.Types = new SelectList(db.ActivityTypes.ToList(), "Id", "Name");
-            activityViewModel.Activity = activity;
 
-            var viewModel = new CreateCourseViewModel()
-            {
-                Course = course,
-                ModuleModel = model,
-                ActivityModel = activityViewModel
-            };
-
-            return View(activityViewModel);
+            return PartialView("_CreateActivityInput", activityViewModel);
         }
 
         public ActionResult DeleteModule(int courseId, int moduleId)

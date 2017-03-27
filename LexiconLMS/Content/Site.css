@@ -154,3 +154,14 @@ textarea {
     display:inline;
     vertical-align:text-bottom;
 }
+
+.fake-link{
+    border:none;
+    outline:none;
+    background:none;
+    color:#337ab7;
+}
+
+.fake-link:hover{
+    text-decoration:underline;
+}

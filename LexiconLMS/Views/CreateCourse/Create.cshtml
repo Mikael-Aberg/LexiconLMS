@@ -85,107 +85,40 @@
         </a>
         <div id="collapseModule" class="panel-collapse collapse @Model.ModuleIn">
             <div class="panel-body">
-                @using (Html.BeginForm("CreateModule", "CreateCourse", FormMethod.Post))
+                @using (Html.BeginForm("CreateModule", "CreateCourse", FormMethod.Post, new { @id = "ModuleForm" }))
                 {
-                    if (Model.Course != null)
-                    {
-                        @Html.HiddenFor(x => x.ModuleModel.CourseId)
-                    }
-
-                    @Html.AntiForgeryToken()
-
-                    if (Model.ModuleModel != null)
-                    {
-                        @Html.HiddenFor(x => x.ModuleModel.Module.Id)
-                    }
-
-                    <div class="form-horizontal">
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.ModuleModel.Module.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.ModuleModel.Module.Name, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.ModuleModel.Module.Name, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.ModuleModel.Module.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.ModuleModel.Module.Description, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.ModuleModel.Module.Description, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.ModuleModel.Module.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.ModuleModel.Module.StartDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
-                                @Html.ValidationMessageFor(model => model.ModuleModel.Module.StartDate, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.ModuleModel.Module.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.ModuleModel.Module.EndDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
-                                @Html.ValidationMessageFor(model => model.ModuleModel.Module.EndDate, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
+                    <div id="moduleDiv">
                         @if (Model.Course != null)
                         {
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="@( ((Model.ModuleModel.Module != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default" />
-                                </div>
-                            </div>
+                            @Html.Action("CreateModuleInput", new { courseId = Model.Course.Id })
                         }
                     </div>
+                    if (Model.Course != null)
+                    {
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input id="ModuleBtn" type="button" value="@( ((Model.ModuleModel.Module != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default" />
+                            </div>
+                        </div>
+                    }
                 }
 
+                <div id="moduleListDiv">
+                    @if (Model.Course != null)
+                    {
+                        @Html.Action("GetModuleList", new { courseId = Model.Course.Id })
+                    }
+                </div>
                 @if (Model.ModuleModel.Modules != null)
                 {
-                    <table class="table">
-                        <tr>
-                            <th>@Html.DisplayNameFor(x => x.ModuleModel.Module.Name)</th>
-                            <th>@Html.DisplayNameFor(x => x.ModuleModel.Module.Description)</th>
-                            <th>@Html.DisplayNameFor(x => x.ModuleModel.Module.StartDate)</th>
-                            <th>@Html.DisplayNameFor(x => x.ModuleModel.Module.EndDate)</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        @foreach (var module in Model.ModuleModel.Modules)
-                        {
-                            <tr>
-                                <td>@Html.DisplayFor(x => module.Name)</td>
-                                <td>
-                                    @if (module.Description != null)
-                                    {
-                                        if (module.Description.Length > 25)
-                                        {
-                                            <p>@module.Description.Substring(0, 25)...</p>
-                                        }
-                                        else
-                                        {
-                                            @Html.DisplayFor(x => module.Description)
-                                        }
-                                    }
-                                </td>
-                                <td>@Html.DisplayFor(x => module.StartDate)</td>
-                                <td>@Html.DisplayFor(x => module.EndDate)</td>
-                                <td>@Html.ActionLink("Redigera", "Create", new { courseId = Model.ModuleModel.CourseId, moduleId = module.Id, moduleShow = true })</td>
-                                <td>@Html.ActionLink("Ta bort", "DeleteModule", new { courseId = Model.ActivityModel.CourseId, moduleId = module.Id })</td>
-                            </tr>
-                        }
-                    </table>
+                    if (Model.ModuleModel.Modules.Count > 0)
+                    {
+                        <div class="col-md-10">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseActivity" class="btn btn-default">Lägg till aktiviteter</a>
+                        </div>
+                    }
                 }
-                @if (Model.Course != null)
-                {
-                    <div class="col-md-10">
-                        @Html.ActionLink("Lägg till aktiviteter", "Create", new { courseId = Model.Course.Id, activityShow = true }, new { @class = "btn btn-default" })
-                    </div>
-                }
+
             </div>
         </div>
     </div>
@@ -199,129 +132,39 @@
         </a>
         <div id="collapseActivity" class="panel-collapse collapse @Model.ActivityIn">
             <div class="panel-body">
-                @using (Html.BeginForm("CreateActivity", "CreateCourse", FormMethod.Post))
+                @using (Html.BeginForm("CreateActivity", "CreateCourse", FormMethod.Post, new { @id = "ActivityForm" }))
                 {
-                    @Html.AntiForgeryToken()
-
-                    @Html.HiddenFor(x => x.ActivityModel.CourseId)
-
-                    if (Model.ActivityModel.Activity != null)
-                    {
-                        @Html.HiddenFor(x => x.ActivityModel.Activity.Id)
-                    }
-
-                    <div class="form-horizontal">
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.ActivityModel.Activity.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.ActivityModel.Activity.Name, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.ActivityModel.Activity.Name, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.ActivityModel.Activity.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.ActivityModel.Activity.Description, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.ActivityModel.Activity.Description, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.ActivityModel.Activity.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.ActivityModel.Activity.StartTime, new { htmlAttributes = new { @class = "form-control datepicker" } })
-                                @Html.ValidationMessageFor(model => model.ActivityModel.Activity.StartTime, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.ActivityModel.Activity.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.ActivityModel.Activity.EndTime, new { htmlAttributes = new { @class = "form-control datepicker" } })
-                                @Html.ValidationMessageFor(model => model.ActivityModel.Activity.EndTime, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        @if (Model.ActivityModel.Modules != null)
+                    <div id="activityDiv">
+                        @if (Model.Course != null)
                         {
-                            if (Model.ActivityModel.Modules.Count > 0)
-                            {
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.ActivityModel.Activity.Module, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.DropDownList("ActivityModel.Activity.ModuelId", Model.ActivityModel.ModuleList, "", new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.ActivityModel.Activity.Module, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.ActivityModel.Activity.Type, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.DropDownList("ActivityModel.Activity.TypeId", Model.ActivityModel.Types, "", new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.ActivityModel.Activity.Type, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-md-offset-2 col-md-10">
-                                        <input type="submit" value="@( ((Model.ActivityModel.Activity != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default" />
-                                    </div>
-                                </div>
-                            }
+                            @Html.Action("CreateActivityInput", new { courseId = Model.Course.Id })
                         }
                     </div>
-                }
-                @if (Model.ActivityModel.Modules != null)
-                {
-                    foreach (var module in Model.ActivityModel.Modules)
+
+                    if (Model.ModuleModel.Modules != null)
                     {
-                        <h3>@Html.DisplayFor(x => module.Name)</h3>
-
-                        <table class="table">
-
-                            <tr>
-                                <th>@Html.DisplayNameFor(x => module.Activities.First().Type)</th>
-                                <th>@Html.DisplayNameFor(x => module.Activities.First().Name)</th>
-                                <th>@Html.DisplayNameFor(x => module.Activities.First().Description)</th>
-                                <th>@Html.DisplayNameFor(x => module.Activities.First().StartTime)</th>
-                                <th>@Html.DisplayNameFor(x => module.Activities.First().EndTime)</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-
-                            @foreach (var activity in module.Activities.OrderBy(x => x.StartTime))
-                            {
-                                <tr>
-                                    <td>@Html.DisplayFor(x => activity.Type.Name)</td>
-                                    <td>@Html.DisplayFor(x => activity.Name)</td>
-                                    <td>
-                                        @if (activity.Description != null)
-                                        {
-                                            if (activity.Description.Length > 25)
-                                            {
-                                                <p>@activity.Description.Substring(0, 25)...</p>
-                                            }
-                                            else
-                                            {
-                                                @Html.DisplayFor(x => activity.Description)
-                                            }
-                                        }
-                                    </td>
-                                    <td>@Html.DisplayFor(x => activity.StartTime)</td>
-                                    <td>@Html.DisplayFor(x => activity.EndTime)</td>
-                                    <td>@Html.ActionLink("Redigera", "Create", new { courseId = Model.ActivityModel.CourseId, activityId = activity.Id, activityShow = true })</td>
-                                    <td>@Html.ActionLink("Ta bort", "DeleteActivity", new { courseId = Model.ActivityModel.CourseId, activityId = activity.Id })</td>
-                                </tr>
-                            }
-                        </table>
+                        if (Model.ModuleModel.Modules.Count > 0)
+                        {
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="button" id="ActivityBtn" value="@( ((Model.ActivityModel.Activity != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default" />
+                                </div>
+                            </div>
+                        }
                     }
                 }
+
+                <div id="activityListDiv">
+                    @if (Model.Course != null)
+                    {
+                        @Html.Action("GetActivityList", new { courseId = Model.Course.Id })
+                    }
+                </div>
+
             </div>
         </div>
     </div>
 </div>
-
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script>
     $("#createNew").on("click", function () {
@@ -333,4 +176,119 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/datepicker")
+    <script>
+        $(document).on('click', '#ModuleBtn', function () {
+            $.ajax({
+                url: '@Url.Action("CreateModule")',
+                type: 'POST',
+                data: $('#ModuleForm').serialize(),
+                success: function (data) {
+                    if (data) {
+                        $('#moduleDiv').html(data);
+                        $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
+                        $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
+                        $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
+                        $('.datepicker').datepicker({
+                            language: 'sv'
+                        });
+                        document.getElementById("ModuleBtn").value = "Lägg till";
+                        moduleEdit();
+                    }
+                    else {
+                        alert('NoData');
+                    }
+                },
+                error: function (xhr, textStatus, thrownError, data) {
+                    alert("Error: " + thrownError);
+                }
+            });
+        });
+
+        var moduleEdit = function () {
+            $(document).on('click', '.editModuleBtn', function () {
+                var value = $(this).attr('name');
+                $.ajax({
+                    url: '@Url.Action("GetEditModule")',
+                    type: 'GET',
+                    data:{
+                        moduleId: value,
+                        courseId: @(((Model.Course != null)? Model.Course.Id : 0)),
+                    },
+                    success: function (data) {
+                        if (data) {
+                            $('#moduleDiv').html(data);
+                            $('.datepicker').datepicker({
+                                language: 'sv'
+                            });
+                            document.getElementById("ModuleBtn").value = "Spara ändringar";
+                        }
+                        else {
+                            alert('NoData');
+                        }
+                    },
+                    error: function (xhr, textStatus, thrownError, data) {
+                        alert("Error: " + thrownError);
+                    }
+                });
+            });
+        }
+        moduleEdit();
+
+        $(document).on('click', '#ActivityBtn', function () {
+            $.ajax({
+                url: '@Url.Action("CreateActivity")',
+                type: 'POST',
+                data: $('#ActivityForm').serialize(),
+                success: function (data) {
+                    if (data) {
+                        $('#activityDiv').html(data);
+                        $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
+                        $('.datepicker').datepicker({
+                            language: 'sv'
+                        });
+                        document.getElementById("ActivityBtn").value = "Lägg till";
+                        activityEdit();
+                    }
+                    else {
+                        alert('NoData');
+                    }
+                },
+                error: function (xhr, textStatus, thrownError, data) {
+                    alert("Error: " + thrownError);
+                }
+            });
+        });
+
+        var activityEdit = function () {
+            $(document).on('click', '.editActivityBtn', function () {
+                var value = $(this).attr('name');
+
+                $.ajax({
+                    url: '@Url.Action("CreateActivityInput")',
+                    type: 'GET',
+                    data:{
+                        activityId: value,
+                        courseId: @(((Model.Course != null)? Model.Course.Id : 0)),
+                    },
+                    success: function (data) {
+                        if (data) {
+                            $('#activityDiv').html(data);
+                            $('.datepicker').datepicker({
+                                language: 'sv'
+                            });
+                            document.getElementById("ActivityBtn").value = "Spara ändringar";
+                        }
+                        else {
+                            alert('NoData');
+                        }
+                    },
+                    error: function (xhr, textStatus, thrownError, data) {
+                        alert("Error: " + thrownError);
+                    }
+                });
+            });
+        }
+
+        activityEdit();
+    </script>
 }
