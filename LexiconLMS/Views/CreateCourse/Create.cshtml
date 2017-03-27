@@ -192,7 +192,6 @@
                             language: 'sv'
                         });
                         document.getElementById("ModuleBtn").value = "Lägg till";
-                        moduleEdit();
                     }
                     else {
                         alert('NoData');
@@ -217,6 +216,7 @@
                     success: function (data) {
                         if (data) {
                             $('#moduleDiv').html(data);
+                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                             $('.datepicker').datepicker({
                                 language: 'sv'
                             });
@@ -234,6 +234,64 @@
         }
         moduleEdit();
 
+        var deleteModule = function(){
+            $(document).on('click', '.deleteModuleBtn', function () {
+                var value = $(this).attr("name");
+                $.ajax({
+                    url: '@Url.Action("Delete")',
+                    type: 'POST',
+                    data: {
+                        id: value,
+                        courseId: @(((Model.Course != null)? Model.Course.Id : 0)),
+                    },
+                    success: function (data) {
+                        if (data) {
+                            $('#moduleListDiv').html(data);
+                            $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
+                            $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
+                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
+                        }
+                        else {
+                            alert('NoData');
+                        }
+                    },
+                    error: function (xhr, textStatus, thrownError, data) {
+                        alert("Error: " + thrownError);
+                    }
+                });
+            });
+        }
+        deleteModule();
+
+        var deleteActivity = function(){
+            $(document).on('click', '.deleteActivityBtn', function () {
+                var value = $(this).attr("name");
+                $.ajax({
+                    url: '@Url.Action("DeleteActivity")',
+                    type: 'POST',
+                    data: {
+                        activityId: value,
+                        courseId: @(((Model.Course != null)? Model.Course.Id : 0)),
+                    },
+                    success: function (data) {
+                        if (data) {
+                            $('#moduleListDiv').html(data);
+                            $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
+                            $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
+                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
+                        }
+                        else {
+                            alert('NoData');
+                        }
+                    },
+                    error: function (xhr, textStatus, thrownError, data) {
+                        alert("Error: " + thrownError);
+                    }
+                });
+            });
+        }
+        deleteActivity();
+
         $(document).on('click', '#ActivityBtn', function () {
             $.ajax({
                 url: '@Url.Action("CreateActivity")',
@@ -242,6 +300,8 @@
                 success: function (data) {
                     if (data) {
                         $('#activityDiv').html(data);
+                        $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
+                        $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                         $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                         $('.datepicker').datepicker({
                             language: 'sv'

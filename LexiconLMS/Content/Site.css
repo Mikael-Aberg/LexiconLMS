@@ -23,16 +23,16 @@ textarea {
     max-width: 280px;
 }
 
-.fake-link{
-    background:none;
-    border:none;
-    outline:none;
+.fake-link {
+    background: none;
+    border: none;
+    outline: none;
     color: #337ab7;
 }
 
-.fake-link:hover{
-    text-decoration:underline;
-}
+    .fake-link:hover {
+        text-decoration: underline;
+    }
 
 .center-block {
     margin-top: 10px;
@@ -95,11 +95,13 @@ textarea {
 .headerDiv a, .headerDiv h3, .headerDiv h1 {
     display: inline;
 }
-.toppadding{
-    padding-top:20px;
+
+.toppadding {
+    padding-top: 20px;
 }
-.headerDiv span{
-    margin-left:15px;
+
+.headerDiv span {
+    margin-left: 15px;
 }
 
 .headerDiv a {
@@ -142,26 +144,34 @@ textarea {
     margin-left: 20px;
 }
 
-#redisterHeadDiv{
-    margin-top:20px;
+#redisterHeadDiv {
+    margin-top: 20px;
 }
 
-#redisterHeadDiv h2{
-    display:inline;
+    #redisterHeadDiv h2 {
+        display: inline;
+    }
+
+    #redisterHeadDiv span {
+        display: inline;
+        vertical-align: text-bottom;
+    }
+
+.fake-link {
+    border: none;
+    outline: none;
+    background: none;
+    color: #337ab7;
 }
 
-#redisterHeadDiv span{
-    display:inline;
-    vertical-align:text-bottom;
+    .fake-link:hover {
+        text-decoration: underline;
+    }
+
+.modal-header button, .modal-header h2 {
+    display: inline;
 }
 
-.fake-link{
-    border:none;
-    outline:none;
-    background:none;
-    color:#337ab7;
-}
-
-.fake-link:hover{
-    text-decoration:underline;
+#moduleListDiv{
+    margin-top:80px;
 }

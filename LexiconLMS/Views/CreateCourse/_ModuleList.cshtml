@@ -8,7 +8,7 @@
             <th>@Html.DisplayNameFor(x => x.Description)</th>
             <th>@Html.DisplayNameFor(x => x.StartDate)</th>
             <th>@Html.DisplayNameFor(x => x.EndDate)</th>
-            <th></th>
+            <th>@Html.DisplayNameFor(x => x.NumberOfActivities)</th>
             <th></th>
         </tr>
         @foreach (var module in Model)
@@ -30,7 +30,11 @@
                 </td>
                 <td>@Html.DisplayFor(x => module.StartDate)</td>
                 <td>@Html.DisplayFor(x => module.EndDate)</td>
-                <td><input type="button" value="Redigera" class="editModuleBtn fake-link" name="@module.Id" /></td>
+                <td>@Html.DisplayFor(x => module.NumberOfActivities)</td>
+                <td>
+                    <input type="button" value="Redigera" class="editModuleBtn fake-link" name="@module.Id" />
+                    <input type="button" value="Ta bort" class="deleteModuleBtn fake-link" name="@module.Id" />
+                </td>
             </tr>
         }
     </table>

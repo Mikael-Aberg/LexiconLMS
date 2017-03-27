@@ -223,6 +223,7 @@ namespace LexiconLMS.Controllers
             return RedirectToAction("Create", new { courseId = courseId, moduleShow = true });
         }
 
+        [HttpPost]
         public ActionResult DeleteActivity(int courseId, int activityId)
         {
             if (activityId < 1)
@@ -236,9 +237,17 @@ namespace LexiconLMS.Controllers
             }
             db.Activities.Remove(activity);
             db.SaveChanges();
-            return RedirectToAction("Create", new { courseId = courseId, activityShow = true });
+            return PartialView("_ActivityList", db.Courses.Find(courseId).Modules.ToList());
         }
 
+        [HttpPost]
+        public ActionResult Delete(int id,int courseId)
+        {
+            Module module = db.Modules.Find(id);
+            db.Modules.Remove(module);
+            db.SaveChanges();
+            return PartialView("_ModuleList", db.Courses.Find(courseId).Modules.ToList());
+        }
 
         protected override void Dispose(bool disposing)
         {
