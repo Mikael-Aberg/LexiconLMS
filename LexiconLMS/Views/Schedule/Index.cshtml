@@ -1,0 +1,30 @@
+﻿@model IEnumerable<LexiconLMS.Models.SchedulePost>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+
+    <tr>
+        <th>@Html.DisplayNameFor(x => x.Date)</th>
+        <th>@Html.DisplayNameFor(x => x.Day)</th>
+        <th>@Html.DisplayNameFor(x => x.Module)</th>
+        <th>@Html.DisplayNameFor(x => x.Morning)</th>
+        <th>@Html.DisplayNameFor(x => x.Afternoon)</th>
+    </tr>
+
+    @foreach (var post in Model)
+    {
+        <tr>
+            <th>@Html.DisplayFor(x => post.Date)</th>
+            <th>@Html.DisplayFor(x => post.Day)</th>
+            <th>@Html.DisplayFor(x => post.Module)</th>
+            <th>@Html.DisplayFor(x => post.Morning)</th>
+            <th>@Html.DisplayFor(x => post.Afternoon)</th>
+        </tr>
+    }
+
+</table>
