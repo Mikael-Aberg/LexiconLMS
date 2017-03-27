@@ -10,7 +10,7 @@ namespace LexiconLMS.Models
         public string Date { get; set; }
         public string Day { get; set; }
         public string Module { get; set; }
-        public string Morning { get; set; }
-        public string Afternoon { get; set; }
+        public ICollection<ScheduleLink> Morning { get; set; }
+        public ICollection<ScheduleLink> Afternoon { get; set; }
     }
 }

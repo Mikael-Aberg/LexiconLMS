@@ -192,6 +192,7 @@
     <Compile Include="Models\Module.cs" />
     <Compile Include="Models\ModuleCreateViewModel.cs" />
     <Compile Include="Models\ModuleListViewModel.cs" />
+    <Compile Include="Models\ScheduleLink.cs" />
     <Compile Include="Models\SchedulePost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -289,6 +290,7 @@
     <Content Include="Views\Modules\List.cshtml" />
     <Content Include="Views\CreateCourse\Create.cshtml" />
     <Content Include="Views\Schedule\Index.cshtml" />
+    <Content Include="Views\Activities\_ActivityDetailsModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

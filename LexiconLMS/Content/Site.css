@@ -23,6 +23,17 @@ textarea {
     max-width: 280px;
 }
 
+.fake-link{
+    background:none;
+    border:none;
+    outline:none;
+    color: #337ab7;
+}
+
+.fake-link:hover{
+    text-decoration:underline;
+}
+
 .center-block {
     margin-top: 10px;
     width: 500px;

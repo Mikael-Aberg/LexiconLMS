@@ -13,55 +13,61 @@ namespace LexiconLMS.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Schedule
-        public ActionResult Index(int id)
+        public ActionResult Index(int? id)
         {
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Courses", null);
+            }
+
+            var course = db.Courses.Find(id);
+
+            if(course == null)
+            {
+                return RedirectToAction("Index", "Courses", null);
+            }
+
             TimeSpan morningStart = new TimeSpan(8, 0, 0);
             TimeSpan morningEnd = new TimeSpan(12, 0, 0);
 
             TimeSpan afternoonStart = new TimeSpan(12, 0, 0);
             TimeSpan afternoonEnd = new TimeSpan(17, 0, 0);
 
-            var course = db.Courses.Find(id);
             var viewModel = new List<SchedulePost>();
-
-            for (DateTime date = course.StartDate; date < course.EndDate; date = date.AddDays(1))
+            for (DateTime date = course.StartDate; date <= course.EndDate; date = date.AddDays(1))
             {
                 var post = new SchedulePost();
+                post.Morning = new List<ScheduleLink>();
+                post.Afternoon = new List<ScheduleLink>();
                 post.Date = date.ToShortDateString();
                 post.Day = date.DayOfWeek.ToString();
-                var modules = course.Modules.Where(x => date <= x.StartDate && date <= x.EndDate);
+                var modules = course.Modules.Where(x => (x.StartDate <= date && x.EndDate >= date));
                 StringBuilder moduleBuilder = new StringBuilder();
-                StringBuilder morgningBuilder = new StringBuilder();
-                StringBuilder afternoonBuilder = new StringBuilder();
                 foreach (var module in modules)
                 {
                     moduleBuilder.Append(module.Name);
-                    moduleBuilder.Append(",");
+                    moduleBuilder.Append(", ");
 
-                    foreach (var activity in module.Activities.Where(x => date <= x.StartTime && date <= x.EndTime))
+                    foreach (var activity in module.Activities.Where(x => (x.StartTime.Date <= date && x.EndTime.Date >= date)))
                     {
-                        if (morningStart <= activity.StartTime.TimeOfDay && morningEnd <= activity.EndTime.TimeOfDay)
+                        if (activity.StartTime.TimeOfDay <= morningStart && activity.EndTime.TimeOfDay <= morningEnd)
                         {
-                            morgningBuilder.Append(activity.Name);
-                            morgningBuilder.Append(",");
+                            post.Morning.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
                         }
-                        else if (morningStart <= activity.StartTime.TimeOfDay && morningEnd <= activity.EndTime.TimeOfDay)
+                        else if (afternoonStart <= activity.StartTime.TimeOfDay && afternoonEnd <= activity.EndTime.TimeOfDay)
                         {
-                            afternoonBuilder.Append(activity.Name);
-                            afternoonBuilder.Append(",");
+                            post.Afternoon.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
                         }
                         else
                         {
-                            morgningBuilder.Append(activity.Name);
-                            morgningBuilder.Append(",");
-
-                            afternoonBuilder.Append(activity.Name);
-                            afternoonBuilder.Append(",");
+                            post.Morning.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
+                            post.Afternoon.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
                         }
                     }
                 }
-                post.Morning = morgningBuilder.ToString();
-                post.Afternoon = afternoonBuilder.ToString();
+
+                if (moduleBuilder.Length > 0) { moduleBuilder.Remove(moduleBuilder.Length - 2, 2); }
+
                 post.Module = moduleBuilder.ToString();
 
                 viewModel.Add(post);

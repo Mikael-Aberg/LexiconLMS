@@ -18,6 +18,67 @@ namespace LexiconLMS.Migrations
 
         protected override void Seed(LexiconLMS.Models.ApplicationDbContext context)
         {
+            var courses = new[]
+            {
+                new Course {Name = "Java", Description = "", StartDate = DateTime.Now.Date + new TimeSpan(0,0,0), EndDate = DateTime.Now.AddDays(10).Date + new TimeSpan(0,0,0) },
+                new Course {Name = ".NET", Description = "", StartDate = DateTime.Now.Date + new TimeSpan(0,0,0), EndDate = DateTime.Now.AddDays(2).Date + new TimeSpan(0,0,0) },
+                new Course {Name = "Tekniker", Description = "", StartDate = DateTime.Now.Date + new TimeSpan(0,0,0), EndDate = DateTime.Now.AddDays(2).Date + new TimeSpan(0,0,0) },
+            };
+
+            context.Courses.AddOrUpdate(x => x.Name, courses);
+            context.SaveChanges();
+
+            var modules = new[]
+            {
+                new Module {Name = "JavaEE", Description = "", StartDate = DateTime.Now.AddDays(1).Date + new TimeSpan(0,0,0), EndDate = DateTime.Now.AddDays(2).Date + new TimeSpan(0,0,0), CourseId = courses[0].Id },
+                new Module {Name = "Webb", Description = "", StartDate = DateTime.Now.AddDays(2).Date + new TimeSpan(0,0,0), EndDate = DateTime.Now.AddDays(5).Date + new TimeSpan(0,0,0), CourseId = courses[0].Id },
+                new Module {Name = "Databas", Description = "", StartDate = DateTime.Now.AddDays(6).Date + new TimeSpan(0,0,0), EndDate = DateTime.Now.AddDays(9).Date + new TimeSpan(0,0,0), CourseId = courses[0].Id },
+                new Module {Name = "JSP", Description = "", StartDate = DateTime.Now.AddDays(10).Date + new TimeSpan(0,0,0), EndDate = DateTime.Now.AddDays(10).Date + new TimeSpan(0,0,0), CourseId = courses[0].Id },
+
+
+                new Module {Name = "C#", Description = "", StartDate = DateTime.Now.AddDays(1).Date + new TimeSpan(0,0,0), EndDate = DateTime.Now.AddDays(2).Date + new TimeSpan(0,0,0), CourseId = courses[1].Id },
+                new Module {Name = "MVC", Description = "", StartDate = DateTime.Now.AddDays(1).Date + new TimeSpan(0,0,0), EndDate = DateTime.Now.AddDays(2).Date + new TimeSpan(0,0,0), CourseId = courses[1].Id },
+                new Module {Name = "Office365", Description = "", StartDate = DateTime.Now.AddDays(1).Date + new TimeSpan(0,0,0), EndDate = DateTime.Now.AddDays(2).Date + new TimeSpan(0,0,0), CourseId = courses[2].Id },
+                new Module {Name = "Projektledning", Description = "", StartDate = DateTime.Now.AddDays(1).Date + new TimeSpan(0,0,0), EndDate = DateTime.Now.AddDays(2).Date + new TimeSpan(0,0,0), CourseId = courses[2].Id },
+            };
+
+            context.Modules.AddOrUpdate(x => x.Name, modules);
+            context.SaveChanges();
+
+            var types = new[]
+            {
+                new ActivityType { Name = "Övning"},
+                new ActivityType { Name = "E-learning"},
+                new ActivityType { Name = "Föreläsning"},
+            };
+
+            context.ActivityTypes.AddOrUpdate(x => x.Name, types);
+            context.SaveChanges();
+
+            var activities = new[]
+            {
+                new Activity {Name = "Föreläsning 2", Description = "", StartTime = (DateTime.Now.AddDays(1).Date + new TimeSpan(8,0,0)), EndTime = (DateTime.Now.AddDays(1).Date + new TimeSpan(17,0,0)), Module = modules[0], Type = types[2]},
+                new Activity {Name = "Övning 11", Description = "", StartTime = DateTime.Now.AddDays(2).Date + new TimeSpan(8,0,0), EndTime = DateTime.Now.AddDays(2).Date + new TimeSpan(12,0,0), Module = modules[0], Type = types[0]},
+                new Activity {Name = "E-learning 2", Description = "", StartTime = DateTime.Now.AddDays(2).Date + new TimeSpan(12,0,0), EndTime = DateTime.Now.AddDays(2).Date + new TimeSpan(17,0,0), Module = modules[0], Type = types[1]},
+                new Activity {Name = "Föreläsning 5", Description = "", StartTime = DateTime.Now.AddDays(2).Date + new TimeSpan(8,0,0), EndTime = DateTime.Now.AddDays(2).Date + new TimeSpan(17,0,0), Module = modules[1], Type = types[2]},
+                new Activity {Name = "Föreläsning 5", Description = "", StartTime = DateTime.Now.AddDays(3).Date + new TimeSpan(8,0,0), EndTime = DateTime.Now.AddDays(4).Date + new TimeSpan(12,0,0), Module = modules[1], Type = types[2]},
+                new Activity {Name = "E-learning 12", Description = "", StartTime = DateTime.Now.AddDays(4).Date + new TimeSpan(8,0,0), EndTime = DateTime.Now.AddDays(4).Date + new TimeSpan(17,0,0), Module = modules[1], Type = types[1]},
+                new Activity {Name = "Övning 3", Description = "", StartTime = DateTime.Now.AddDays(5).Date + new TimeSpan(8,0,0), EndTime = DateTime.Now.AddDays(5).Date + new TimeSpan(12,0,0), Module = modules[1], Type = types[0]},
+                new Activity {Name = "Övning 4", Description = "", StartTime = DateTime.Now.AddDays(5).Date + new TimeSpan(12,0,0), EndTime = DateTime.Now.AddDays(5).Date + new TimeSpan(17,0,0), Module = modules[1], Type = types[0]},
+                new Activity {Name = "E-learning 3", Description = "", StartTime = DateTime.Now.AddDays(6).Date + new TimeSpan(8,0,0), EndTime = DateTime.Now.AddDays(6).Date + new TimeSpan(12,0,0), Module = modules[2], Type = types[1]},
+                new Activity {Name = "Föreläsning 1", Description = "", StartTime = DateTime.Now.AddDays(6).Date + new TimeSpan(12,0,0), EndTime = DateTime.Now.AddDays(6).Date + new TimeSpan(17,0,0), Module = modules[2], Type = types[2]},
+                new Activity {Name = "Föreläsning 4", Description = "", StartTime = DateTime.Now.AddDays(7).Date + new TimeSpan(8,0,0), EndTime = DateTime.Now.AddDays(10).Date + new TimeSpan(17,0,0), Module = modules[2], Type = types[2]},
+                new Activity {Name = "Övning 5", Description = "", StartTime = DateTime.Now.AddDays(1).Date + new TimeSpan(8,0,0), EndTime = DateTime.Now.AddDays(2).Date + new TimeSpan(12,0,0), Module = modules[3], Type = types[0]},
+                new Activity {Name = "E-learning 15", Description = "", StartTime = DateTime.Now.AddDays(1).Date + new TimeSpan(12,0,0), EndTime = DateTime.Now.AddDays(2).Date + new TimeSpan(17,0,0), Module = modules[3], Type = types[1]},
+                new Activity {Name = "Föreläsning 3", Description = "", StartTime = DateTime.Now.AddDays(1).Date + new TimeSpan(8,0,0), EndTime = DateTime.Now.AddDays(2).Date + new TimeSpan(12,0,0), Module = modules[4], Type = types[2]},
+                new Activity {Name = "Övning 7", Description = "", StartTime = DateTime.Now.AddDays(1).Date + new TimeSpan(12,0,0), EndTime = DateTime.Now.AddDays(2).Date + new TimeSpan(17,0,0), Module = modules[5], Type = types[0]},
+                new Activity {Name = "E-learning 4", Description = "", StartTime = DateTime.Now.AddDays(1).Date + new TimeSpan(8,0,0), EndTime = DateTime.Now.AddDays(2).Date + new TimeSpan(17,0,0), Module = modules[6], Type = types[1]},
+                new Activity {Name = "Föreläsning 2", Description = "", StartTime = DateTime.Now.AddDays(1).Date + new TimeSpan(8,0,0), EndTime = DateTime.Now.AddDays(2).Date + new TimeSpan(17,0,0), Module = modules[7], Type = types[2]},
+            };
+
+            context.Activities.AddOrUpdate(x => x.Name, activities);
+            context.SaveChanges();
+
             var roleStore = new RoleStore<IdentityRole>(context);
             var roleManager = new RoleManager<IdentityRole>(roleStore);
 
@@ -101,15 +162,6 @@ namespace LexiconLMS.Migrations
                 appUsers.Add(user);
             }
 
-            //List<ApplicationUser> appUsers = new List<ApplicationUser>()
-            //{
-            //    new ApplicationUser {UserName="bo.ek@hotmail.com", FirstName="Bo", LastName="Ek", Email="bo.ek@hotmail.com", SocialSecurityNumber="19580204-1234"},
-            //    new ApplicationUser {UserName="anna.anka@live.se", FirstName="Anna", LastName="Anka", Email="anna.anka@live.se",SocialSecurityNumber="19821206-1253"},
-            //    new ApplicationUser {UserName="carl.svensson@hotmail.com", FirstName="Carl", LastName="Svensson", Email="carl.svensson@hotmail.com",SocialSecurityNumber="19740312-1675"},
-            //    new ApplicationUser {UserName="gustav.gren@live.com", FirstName="Gustav", LastName="Gren", Email="gustav.gren@live.com",SocialSecurityNumber="19631125-1345"},
-            //    new ApplicationUser {UserName="stina.andersson@hotmail.com", FirstName="Stina", LastName="Andersson", Email="stina.andersson@hotmail.com",SocialSecurityNumber="19900412-1476"}
-            //};
-
             foreach (var appUser in appUsers)
             {
                 var result = userManager.Create(appUser, "abc123");
@@ -118,58 +170,7 @@ namespace LexiconLMS.Migrations
                     throw new Exception(string.Join("\n", result.Errors));
                 }
             }
-
             context.SaveChanges();
-
-            var courses = new[]
-            {
-                new Course {Name = "Java", Description = "", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(10) },
-                new Course {Name = ".NET", Description = "", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(10) },
-                new Course {Name = "Tekniker", Description = "", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(10) },
-            };
-
-            context.Courses.AddOrUpdate(x => x.Name, courses);
-            context.SaveChanges();
-
-            var modules = new[]
-            {
-                new Module {Name = "JavaEE", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), CourseId = courses[0].Id },
-                new Module {Name = "JSP", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), CourseId = courses[0].Id },
-                new Module {Name = "C#", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), CourseId = courses[1].Id },
-                new Module {Name = "MVC", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), CourseId = courses[1].Id },
-                new Module {Name = "Office365", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), CourseId = courses[2].Id },
-                new Module {Name = "Projektledning", Description = "", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), CourseId = courses[2].Id },
-            };
-
-            context.Modules.AddOrUpdate(x => x.Name, modules);
-            context.SaveChanges();
-
-            var types = new[]
-            {
-                new ActivityType { Name = "Övning"},
-                new ActivityType { Name = "E-learning"},
-                new ActivityType { Name = "Föreläsning"},
-            };
-
-            var activities = new[]
-            {
-                new Activity {Name = "Övning 11", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[0], Type = types[0]},
-                new Activity {Name = "E-learning 12", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[0], Type = types[1]},
-                new Activity {Name = "Föreläsning 5", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[1], Type = types[2]},
-                new Activity {Name = "Övning 2", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[1], Type = types[0]},
-                new Activity {Name = "E-learning 3", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[2], Type = types[1]},
-                new Activity {Name = "Föreläsning 4", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[2], Type = types[2]},
-                new Activity {Name = "Övning 5", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[3], Type = types[0]},
-                new Activity {Name = "E-learning 15", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[3], Type = types[1]},
-                new Activity {Name = "Föreläsning 3", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[4], Type = types[2]},
-                new Activity {Name = "Övning 7", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[4], Type = types[0]},
-                new Activity {Name = "E-learning 4", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[5], Type = types[1]},
-                new Activity {Name = "Föreläsning 2", Description = "", StartTime = DateTime.Now.AddDays(1), EndTime = DateTime.Now.AddDays(2), Module = modules[5], Type = types[2]},
-            };
-
-            context.Activities.AddOrUpdate(x => x.Name, activities);
-            context.SaveChanges();
-
         }
     }
 }
