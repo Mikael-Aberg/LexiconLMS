@@ -5,10 +5,10 @@
 }
 @if (Model.ShowName)
 {
-    <h2>@Html.DisplayFor(x => x.Name)</h2>
+    <h2 class="scheduleTitle">@Html.DisplayFor(x => x.Name)</h2>
 }
 
-<table class="table">
+<table class="schedule">
 
     <tr>
         <th>@Html.DisplayNameFor(x => x.Schedule.First().Date)</th>
@@ -17,28 +17,29 @@
         <th>@Html.DisplayNameFor(x => x.Schedule.First().Morning)</th>
         <th>@Html.DisplayNameFor(x => x.Schedule.First().Afternoon)</th>
     </tr>
-
-    @foreach (var post in Model.Schedule)
-    {
-        <tr>
-            <td>@Html.DisplayFor(x => post.Date)</td>
-            <td>@Html.DisplayFor(x => post.Day)</td>
-            <td>@Html.DisplayFor(x => post.Module)</td>
-            <td>
-                @foreach (var link in post.Morning)
+    <tbody>
+        @foreach (var post in Model.Schedule)
+        {
+            <tr class="@Html.DisplayFor(x => post.Day)">
+                <td class="leftblackborder">@Html.DisplayFor(x => post.Date)</td>
+                <td>@Html.DisplayFor(x => post.Day)</td>
+                <td class="leftblackborder">@Html.DisplayFor(x => post.Module)</td>
+                <td>
+                    @foreach (var link in post.Morning)
                 {
-                    <button value="@link.Id" class="showDetailsBtn fake-link">@Html.DisplayFor(x => link.Name)</button>
-                }
+                        <button value="@link.Id" class="showDetailsBtn fake-link">@Html.DisplayFor(x => link.Name)</button>
+                    }
 
-            </td>
-            <td>
-                @foreach (var link in post.Afternoon)
+                </td>
+                <td>
+                    @foreach (var link in post.Afternoon)
                 {
-                    <button value="@link.Id" class="showDetailsBtn fake-link">@Html.DisplayFor(x => link.Name)</button>
-                }
-            </td>
-        </tr>
-    }
+                        <button value="@link.Id" class="showDetailsBtn fake-link">@Html.DisplayFor(x => link.Name)</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 
 <!-- Modal -->

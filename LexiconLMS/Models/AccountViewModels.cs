@@ -111,6 +111,52 @@ namespace LexiconLMS.Models
         public string Msg { get; set; }
     }
 
+    public class RegisterTeacherViewModel
+    {
+        [Required(ErrorMessage = "Du måste fylla i ett förnamn.")]
+        [RegularExpression(@"^[a-zA-ZåäöÅÄÖ]{1}[a-zA-ZåäöÅÄÖ\-\s*]*$", ErrorMessage = "Mata in endast bokstäver!")]
+        [StringLength(30, ErrorMessage = "Förnamnet får max vara 30 tecken långt.")]
+        [DisplayName("Förnamn")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Du måste fylla i ett efternamn.")]
+        [RegularExpression(@"^[a-zA-ZåäöÅÄÖ]{1}[a-zA-ZåäöÅÄÖ\-\s*]*$", ErrorMessage = "Mata in endast bokstäver!")]
+        [StringLength(30, ErrorMessage = "Efternamnet får max vara 30 tecken långt.")]
+        [DisplayName("Efternamn")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Du måste fylla i ett personnummer.")]
+        [RegularExpression(@"^(?:19|[2-9][0-9]){0,1}(?:[0-9]{2})(?!0229|0230|0231|0431|0631|0931|1131)(?:(?:0[1-9])|(?:1[0-2]))(?:(?:0[1-9])|(?:1[0-9])|(?:2[0-9])|(?:3[01]))[-+](?!0000)(?:[0-9]{4})$",
+        ErrorMessage = "Felaktigt format på personnummer! (yyyymmdd-xxxx)")]
+        [DisplayName("Personnummer")]
+        public string SocialSecurityNumber { get; set; }
+
+        [Required(ErrorMessage = "Du måste fylla i en e-postadress.")]
+        [EmailAddress(ErrorMessage = "Inte en giltig e-postadress.")]
+        [Display(Name = "E-post")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Du måste fylla i ett lösenord.")]
+        [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Lösenord")]
+        public string Password { get; set; }
+
+        [Required(ErrorMessage = "Du måste fylla i ett lösenord.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Bekräfta lösenord")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Lösenordet och bekräftade lösenordet är inte lika.")]
+        public string ConfirmPassword { get; set; }
+
+        //[Required(ErrorMessage = "Du måste fylla i en kurs.")]
+        public int? CourseId { get; set; }
+
+        [Display(Name = "Kurser")]
+        public SelectList Courses { get; set; }
+
+        public string Msg { get; set; }
+    }
+
     public class ListUserViewModel
     {
         public ListUserViewModel() { }

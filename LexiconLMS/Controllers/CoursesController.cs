@@ -26,7 +26,13 @@ namespace LexiconLMS.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var user = db.Users.First(u => u.UserName == User.Identity.Name);
+                Course courseModel = db.Courses.Find(user.CourseId);
+                if (courseModel == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(courseModel);
             }
             Course course = db.Courses.Find(id);
             if (course == null)
