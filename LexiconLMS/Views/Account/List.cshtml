@@ -48,9 +48,10 @@
                     @Html.DisplayFor(modelItem => item.SocialSecurityNumber)
                 </td>
                 <td>
-
-                    <button type="button" name="@item.UserName" class="btn btn-danger deleteUser">Ta bort</button>
-
+                    @if (User.Identity.Name != item.UserName)
+                    {
+                        <button type="button" name="@item.UserName" class="btn btn-danger deleteUser">Ta bort</button>
+                    }
                 </td>
             }
         </tr>
