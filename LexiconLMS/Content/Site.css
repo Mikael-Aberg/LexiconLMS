@@ -179,3 +179,55 @@ textarea {
 #moduleListDiv{
     margin-top:80px;
 }
+
+.schedule {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+.schedule > thead > tr > th  {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+}
+.schedule tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: #000000;
+    border-bottom: 4px solid;
+}
+.schedule{
+    font-family:'Calibri';
+    font-size:15px;
+}
+
+.schedule tr:nth-child(odd){
+    background-color:#bdd7ee;
+}
+
+.schedule .Söndag{
+    background-color:#f8cbad !important;
+}
+.schedule .Lördag{
+    background-color:#f8cbad !important;
+}
+.schedule th{
+    background-color:#ffffff;
+    padding-left:15px;
+    font-weight:normal;
+}
+.schedule td {
+
+padding-left:15px;
+}
+.schedule .fake-link {
+    color:#000000;
+}
+.schedule .leftblackborder{
+    border-left:4px solid #000000;
+}
+.scheduleTitle{
+    font-weight:normal;
+    font-size:20px;
+    margin-left:15px;
+}
