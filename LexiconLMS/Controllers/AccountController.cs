@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LexiconLMS.Models;
 using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace LexiconLMS.Controllers
 {
@@ -201,7 +202,7 @@ namespace LexiconLMS.Controllers
         {
             var viewModel = new RegisterTeacherViewModel();
 
-            viewModel.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
+            viewModel.Courses = new SelectList(db.Courses.ToList(), "Id", "Name", 0);
             viewModel.Msg = msg;
 
             return View(viewModel);
@@ -218,6 +219,11 @@ namespace LexiconLMS.Controllers
                 var user = new ApplicationUser { UserName = model.Email, SocialSecurityNumber = model.SocialSecurityNumber, FirstName = model.FirstName, LastName = model.LastName, Email = model.Email, CourseId = model.CourseId };
                 Console.WriteLine();
                 var result = await UserManager.CreateAsync(user, model.Password);
+
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.db));
+                var adminUser = userManager.FindByName(model.Email);
+                userManager.AddToRole(adminUser.Id, "Teacher");
+
                 if (result.Succeeded)
                 {
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
@@ -230,7 +236,7 @@ namespace LexiconLMS.Controllers
 
                     //if (User.IsInRole("Teacher"))
                     //{
-                    return RedirectToAction("Register", "Account", new { msg = $" - {user.FullName} har blivit registrerad" });
+                    return RedirectToAction("RegisterTeacher", "Account", new { msg = $" - {user.FullName} har blivit registrerad" });
                     //}  
                     //return RedirectToAction("Index", "HomeStudent");
                 }
