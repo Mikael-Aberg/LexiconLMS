@@ -13,8 +13,13 @@ namespace LexiconLMS.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult ScheduleView()
+        {
+            return View();
+        }
+
         // GET: Schedule
-        public ActionResult Index(int? id, DateTime? weekDay)
+        public ActionResult Index(int? id, DateTime? weekDay, bool partial = false)
         {
             if (id == null)
             {
@@ -40,7 +45,7 @@ namespace LexiconLMS.Controllers
             if (weekDay != null)
             {
                 var week = GetWeek((DateTime)weekDay).OrderBy(x => x.Date).ToList();
-                startDate = week.First().Date + new TimeSpan(0,0,0);
+                startDate = week.First().Date + new TimeSpan(0, 0, 0);
                 endDate = week.Last().Date + new TimeSpan(0, 0, 0);
             }
             else
@@ -89,7 +94,14 @@ namespace LexiconLMS.Controllers
                 scheduleList.Add(post);
             }
             var viewModel = new ScheduleViewModel { Name = course.Name, Schedule = scheduleList };
-            return View(viewModel);
+            if (partial)
+            {
+                return PartialView(viewModel);
+            }
+            else
+            {
+                return View(viewModel);
+            }
         }
 
         private string GetSwedishDay(DayOfWeek day)
@@ -126,37 +138,30 @@ namespace LexiconLMS.Controllers
                     startDate = date;
                     endDate = date.AddDays(6);
                     break;
-
                 case DayOfWeek.Tuesday:
                     startDate = date.AddDays(-1);
                     endDate = date.AddDays(5);
                     break;
-
                 case DayOfWeek.Wednesday:
                     startDate = date.AddDays(-2);
                     endDate = date.AddDays(4);
                     break;
-
                 case DayOfWeek.Thursday:
                     startDate = date.AddDays(-3);
                     endDate = date.AddDays(3);
                     break;
-
                 case DayOfWeek.Friday:
                     startDate = date.AddDays(-4);
                     endDate = date.AddDays(2);
                     break;
-
                 case DayOfWeek.Saturday:
                     startDate = date.AddDays(-5);
                     endDate = date.AddDays(1);
                     break;
-
                 case DayOfWeek.Sunday:
                     startDate = date.AddDays(-6);
                     endDate = date;
                     break;
-
                 default:
                     startDate = new DateTime();
                     endDate = new DateTime();
