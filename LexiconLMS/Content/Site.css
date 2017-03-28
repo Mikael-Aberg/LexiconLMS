@@ -23,10 +23,14 @@ textarea {
     max-width: 280px;
 }
 
-.fake-link {
-    background: none;
-    border: none;
-    outline: none;
+.modal-header h2, .modal-header span{
+    display:inline;
+}
+
+.fake-link{
+    background:none;
+    border:none;
+    outline:none;
     color: #337ab7;
 }
 
@@ -168,8 +172,8 @@ textarea {
         text-decoration: underline;
     }
 
-.modal-header button, .modal-header h2 {
-    display: inline;
+#redisterHeadDiv h2{
+    display:inline;
 }
 
 #moduleListDiv{

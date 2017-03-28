@@ -33,7 +33,7 @@ namespace LexiconLMS.Controllers
             TimeSpan afternoonStart = new TimeSpan(12, 0, 0);
             TimeSpan afternoonEnd = new TimeSpan(17, 0, 0);
 
-            var viewModel = new List<SchedulePost>();
+            var scheduleList = new List<SchedulePost>();
             for (DateTime date = course.StartDate; date <= course.EndDate; date = date.AddDays(1))
             {
                 var post = new SchedulePost();
@@ -70,8 +70,9 @@ namespace LexiconLMS.Controllers
 
                 post.Module = moduleBuilder.ToString();
 
-                viewModel.Add(post);
+                scheduleList.Add(post);
             }
+            var viewModel = new ScheduleViewModel { Name = course.Name, Schedule = scheduleList};
             return View(viewModel);
         }
     }
