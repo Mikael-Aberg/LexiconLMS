@@ -13,13 +13,13 @@ namespace LexiconLMS.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public ActionResult ScheduleView()
+        public ActionResult CurrentModule(int id)
         {
-            return View();
+            return PartialView("_CurrentModule", db.Courses.Find(id).Modules.Where(x => (x.StartDate.Date <= DateTime.Now.Date && x.EndDate.Date >= DateTime.Now.Date)));
         }
 
         // GET: Schedule
-        public ActionResult Index(int? id, DateTime? weekDay, bool partial = false)
+        public ActionResult Index(int? id, DateTime? weekDay, bool partial = false, bool showName = true)
         {
             if (id == null)
             {
@@ -93,7 +93,7 @@ namespace LexiconLMS.Controllers
 
                 scheduleList.Add(post);
             }
-            var viewModel = new ScheduleViewModel { Name = course.Name, Schedule = scheduleList };
+            var viewModel = new ScheduleViewModel { Name = course.Name, Schedule = scheduleList, ShowName = showName };
             if (partial)
             {
                 return PartialView(viewModel);

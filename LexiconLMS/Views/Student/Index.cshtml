@@ -1,0 +1,83 @@
+﻿@model LexiconLMS.Models.StudentHomeViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container-fluid">
+    <div id="currentModule" class="col-sm-4 no-padding">
+        <div class="no-padding">
+            @Html.Action("CurrentModule", "Schedule", new { id = Model.CourseId })
+        </div>
+    </div>
+    <div class="col-sm-8 schedule-margin">
+        <div id="schedule">@Html.Action("Index", "Schedule", new { id = Model.CourseId, partial = true, weekDay = DateTime.Now, showName = false })</div>
+        <div class="row">
+            <div class="col-sm-6">
+                <button id="lastWeek" class="btn btn-default weekPager">Förra vecka</button>
+            </div>
+            <div class="col-sm-6">
+                <button id="nextWeek" class="btn btn-default weekPager">Nästa vecka</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function(){
+            $('#mainBody').addClass("Width-90");
+        });
+    </script>
+    <script>
+        Date.prototype.addDays = function (days) {
+            var dat = new Date(this.valueOf());
+            dat.setDate(dat.getDate() + days);
+            return dat;
+        }
+
+        var date = new Date();
+
+        $(document).on("click", ".weekPager", function () {
+            if ($(this).attr("id") == "nextWeek") {
+                date = date.addDays(7);
+            }
+            else {
+                date = date.addDays(-7);
+            }
+
+            $.ajax({
+                url: '@Url.Action("Index", "Schedule")',
+                type: 'GET',
+                data: {
+                    id: @Model.CourseId,
+                    partial: true,
+                    weekDay: date.toISOString(),
+                    showName: false,
+                },
+                success: function (data) {
+                    if (data) {
+                        $("#schedule").html(data);
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).on("click", ".showDetailsBtn", function () {
+            var value = $(this).val();
+            $.ajax({
+                url: '@Url.Action("ActivityDetailsModal", "Activities", null)',
+                data: { id: value },
+                type: "GET",
+                success: function (data) {
+                    $("#modalContent").html(data);
+                    $("#detailsModal").modal();
+                },
+                error: function (xhr, textStatus, thrownError, data) {
+                    alert("Error: " + thrownError);
+                }
+            });
+        });
+    </script>
+}
