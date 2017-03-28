@@ -12,16 +12,19 @@
         <th>
             @Html.DisplayNameFor(model => model.FullName)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SocialSecurityNumber)
-        </th>
         @if (ViewBag.CourseId == -1)
         {
             <th>
                 @Html.DisplayNameFor(model => model.CourseName)
             </th>
         }
-        <th></th>
+        @if (User.IsInRole("Teacher"))
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.SocialSecurityNumber)
+            </th>
+            <th></th>
+        }
     </tr>
 
     @foreach (var item in Model)
@@ -33,20 +36,24 @@
             <td>
                 @Html.DisplayFor(modelItem => item.FullName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SocialSecurityNumber)
-            </td>
             @if (ViewBag.CourseId == -1)
             {
                 <td>
                     @Html.DisplayFor(modelItem => item.CourseName)
                 </td>
             }
-            <td>
-
-                <button type="button" name="@item.UserName" class="btn btn-danger deleteUser">Ta bort</button>
-
-            </td>
+            @if (User.IsInRole("Teacher"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.SocialSecurityNumber)
+                </td>
+                <td>
+                    @if (User.Identity.Name != item.UserName)
+                    {
+                        <button type="button" name="@item.UserName" class="btn btn-danger deleteUser">Ta bort</button>
+                    }
+                </td>
+            }
         </tr>
     }
 </table>
