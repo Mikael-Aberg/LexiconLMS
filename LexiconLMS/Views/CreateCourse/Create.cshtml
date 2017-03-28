@@ -113,10 +113,22 @@
                 {
                     if (Model.ModuleModel.Modules.Count > 0)
                     {
-                        <div class="col-md-10">
+                        <div id="addActivity" class="col-md-10">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseActivity" class="btn btn-default">Lägg till aktiviteter</a>
                         </div>
                     }
+                    else
+                    {
+                        <div id="addActivity" class="col-md-10 hidden">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseActivity" class="btn btn-default">Lägg till aktiviteter</a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div id="addActivity" class="col-md-10 hidden">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseActivity" class="btn btn-default">Lägg till aktiviteter</a>
+                    </div>
                 }
 
             </div>
@@ -151,6 +163,22 @@
                                 </div>
                             </div>
                         }
+                        else
+                        {
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="button" id="ActivityBtn" value="@( ((Model.ActivityModel.Activity != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default hidden" />
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="button" id="ActivityBtn" value="@( ((Model.ActivityModel.Activity != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default hidden" />
+                            </div>
+                        </div>
                     }
                 }
 
@@ -186,7 +214,7 @@
                     if (data) {
                         $('#moduleDiv').html(data);
                         datePicker();
-                        $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
+                        $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })', hideAddBtn)
                         $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                         $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', datePicker)
                         document.getElementById("ModuleBtn").value = "Lägg till";
@@ -243,6 +271,7 @@
                     success: function (data) {
                         if (data) {
                             $('#moduleListDiv').html(data);
+                            hideAddBtn();
                             $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', datePicker)
                             $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                         }
@@ -277,9 +306,9 @@
                     },
                     success: function (data) {
                         if (data) {
-                            $('#moduleListDiv').html(data);
+                            $('#activityListDiv').html(data);
                             $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', datePicker)
-                            $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
+                            $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
                         }
                         else {
                             alert('NoData');
@@ -292,6 +321,20 @@
             });
         }
         deleteActivity();
+
+        var hideAddBtn = function(){
+            var list = document.getElementById("moduleListDiv");
+            var listSize = list.getElementsByTagName("td").length;
+            if(listSize > 1){
+                $("#ActivityBtn").removeClass("hidden");
+                $('#addActivity').removeClass("hidden");   
+            }
+            else
+            {
+                $("#ActivityBtn").addClass("hidden");
+                $('#addActivity').addClass("hidden");   
+            }
+        }
 
         $(document).on('click', '#ActivityBtn', function () {
             $.ajax({
