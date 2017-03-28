@@ -297,6 +297,7 @@
     <Content Include="Views\CreateCourse\_ModuleList.cshtml" />
     <Content Include="Views\CreateCourse\_CreateActivityInput.cshtml" />
     <Content Include="Views\CreateCourse\_ActivityList.cshtml" />
+    <Content Include="Views\Schedule\ScheduleView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
