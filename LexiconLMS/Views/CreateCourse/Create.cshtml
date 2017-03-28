@@ -203,8 +203,52 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/datepicker")
     <script>
+        $(document).on('change','#ActivityDropDown', function(){
+            var row = $('#moduleListDiv').find('tr[name=' + $(this).val() +']');
+            activityDatePicker($(row).find('td[class=start-date]').text(), $(row).find('td[class=end-date]').text());
+        });
+
+        var datePicker = function(){
+            $('.datepicker').datetimepicker({
+                locale:'sv',
+                format: 'YYYY-MM-DD'
+            });
+        }
+        var activityDatePickerInit = function(){
+            $('.activityDatepicker').datetimepicker({
+                locale:'sv',
+                format: 'YYYY-MM-DD',
+            });
+        }
+        activityDatePickerInit();
+
+        var activityDatePicker = function(startDate, endDate){
+            var list = document.getElementsByClassName('activityDatepicker');
+
+            for(var i = 0; i < list.length; i++){
+                $(list[i]).datetimepicker('destroy');
+            }
+
+            $('.activityDatepicker').datetimepicker({
+                locale:'sv',
+                format: 'YYYY-MM-DD',
+                minDate: startDate,
+                maxDate: endDate
+            });
+        }
+
+        function getSelectedText() {
+            var elt = document.getElementById('ActivityDropDown');
+
+            if (elt.selectedIndex == -1)
+                return null;
+
+            return elt.options[elt.selectedIndex].text;
+        }
+
+        datePicker();
+
         $(document).on('click', '#ModuleBtn', function () {
             $.ajax({
                 url: '@Url.Action("CreateModule")',
@@ -216,7 +260,7 @@
                         datePicker();
                         $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })', hideAddBtn)
                         $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
-                        $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', datePicker)
+                        $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePickerInit)
                         document.getElementById("ModuleBtn").value = "Lägg till";
                     }
                     else {
@@ -243,7 +287,7 @@
                         if (data) {
                             $('#moduleDiv').html(data);
                             datePicker();
-                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', datePicker)
+                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePickerInit)
                             document.getElementById("ModuleBtn").value = "Spara ändringar";
                         }
                         else {
@@ -272,7 +316,7 @@
                         if (data) {
                             $('#moduleListDiv').html(data);
                             hideAddBtn();
-                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', datePicker)
+                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePickerInit)
                             $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                         }
                         else {
@@ -287,13 +331,6 @@
         }
         deleteModule();
 
-        var datePicker = function(){
-            $('.datepicker').datepicker({
-                language: 'sv'
-            });
-        }
-        datePicker();
-
         var deleteActivity = function(){
             $(document).on('click', '.deleteActivityBtn', function () {
                 var value = $(this).attr("name");
@@ -307,7 +344,7 @@
                     success: function (data) {
                         if (data) {
                             $('#activityListDiv').html(data);
-                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', datePicker)
+                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePickerInit)
                             $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
                         }
                         else {
@@ -344,7 +381,7 @@
                 success: function (data) {
                     if (data) {
                         $('#activityDiv').html(data);
-                        datePicker();
+                        activityDatePickerInit();
                         $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
                         $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                         $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
