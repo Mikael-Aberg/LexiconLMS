@@ -1,0 +1,58 @@
+﻿@model LexiconLMS.Models.StudentHomeViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div>
+    <div id="currentModule" class="col-sm-4">
+
+    </div>
+    <div class="col-sm-8">
+        <div id="schedule">@Html.Action("Index", "Schedule", new { id = 1036, partial = true, weekDay = DateTime.Now })</div>
+        <div class="row">
+            <div class="col-sm-6">
+                <button id="lastWeek" class="btn btn-default weekPager">Förra vecka</button>
+            </div>
+            <div class="col-sm-6">
+                <button id="nextWeek" class="btn btn-default weekPager">Nästa vecka</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        Date.prototype.addDays = function (days) {
+            var dat = new Date(this.valueOf());
+            dat.setDate(dat.getDate() + days);
+            return dat;
+        }
+
+        var date = new Date();
+
+        $(document).on("click", ".weekPager", function () {
+            if ($(this).attr("id") == "nextWeek") {
+                date = date.addDays(7);
+            }
+            else {
+                date = date.addDays(-7);
+            }
+
+            $.ajax({
+                url: '@Url.Action("Index", "Schedule")',
+                type: 'GET',
+                data: {
+                    id: 1036,
+                    partial: true,
+                    weekDay: date.toISOString(),
+                },
+                success: function (data) {
+                    if (data) {
+                        $("#schedule").html(data);
+                    }
+                }
+            });
+        });
+    </script>
+}
