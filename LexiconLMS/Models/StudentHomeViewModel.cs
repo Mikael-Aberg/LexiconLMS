@@ -8,6 +8,6 @@ namespace LexiconLMS.Models
     public class StudentHomeViewModel
     {
         public int CourseId { get; set; }
-        public Module Module { get; set; }
+        public string CourseName { get; set; }
     }
 }

@@ -3,8 +3,10 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>@Html.DisplayFor(x => x.Name)</h2>
+@if (Model.ShowName)
+{
+    <h2>@Html.DisplayFor(x => x.Name)</h2>
+}
 
 <table class="table">
 
@@ -49,8 +51,8 @@
 </div>
 
 @section Scripts {
-    <script>
-        $(".showDetailsBtn").on("click", function () {
+<script>
+        $(document).on("click", ".showDetailsBtn", function () {
             var value = $(this).val();
             $.ajax({
                 url: '@Url.Action("ActivityDetailsModal", "Activities", null)',
@@ -65,5 +67,5 @@
                 }
             });
         });
-    </script>
+</script>
 }

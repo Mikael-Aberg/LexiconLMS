@@ -18,12 +18,12 @@ namespace LexiconLMS.Controllers
             {
                 return RedirectToAction("Index", "Courses", null);
             }
-            var viewModel = db.Users.Where(x => x.UserName == User.Identity.Name)
+            StudentHomeViewModel viewModel = db.Users.Where(x => x.UserName == User.Identity.Name)
                                     .Select(x => new StudentHomeViewModel
                                     {
                                         CourseId = (int)x.CourseId,
-                                        Module = x.Course.Modules.First(y => (y.StartDate.Date <= DateTime.Now.Date && y.EndDate.Date >= DateTime.Now.Date))
-                                    });
+                                        CourseName = x.Course.Name
+                                    }).First();
             return View(viewModel);
         }
     }

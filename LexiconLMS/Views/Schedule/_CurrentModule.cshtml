@@ -1,0 +1,49 @@
+﻿@model IEnumerable<LexiconLMS.Models.Module>
+
+@{
+    ViewBag.Title = "TestView";
+    var lenght = Model.Count();
+    var active = true;
+}
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+        @foreach (var module in Model)
+        {
+            if (active)
+            {
+                <div class="item active">
+                    <div class="page-header">
+                        <h1>@module.Name</h1>
+                    </div>
+                    <h4>@module.StartDate.ToShortDateString() - @module.EndDate.ToShortDateString()</h4>
+                    <p>@module.Description</p>
+                </div>
+                { active = false; }
+            }
+            else
+            {
+                <div class="item">
+                    <div class="page-header">
+                        <h1>@module.Name</h1>
+                    </div>
+                    <h4>@module.StartDate.ToShortDateString() - @module.EndDate.ToShortDateString()</h4>
+                    <p>@module.Description</p>
+                </div>
+            }
+        }
+    </div>
+</div>
+@if (lenght > 1)
+{
+        <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+}

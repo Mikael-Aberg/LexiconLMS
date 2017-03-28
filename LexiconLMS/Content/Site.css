@@ -23,14 +23,30 @@ textarea {
     max-width: 280px;
 }
 
-.modal-header h2, .modal-header span{
-    display:inline;
+.no-padding {
+    padding: 0;
 }
 
-.fake-link{
-    background:none;
-    border:none;
-    outline:none;
+.no-margin {
+    margin: 0;
+}
+
+.Width-90 {
+    width: 90%;
+}
+
+#nextWeek {
+    float: right;
+}
+
+.modal-header h2, .modal-header span {
+    display: inline;
+}
+
+.fake-link {
+    background: none;
+    border: none;
+    outline: none;
     color: #337ab7;
 }
 
@@ -172,10 +188,24 @@ textarea {
         text-decoration: underline;
     }
 
-#redisterHeadDiv h2{
-    display:inline;
+#redisterHeadDiv h2 {
+    display: inline;
 }
 
-#moduleListDiv{
-    margin-top:80px;
+#moduleListDiv {
+    margin-top: 80px;
+}
+
+#currentModule a {
+    background-image: none;
+    color: black;
+    top: inherit;
+}
+
+#myCarousel {
+    margin-bottom: 20px;
+}
+
+.schedule-margin{
+    margin-top:98px;
 }

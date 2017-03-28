@@ -9,5 +9,6 @@ namespace LexiconLMS.Models
     {
         public string Name { get; set; }
         public ICollection<SchedulePost> Schedule { get; set; }
+        public bool ShowName { get; set; }
     }
 }
