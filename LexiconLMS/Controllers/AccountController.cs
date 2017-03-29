@@ -200,6 +200,7 @@ namespace LexiconLMS.Controllers
 
         //
         // GET: /Account/Register
+        [Authorize(Roles = "Teacher")]
         public ActionResult Register(string name, string msg = "")
         {
             var viewModel = new RegisterViewModel();
@@ -231,6 +232,7 @@ namespace LexiconLMS.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
+        [Authorize(Roles = "Teacher")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -298,6 +300,7 @@ namespace LexiconLMS.Controllers
 
         //
         // GET: /Account/Register
+        [Authorize(Roles = "Teacher")]
         public ActionResult RegisterTeacher(string msg = "")
         {
             var viewModel = new RegisterTeacherViewModel();
@@ -311,6 +314,7 @@ namespace LexiconLMS.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
+        [Authorize(Roles = "Teacher")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterTeacher(RegisterTeacherViewModel model)
         {

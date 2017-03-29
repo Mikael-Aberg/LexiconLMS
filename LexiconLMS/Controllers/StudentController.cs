@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace LexiconLMS.Controllers
 {
+    [Authorize]
     public class StudentController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
