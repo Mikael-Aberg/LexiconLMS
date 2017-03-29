@@ -24,6 +24,7 @@
                 @Html.DisplayNameFor(model => model.SocialSecurityNumber)
             </th>
             <th></th>
+            <th></th>
         }
     </tr>
 
@@ -47,6 +48,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.SocialSecurityNumber)
                 </td>
+                <td><button type="button" class="editUserBtn btn btn-info" name="@item.UserName">Redigera</button></td>
                 <td>
                     @if (User.Identity.Name != item.UserName)
                     {

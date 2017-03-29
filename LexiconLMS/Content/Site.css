@@ -23,6 +23,18 @@ textarea {
     max-width: 280px;
 }
 
+/*
+    1. All around
+    2. Schedule
+    3. Create Course
+    4. Log in
+    5. Register student
+    6. Course details
+    7. Student splashscreen
+*/
+
+/*======================================= 1. All around ===================================*/
+
 .no-padding {
     padding: 0;
 }
@@ -35,14 +47,6 @@ textarea {
     width: 90%;
 }
 
-#nextWeek {
-    float: right;
-}
-
-.modal-header h2, .modal-header span {
-    display: inline;
-}
-
 .fake-link {
     background: none;
     border: none;
@@ -53,6 +57,121 @@ textarea {
     .fake-link:hover {
         text-decoration: underline;
     }
+
+.bottom-margin {
+    margin-bottom: 60px;
+}
+
+.toppadding {
+    padding-top: 20px;
+}
+
+
+/*======================================= 2. Schedule ===================================*/
+
+.schedule-margin{
+    margin-top:98px;
+}
+
+.schedule {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+.schedule > thead > tr > th  {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+}
+.schedule tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: #000000;
+    border-bottom: 4px solid;
+}
+.schedule{
+    font-family:'Calibri';
+    font-size:15px;
+}
+
+.schedule tr:nth-child(odd){
+    background-color:#bdd7ee;
+}
+
+.schedule .Söndag{
+    background-color:#f8cbad !important;
+}
+.schedule .Lördag{
+    background-color:#f8cbad !important;
+}
+.schedule th{
+    background-color:#ffffff;
+    padding-left:15px;
+    font-weight:normal;
+}
+.schedule td {
+
+padding-left:15px;
+}
+.schedule .fake-link {
+    color:#000000;
+}
+.schedule .leftblackborder{
+    border-left:4px solid #000000;
+}
+.scheduleTitle{
+    font-weight:normal;
+    font-size:20px;
+    margin-left:15px;
+}
+
+
+/*======================================= 3. Create Course ===================================*/
+
+
+
+#nextWeek {
+    float: right;
+}
+
+.modal-header h2, .modal-header span {
+    display: inline;
+}
+
+.panel-heading {
+    background-color: #f5f5f5;
+    border-color: #ddd;
+}
+
+.accordion-header-link, .accordion-header-link:hover, .accordion-header-link:active, .accordion-header-link:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.panel-body {
+    border-top: 1px solid #ddd;
+}
+
+.panel-group {
+    margin-top: 50px;
+}
+
+#courseButtons {
+    margin-left: 20px;
+}
+
+#moduleListDiv {
+    margin-top: 80px;
+}
+
+.bootstrap-datetimepicker-widget table td.disabled,
+.bootstrap-datetimepicker-widget table td.disabled:hover{
+    color:rgba(189, 189, 189, 0.48);
+}
+
+
+
+/*========================================== 4. Log in ======================================*/
 
 .center-block {
     margin-top: 10px;
@@ -112,57 +231,9 @@ textarea {
     }
 }
 
-.headerDiv a, .headerDiv h3, .headerDiv h1 {
-    display: inline;
-}
 
-.toppadding {
-    padding-top: 20px;
-}
+/*======================================= 5. Register student ==================================*/
 
-.headerDiv span {
-    margin-left: 15px;
-}
-
-.headerDiv a {
-    float: right;
-}
-
-    .headerDiv a:first-of-type {
-        margin-left: 30px;
-    }
-
-.bottom-margin {
-    margin-bottom: 60px;
-}
-
-
-.century, .decade, .year, .month {
-    margin: 5px;
-    font-weight: 600;
-}
-
-.panel-heading {
-    background-color: #f5f5f5;
-    border-color: #ddd;
-}
-
-.accordion-header-link, .accordion-header-link:hover, .accordion-header-link:active, .accordion-header-link:focus {
-    color: black;
-    text-decoration: none;
-}
-
-.panel-body {
-    border-top: 1px solid #ddd;
-}
-
-.panel-group {
-    margin-top: 50px;
-}
-
-#courseButtons {
-    margin-left: 20px;
-}
 
 #redisterHeadDiv {
     margin-top: 20px;
@@ -177,24 +248,35 @@ textarea {
         vertical-align: text-bottom;
     }
 
-.fake-link {
-    border: none;
-    outline: none;
-    background: none;
-    color: #337ab7;
-}
-
-    .fake-link:hover {
-        text-decoration: underline;
-    }
-
 #redisterHeadDiv h2 {
     display: inline;
 }
 
-#moduleListDiv {
-    margin-top: 80px;
+#redisterHeadDiv span{
+    margin-left:15px;
 }
+
+
+/*======================================= 6. Course details ==================================*/
+
+.headerDiv a, .headerDiv h3, .headerDiv h1 {
+    display: inline;
+}
+
+.headerDiv span {
+    margin-left: 15px;
+}
+
+.headerDiv a {
+    float: right;
+}
+
+    .headerDiv a:first-of-type {
+        margin-left: 30px;
+    }
+
+
+/*======================================= 7. Student splashscreen ==================================*/
 
 #currentModule a {
     background-image: none;
@@ -204,68 +286,4 @@ textarea {
 
 #myCarousel {
     margin-bottom: 20px;
-}
-
-.schedule-margin{
-    margin-top:98px;
-}
-
-.schedule {
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 20px;
-}
-.schedule > thead > tr > th  {
-    padding: 8px;
-    line-height: 1.42857143;
-    vertical-align: top;
-}
-.schedule tbody {
-    display: table-row-group;
-    vertical-align: middle;
-    border-color: #000000;
-    border-bottom: 4px solid;
-}
-.schedule{
-    font-family:'Calibri';
-    font-size:15px;
-}
-
-.schedule tr:nth-child(odd){
-    background-color:#bdd7ee;
-}
-
-.schedule .Söndag{
-    background-color:#f8cbad !important;
-}
-.schedule .Lördag{
-    background-color:#f8cbad !important;
-}
-.schedule th{
-    background-color:#ffffff;
-    padding-left:15px;
-    font-weight:normal;
-}
-.schedule td {
-
-padding-left:15px;
-}
-.schedule .fake-link {
-    color:#000000;
-}
-.schedule .leftblackborder{
-    border-left:4px solid #000000;
-}
-.scheduleTitle{
-    font-weight:normal;
-    font-size:20px;
-    margin-left:15px;
-}
-
-.bootstrap-datetimepicker-widget table td.disabled,
-.bootstrap-datetimepicker-widget table td.disabled:hover{
-    color:rgba(189, 189, 189, 0.48);
-}
-#fileselected{
-    margin-left:20px;
 }

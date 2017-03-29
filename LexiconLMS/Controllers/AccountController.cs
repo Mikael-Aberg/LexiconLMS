@@ -27,7 +27,7 @@ namespace LexiconLMS.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -39,9 +39,9 @@ namespace LexiconLMS.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -82,7 +82,7 @@ namespace LexiconLMS.Controllers
                 allusers = allusers.Where(x => x.Course.Id == Id).ToList();
                 ViewBag.CourseId = Id;
             }
-            
+
             var model = new List<ListUserViewModel>();
             foreach (var user in allusers)
             {
@@ -108,12 +108,13 @@ namespace LexiconLMS.Controllers
             db.SaveChanges();
             if (ControlRef != "")
             {
-                return RedirectToAction(ActionRef, ControlRef , new {Id = CourseId });
-            }else
+                return RedirectToAction(ActionRef, ControlRef, new { Id = CourseId });
+            }
+            else
             {
                 return RedirectToAction("Register");
             }
-            
+
         }
 
         //
@@ -137,7 +138,7 @@ namespace LexiconLMS.Controllers
                     var user = await UserManager.FindAsync(model.Email, model.Password);
                     if (UserManager.IsInRole(user.Id, "Teacher"))
                     {
-                    return RedirectToAction("Index", "Courses");
+                        return RedirectToAction("Index", "Courses");
                     }
                     else
                     {
@@ -183,7 +184,7 @@ namespace LexiconLMS.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -199,55 +200,107 @@ namespace LexiconLMS.Controllers
 
         //
         // GET: /Account/Register
-        public ActionResult Register(string msg = "")
+        [Authorize(Roles = "Teacher")]
+        public ActionResult Register(string name, string msg = "")
         {
             var viewModel = new RegisterViewModel();
 
-            viewModel.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
             viewModel.Msg = msg;
+            viewModel.Title = "Lägg till elev";
 
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                ModelState.Clear();
+                var user = db.Users.First(x => x.UserName == name);
+
+                viewModel.CourseId = (int)user.CourseId;
+                viewModel.FirstName = user.FirstName;
+                viewModel.LastName = user.LastName;
+                viewModel.SocialSecurityNumber = user.SocialSecurityNumber;
+                viewModel.Email = user.Email;
+                viewModel.UserId = user.Id;
+
+                viewModel.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
+                viewModel.IsEditing = true;
+                return PartialView("_RegisterStudent", viewModel);
+            }
+
+            viewModel.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
             return View(viewModel);
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
+        [Authorize(Roles = "Teacher")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, SocialSecurityNumber = model.SocialSecurityNumber ,FirstName = model.FirstName, LastName = model.LastName, Email = model.Email, CourseId = model.CourseId };
-
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if (model.IsEditing)
                 {
-                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    var user = UserManager.FindById(model.UserId);
 
-                    //if (User.IsInRole("Teacher"))
-                    //{
-                        return RedirectToAction("Register", "Account", new { msg = $" - {user.FullName} har blivit registrerad"});
-                    //}  
-                    //return RedirectToAction("Index", "HomeStudent");
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.SocialSecurityNumber = model.SocialSecurityNumber;
+                    user.Email = model.Email;
+                    user.UserName = model.Email;
+                    user.CourseId = model.CourseId;
+                  
+                    UserManager.Update(user);
+                    var newModel = new RegisterViewModel();
+                    newModel.Title = "Lägg till elev";
+                    newModel.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
+                    newModel.Msg = $"{user.FullName} har blivit uppdaterad";
+                    newModel.IsEditing = false;
+
+                    ModelState.Clear();
+
+                    return PartialView("_RegisterStudent", newModel);
                 }
-                if (result.Errors.Any(x => x.Contains("Password")))
-                AddErrors(new IdentityResult("Lösenord måste ha åtminstone en icke bokstav eller siffra karaktär.Lösenord måste ha minst en siffra('0' - '9').Lösenord måste ha minst ett versalt(\"A\" - \"Z\")."));
-            }
+                else
+                {
+                    var user = new ApplicationUser { UserName = model.Email, SocialSecurityNumber = model.SocialSecurityNumber, FirstName = model.FirstName, LastName = model.LastName, Email = model.Email, CourseId = model.CourseId };
 
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                        //if (User.IsInRole("Teacher"))
+                        //{
+                        model.Title = "Lägg till elev";
+                        model.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
+                        model.Msg = $"{user.FullName} har blivit registrerad";
+                        model.IsEditing = false;
+                        return PartialView("_RegisterStudent", model);
+                        //}  
+                        //return RedirectToAction("Index", "HomeStudent");
+                    }
+                    if (result.Errors.Any(x => x.Contains("Password")))
+                    {
+                        AddErrors(new IdentityResult("Lösenord måste ha åtminstone en icke bokstav eller siffra karaktär.Lösenord måste ha minst en siffra('0' - '9').Lösenord måste ha minst ett versalt(\"A\" - \"Z\")."));
+                    }
+                }
+            }
+            model.Title = "Lägg till elev";
             model.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return PartialView("_RegisterStudent", model);
         }
 
         //
         // GET: /Account/Register
+        [Authorize(Roles = "Teacher")]
         public ActionResult RegisterTeacher(string msg = "")
         {
             var viewModel = new RegisterTeacherViewModel();
@@ -261,6 +314,7 @@ namespace LexiconLMS.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
+        [Authorize(Roles = "Teacher")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterTeacher(RegisterTeacherViewModel model)
         {
@@ -548,10 +602,8 @@ namespace LexiconLMS.Controllers
                     _signInManager = null;
                 }
             }
-
             base.Dispose(disposing);
         }
-
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
@@ -580,7 +632,7 @@ namespace LexiconLMS.Controllers
             }
             //if (User.IsInRole("Teacher"))
             //{
-                return RedirectToAction("Index", "Courses");
+            return RedirectToAction("Index", "Courses");
             //}
             //return RedirectToAction("Index", "HomeStudent");
         }

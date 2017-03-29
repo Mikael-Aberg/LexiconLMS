@@ -18,7 +18,14 @@ namespace LexiconLMS.Controllers
         // GET: Courses
         public ActionResult Index()
         {
-            return View(db.Courses.ToList());
+            if (User.IsInRole("Teacher"))
+            {
+                return View(db.Courses.ToList());
+            }
+            else
+            {
+                return RedirectToAction("Index", "Student", null);
+            }
         }
 
         // GET: Courses/Details/5
@@ -80,7 +87,7 @@ namespace LexiconLMS.Controllers
             {
                 return HttpNotFound();
             }
-            return View("Create",course);
+            return View("Create", course);
         }
 
         // POST: Courses/Edit/5

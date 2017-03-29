@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LexiconLMS.Models.Data_Annotation;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
@@ -90,13 +91,13 @@ namespace LexiconLMS.Models
         [Display(Name = "E-post")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Du måste fylla i ett lösenord.")]
+        [RequiredIfNot("IsEditing", ErrorMessage = "Du måste fylla i ett lösenord.")]
         [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Lösenord")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Du måste fylla i ett lösenord.")]
+        [RequiredIfNot("IsEditing", ErrorMessage = "Du måste fylla i ett lösenord.")]
         [DataType(DataType.Password)]
         [Display(Name = "Bekräfta lösenord")]
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Lösenordet och bekräftade lösenordet är inte lika.")]
@@ -109,6 +110,12 @@ namespace LexiconLMS.Models
         public SelectList Courses { get; set; }
 
         public string Msg { get; set; }
+
+        public bool IsEditing { get; set; }
+
+        public string Title { get; set; }
+
+        public string UserId { get; set; }
     }
 
     public class RegisterTeacherViewModel

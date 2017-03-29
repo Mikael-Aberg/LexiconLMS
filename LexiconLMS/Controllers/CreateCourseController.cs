@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace LexiconLMS.Controllers
 {
+    [Authorize(Roles = "Teacher")]
     public class CreateCourseController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

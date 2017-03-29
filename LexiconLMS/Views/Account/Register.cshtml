@@ -2,73 +2,59 @@
 @{
     ViewBag.Title = "Lägg till elev";
 }
-<div id="redisterHeadDiv">
-    <h2>@ViewBag.Title</h2><span>@Model.Msg</span>
-</div>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", @id = "register-form", @role = "form" }))
 {
-    @Html.AntiForgeryToken()
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
-        </div>
+    <div id="registerDiv">
+        @Html.Partial("_RegisterStudent", Model)
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.SocialSecurityNumber, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.SocialSecurityNumber, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.SocialSecurityNumber, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Courses, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(m => m.CourseId, Model.Courses, "", new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.CourseId, "", new { @class = "text-danger" })
-        </div>
-    </div>
+
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Lägg till elev" />
+            <input type="button" id="registerBtn" class="btn btn-default" value="Lägg till elev" />
         </div>
     </div>
 }
 
-@Html.Action("List","Account",new { ControlRef = "Account", ActionRef = "Register" })
+<div id="studentList">
+    @Html.Action("List", "Account", new { ControlRef = "Account", ActionRef = "Register" })
+</div>
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).on('click', '#registerBtn', function () {
+            $.ajax({
+                url: '@Url.Action("Register","Account",null)',
+                type: 'POST',
+                data: $('#register-form').serialize(),
+                success: function (data) {
+                    if (data) {
+                        $('#registerDiv').html(data);
+                        $('#studentList').load('@Url.Action("List", "Account", new { ControlRef = "Account", ActionRef = "Register" })');
+                        document.getElementById('registerBtn').value = "Lägg till elev";
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '.editUserBtn', function () {
+            var value = $(this).attr('name');
+            $.ajax({
+                url: '@Url.Action("Register","Account",null)',
+                type: 'GET',
+                data: { name: value },
+                success: function (data) {
+                    if (data) {
+                        $('#registerDiv').html(data);
+                        document.getElementById('registerBtn').value = "Uppdatera elev";
+
+                    }
+                }
+            });
+        });
+    </script>
 }
