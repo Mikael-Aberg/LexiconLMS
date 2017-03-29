@@ -105,7 +105,7 @@ namespace LexiconLMS.Models
         [Required(ErrorMessage = "Du måste fylla i en kurs.")]
         public int CourseId { get; set; }
 
-        [Display(Name = "Kurser")]
+        [Display(Name = "Kurs")]
         public SelectList Courses { get; set; }
 
         public string Msg { get; set; }
