@@ -74,14 +74,13 @@ namespace LexiconLMS.Controllers
         {
             if (CourseId != null) Id = CourseId;
             ViewBag.CourseId = -1;
+            ViewBag.ControlRef = ControlRef;
+            ViewBag.ActionRef = ActionRef;
             var allusers = db.Users.Where(x => x.Course != null).ToList();
-            if (Id != null)
+            if (Id != null && Id != -1)
             {
                 allusers = allusers.Where(x => x.Course.Id == Id).ToList();
                 ViewBag.CourseId = Id;
-                ViewBag.ControlRef = ControlRef;
-                ViewBag.ActionRef = ActionRef;
-
             }
 
             var model = new List<ListUserViewModel>();
@@ -96,7 +95,15 @@ namespace LexiconLMS.Controllers
         [Authorize(Roles = "Teacher")]
         public ActionResult Delete(string id, int? CourseId, string ControlRef = "", string ActionRef = "")
         {
+
+            IdentityRole myRole = db.Roles.First(r => r.Name == "Teacher");
+            Int32 count = db.Set<IdentityUserRole>().Count(r => r.RoleId == myRole.Id);
             var user = db.Users.First(u => u.UserName == id);
+            if (count < 2 && UserManager.IsInRole(user.Id, "Teacher"))
+            {
+                return RedirectToAction("Register", new { msg = "Du kan inte ta bort sista läraren!" });
+            }
+
             db.Users.Remove(user);
             db.SaveChanges();
             if (ControlRef != "")

@@ -67,6 +67,8 @@
     </div>
 }
 
+@Html.Action("List", "Account", new { ControlRef = "Account", ActionRef = "RegisterTeacher" })
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
