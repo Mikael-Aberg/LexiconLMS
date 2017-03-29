@@ -32,9 +32,9 @@
         <th>
             @Html.DisplayNameFor(model => model.UploadTime)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Shared)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.FilePath)
         </th>
@@ -70,17 +70,17 @@
         <td>
             @Html.DisplayFor(modelItem => item.UploadTime)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.Shared)
+        </td>*@
+        <td>
+            <a href="../UploadedFiles/@Html.DisplayFor(modelItem => item.FilePath)" target="_blank"><img src="~/Images/@(Html.DisplayFor(modelItem => item.FileExtension)).png" />@Html.DisplayFor(modelItem => item.FilePath)</a> 
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.FilePath)
+            @Html.DisplayFor(modelItem => item.abbrContentLength )
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ContentLength )
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContentType )
+            @Html.DisplayFor(modelItem => item.ContentType ) - @Html.DisplayFor(modelItem => item.FileExtension)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

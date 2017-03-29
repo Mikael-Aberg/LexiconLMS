@@ -31,6 +31,7 @@ textarea {
     5. Register student
     6. Course details
     7. Student splashscreen
+    8. Create Document
 */
 
 /*======================================= 1. All around ===================================*/
@@ -286,4 +287,9 @@ padding-left:15px;
 
 #myCarousel {
     margin-bottom: 20px;
+}
+
+/*======================================= 8. Create Document ==================================*/
+#fileselected{
+    margin-left:10px;
 }
