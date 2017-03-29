@@ -205,8 +205,13 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         $(document).on('change','#ActivityDropDown', function(){
-            var row = $('#moduleListDiv').find('tr[name=' + $(this).val() +']');
-            activityDatePicker($(row).find('td[class=start-date]').text(), $(row).find('td[class=end-date]').text() + ' 23:59:59');
+            if($('#ActivityDropDown').val()){
+                var row = $('#moduleListDiv').find('tr[name=' + $('#ActivityDropDown').val() +']');
+                activityDatePicker($(row).find('td[class=start-date]').text(), $(row).find('td[class=end-date]').text() + ' 23:59:59');
+            }
+            else{
+                activityDatePicker();
+            }
         });
 
         var datePicker = function(){
@@ -360,7 +365,7 @@
                     success: function (data) {
                         if (data) {
                             $('#activityListDiv').html(data);
-                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePickerInit)
+                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePicker)
                             $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
                         }
                         else {
@@ -400,7 +405,6 @@
                         activityDatePickerInit();
                         $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
                         $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
-                        $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                         document.getElementById("ActivityBtn").value = "Lägg till";
                     }
                     else {
@@ -427,7 +431,7 @@
                     success: function (data) {
                         if (data) {
                             $('#activityDiv').html(data);
-                            datePicker();
+                            activityDatePickerInit();
                             document.getElementById("ActivityBtn").value = "Spara ändringar";
                         }
                         else {
