@@ -206,15 +206,32 @@
     <script>
         $(document).on('change','#ActivityDropDown', function(){
             var row = $('#moduleListDiv').find('tr[name=' + $(this).val() +']');
-            activityDatePicker($(row).find('td[class=start-date]').text(), $(row).find('td[class=end-date]').text());
+            activityDatePicker($(row).find('td[class=start-date]').text(), $(row).find('td[class=end-date]').text() + ' 23:59:59');
         });
 
         var datePicker = function(){
             $('.datepicker').datetimepicker({
                 locale:'sv',
-                format: 'YYYY-MM-DD'
+                format: 'YYYY-MM-DD',
+                calendarWeeks: true,
             });
         }
+        datePicker();
+
+        var moduleDatepicker = function(){
+            var max = '@(((Model.Course != null)? Model.Course.EndDate.ToShortDateString() : DateTime.Now.AddYears(10).ToShortDateString()))';
+            var min = '@(((Model.Course != null)? Model.Course.StartDate.ToShortDateString() : DateTime.Now.AddYears(-10).ToShortDateString()))';
+
+            $('.moduleDatepicker').datetimepicker({
+                locale:'sv',
+                format: 'YYYY-MM-DD',
+                maxDate: max,
+                minDate: min,
+                calendarWeeks: true,
+            });
+        };
+        moduleDatepicker();
+
         var activityDatePickerInit = function(){
             $('.activityDatepicker').datetimepicker({
                 locale:'sv',
@@ -232,7 +249,8 @@
             $('.activityDatepicker').datetimepicker({
                 locale:'sv',
                 minDate: startDate,
-                maxDate: endDate
+                maxDate: endDate,
+                calendarWeeks: true,
             });
         }
 
@@ -245,7 +263,7 @@
             return elt.options[elt.selectedIndex].text;
         }
 
-        datePicker();
+
 
         $(document).on('click', '#ModuleBtn', function () {
             $.ajax({
@@ -255,7 +273,7 @@
                 success: function (data) {
                     if (data) {
                         $('#moduleDiv').html(data);
-                        datePicker();
+                        moduleDatepicker();
                         $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })', hideAddBtn)
                         $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                         $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePickerInit)
@@ -284,7 +302,7 @@
                     success: function (data) {
                         if (data) {
                             $('#moduleDiv').html(data);
-                            datePicker();
+                            moduleDatepicker();
                             $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePickerInit)
                             document.getElementById("ModuleBtn").value = "Spara ändringar";
                         }
@@ -362,12 +380,12 @@
             var listSize = list.getElementsByTagName("td").length;
             if(listSize > 1){
                 $("#ActivityBtn").removeClass("hidden");
-                $('#addActivity').removeClass("hidden");   
+                $('#addActivity').removeClass("hidden");
             }
             else
             {
                 $("#ActivityBtn").addClass("hidden");
-                $('#addActivity').addClass("hidden");   
+                $('#addActivity').addClass("hidden");
             }
         }
 

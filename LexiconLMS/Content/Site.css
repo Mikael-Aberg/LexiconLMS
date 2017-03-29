@@ -261,3 +261,8 @@ padding-left:15px;
     font-size:20px;
     margin-left:15px;
 }
+
+.bootstrap-datetimepicker-widget table td.disabled,
+.bootstrap-datetimepicker-widget table td.disabled:hover{
+    color:rgba(189, 189, 189, 0.48);
+}
