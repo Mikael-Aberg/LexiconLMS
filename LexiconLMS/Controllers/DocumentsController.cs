@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LexiconLMS.Models;
+using System.IO;
 
 namespace LexiconLMS.Controllers
 {
@@ -17,7 +18,8 @@ namespace LexiconLMS.Controllers
         // GET: Documents
         public ActionResult Index()
         {
-            return View(db.Documents.ToList());
+            var documents = db.Documents.Include(d => d.Activity).Include(d => d.Course).Include(d => d.Module).Include(d => d.User);
+            return View(documents.ToList());
         }
 
         // GET: Documents/Details/5
@@ -36,9 +38,14 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Documents/Create
-        public ActionResult Create()
+        public ActionResult Create(int? courseId, int? moduleId, int? activityId)
         {
-            return View();
+            var viewModel = new DocumentCreateViewModel();
+            viewModel.CourseId = courseId;
+            viewModel.ModuleId = moduleId;
+            viewModel.ActivityId = activityId;
+            viewModel.UserId = User.Identity.Name;
+            return View(viewModel);
         }
 
         // POST: Documents/Create
@@ -46,14 +53,48 @@ namespace LexiconLMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,UpploadTime,Shared,FilePath")] Document document)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,UserId,CourseId,ModuleId,ActivityId")] Document document, HttpPostedFileBase file)
         {
+
+
             if (ModelState.IsValid)
             {
-                db.Documents.Add(document);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+
+                    if (file != null)
+                    {
+
+                        string path = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(file.FileName));
+                        file.SaveAs(path);
+                        ViewBag.FileStatus = file.FileName + " uploaded successfully."
+                            + " Size:" + file.ContentLength + "bytes"
+                            + " Type:" + file.ContentType
+                            + " Location:" + path;
+                        ViewBag.Link = "../UploadedFiles/" + file.FileName;
+                        document.FilePath = "~/UploadedFiles/" + file.FileName; ;
+                        document.ContentLength = file.ContentLength;
+                        document.ContentType = file.ContentType;
+                        var user = db.Users.First(u => u.UserName == User.Identity.Name);
+                        
+                        document.UserId = user.Id;
+                        document.Shared = false;
+                        document.UploadTime = DateTime.Now;
+                        db.Documents.Add(document);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+
+                }
+                catch (Exception)
+                {
+
+                    ViewBag.FileStatus = "Ett Fel inträffade vid uppladdning av fil.";
+                    return View(document);
+                }
+
             }
+
 
             return View(document);
         }
@@ -70,6 +111,10 @@ namespace LexiconLMS.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ActivityId = new SelectList(db.Activities, "Id", "Name", document.ActivityId);
+            ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", document.CourseId);
+            ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name", document.ModuleId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", document.UserId);
             return View(document);
         }
 
@@ -78,7 +123,7 @@ namespace LexiconLMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,UpploadTime,Shared,FilePath")] Document document)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,UploadTime,Shared,FilePath,UserId,CourseId,ModuleId,ActivityId")] Document document)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +131,10 @@ namespace LexiconLMS.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ActivityId = new SelectList(db.Activities, "Id", "Name", document.ActivityId);
+            ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", document.CourseId);
+            ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name", document.ModuleId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", document.UserId);
             return View(document);
         }
 

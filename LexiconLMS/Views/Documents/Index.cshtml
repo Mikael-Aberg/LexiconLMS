@@ -11,6 +11,18 @@
 </p>
 <table class="table">
     <tr>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Activity.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Course.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Module.Name)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.User.FirstName)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
@@ -18,7 +30,7 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UpploadTime)
+            @Html.DisplayNameFor(model => model.UploadTime)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Shared)
@@ -26,11 +38,29 @@
         <th>
             @Html.DisplayNameFor(model => model.FilePath)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContentLength )
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContentType )
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Activity.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Course.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Module.Name)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.User.FirstName)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
@@ -38,13 +68,19 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.UpploadTime)
+            @Html.DisplayFor(modelItem => item.UploadTime)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Shared)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FilePath)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContentLength )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContentType )
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

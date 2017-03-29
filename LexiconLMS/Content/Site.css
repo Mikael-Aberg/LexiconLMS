@@ -266,3 +266,6 @@ padding-left:15px;
 .bootstrap-datetimepicker-widget table td.disabled:hover{
     color:rgba(189, 189, 189, 0.48);
 }
+#fileselected{
+    margin-left:20px;
+}
