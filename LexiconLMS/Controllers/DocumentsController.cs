@@ -37,6 +37,13 @@ namespace LexiconLMS.Controllers
             return View(document);
         }
 
+        public ActionResult List()
+        {
+
+
+            return View(db.Documents.ToList());
+        }
+
         // GET: Documents/Create
         public ActionResult Create(int? courseId, int? moduleId, int? activityId)
         {
@@ -72,7 +79,7 @@ namespace LexiconLMS.Controllers
                             + " Type:" + file.ContentType
                             + " Location:" + path;
                         ViewBag.Link = "../UploadedFiles/" + file.FileName;
-                        document.FilePath = "~/UploadedFiles/" + file.FileName; ;
+                        document.FilePath = "~/UploadedFiles/" + file.FileName;
                         document.ContentLength = file.ContentLength;
                         document.ContentType = file.ContentType;
                         var user = db.Users.First(u => u.UserName == User.Identity.Name);
