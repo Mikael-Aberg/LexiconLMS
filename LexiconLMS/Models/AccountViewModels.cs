@@ -10,7 +10,7 @@ namespace LexiconLMS.Models
     {
         [Required]
         [Display(Name = "Email")]
-        
+
         public string Email { get; set; }
     }
 
@@ -175,11 +175,12 @@ namespace LexiconLMS.Models
             this.UserName = user.UserName;
             this.FullName = user.FirstName + " " + user.LastName;
             this.SocialSecurityNumber = user.SocialSecurityNumber;
-            if (user.CourseId != null)
+            if (user.Course != null)
             {
                 this.CourseId = user.Course.Id;
                 this.CourseName = user.Course.Name;
-            }else
+            }
+            else
             {
                 this.CourseName = "Ingen kurs";
             }
@@ -192,14 +193,14 @@ namespace LexiconLMS.Models
 
         [Display(Name = "Namn")]
         public string FullName { get; set; }
-                        
+
         [Display(Name = "Kurs")]
         public string CourseName { get; set; }
 
         [Display(Name = "Personnummer")]
         public string SocialSecurityNumber { get; set; }
 
-       
+
     }
 
 
