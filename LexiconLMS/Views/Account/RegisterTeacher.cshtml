@@ -2,6 +2,13 @@
 @{
     ViewBag.Title = "Lägg till lärare";
 }
+
+<!-- Include Twitter Bootstrap and jQuery: -->
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+
+<!-- Include the plugin's CSS and JS: -->
+<link rel="stylesheet" href="~/Content/bootstrap-multiselect.css" type="text/css" />
+
 <div id="redisterHeadDiv">
     <h2>@ViewBag.Title</h2><span>@Model.Msg</span>
 </div>
@@ -53,13 +60,29 @@
             @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
         </div>
     </div>
+    @*<div class="form-group">
+        @Html.LabelFor(m => m.Courses, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">*@
+    @*@Html.DropDownListFor(m => m.CourseId, Model.Courses, "", new { @class = "form-control" })*@
+    @*@Html.ListBoxFor(m => m.CourseId, Model.Courses, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CourseId, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
     <div class="form-group">
         @Html.LabelFor(m => m.Courses, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.DropDownListFor(m => m.CourseId, Model.Courses, "", new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.CourseId, "", new { @class = "text-danger" })
+            @Html.DropDownListFor(m => m.CourseIds, Model.Courses, new { @class = "form-control", @id = "courses", @multiple = "multiple" })
+
+            @*<select name="courses" id="courses" multiple="multiple">
+                    @foreach (var course in Model.Courses)
+                    {
+                        <option value="@course.Value">@course.Text</option>
+                    }
+                </select>*@
         </div>
     </div>
+
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Lägg till lärare" />
@@ -70,9 +93,17 @@
 @Html.Action("List", "Account", new { ControlRef = "Account", ActionRef = "RegisterTeacher" })
 
 @section Scripts {
+
+
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+    <!-- Initialize the plugin: -->
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#courses').multiselect();
+    });
+    </script>
+
 }
-
-
-
 
