@@ -37,11 +37,54 @@ namespace LexiconLMS.Controllers
             return View(document);
         }
 
-        public ActionResult List()
+        public ActionResult List(int? courseId, int? moduleId, int? activityId, bool partial = false)
         {
+            IQueryable<Document> documents = db.Documents;
+            if (courseId != null)
+            {
+                documents = documents.Where(x => x.CourseId != null);
+                if (User.IsInRole("Teacher"))
+                {
+                    documents = documents.Where(x => x.CourseId == courseId);
+                }
+                else if (courseId == db.Users.First(x => x.CourseId == courseId).CourseId)
+                {
+                    documents = documents.Where(x => x.CourseId == courseId);
+                }
+            }
+            else if (moduleId != null)
+            {
+                documents = documents.Where(x => x.ModuleId != null);
+                if (User.IsInRole("Teacher"))
+                {
+                    documents = documents.Where(x => x.ModuleId == moduleId);
+                }
+                else if (courseId == db.Users.First(x => x.CourseId == courseId).CourseId)
+                {
+                    documents = documents.Where(x => x.ModuleId == moduleId);
+                }
+            }
+            else if (activityId != null)
+            {
+                documents = documents.Where(x => x.ActivityId != null);
+                if (User.IsInRole("Teacher"))
+                {
+                    documents = documents.Where(x => x.ActivityId == activityId);
+                }
+                else if (courseId == db.Users.First(x => x.CourseId == courseId).CourseId)
+                {
+                    documents = documents.Where(x => x.ActivityId == activityId);
+                }
+            }
 
-
-            return View(db.Documents.ToList());
+            if (partial)
+            {
+                return PartialView(documents.ToList());
+            }
+            else
+            {
+                return View(documents.ToList());
+            }
         }
 
         // GET: Documents/Create
@@ -78,11 +121,12 @@ namespace LexiconLMS.Controllers
                             + " Type:" + file.ContentType
                             + " Location:" + path;
                         ViewBag.Link = "../UploadedFiles/" + file.FileName;
-                        document.FilePath = "~/UploadedFiles/" + file.FileName;
+                        document.FilePath = "../UploadedFiles/" + file.FileName;
                         document.ContentLength = file.ContentLength;
                         document.ContentType = file.ContentType;
+                        document.SmallContentPath = Path.GetExtension(file.FileName);
                         var user = db.Users.First(u => u.UserName == User.Identity.Name);
-                        
+
                         document.UserId = user.Id;
                         document.Shared = false;
                         document.UploadTime = DateTime.Now;

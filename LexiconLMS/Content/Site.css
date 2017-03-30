@@ -32,6 +32,7 @@ textarea {
     6. Course details
     7. Student splashscreen
     8. Create Document
+    9. List Document
 */
 
 /*======================================= 1. All around ===================================*/
@@ -70,8 +71,8 @@ textarea {
 
 /*======================================= 2. Schedule ===================================*/
 
-.schedule-margin{
-    margin-top:98px;
+.schedule-margin {
+    margin-top: 98px;
 }
 
 .schedule {
@@ -79,51 +80,59 @@ textarea {
     max-width: 100%;
     margin-bottom: 20px;
 }
-.schedule > thead > tr > th  {
-    padding: 8px;
-    line-height: 1.42857143;
-    vertical-align: top;
-}
-.schedule tbody {
-    display: table-row-group;
-    vertical-align: middle;
-    border-color: #000000;
-    border-bottom: 4px solid;
-}
-.schedule{
-    font-family:'Calibri';
-    font-size:15px;
+
+    .schedule > thead > tr > th {
+        padding: 8px;
+        line-height: 1.42857143;
+        vertical-align: top;
+    }
+
+    .schedule tbody {
+        display: table-row-group;
+        vertical-align: middle;
+        border-color: #000000;
+        border-bottom: 4px solid;
+    }
+
+.schedule {
+    font-family: 'Calibri';
+    font-size: 15px;
 }
 
-.schedule tr:nth-child(odd){
-    background-color:#bdd7ee;
-}
+    .schedule tr:nth-child(odd) {
+        background-color: #bdd7ee;
+    }
 
-.schedule .Söndag{
-    background-color:#f8cbad !important;
-}
-.schedule .Lördag{
-    background-color:#f8cbad !important;
-}
-.schedule th{
-    background-color:#ffffff;
-    padding-left:15px;
-    font-weight:normal;
-}
-.schedule td {
+    .schedule .Söndag {
+        background-color: #f8cbad !important;
+    }
 
-padding-left:15px;
-}
-.schedule .fake-link {
-    color:#000000;
-}
-.schedule .leftblackborder{
-    border-left:4px solid #000000;
-}
-.scheduleTitle{
-    font-weight:normal;
-    font-size:20px;
-    margin-left:15px;
+    .schedule .Lördag {
+        background-color: #f8cbad !important;
+    }
+
+    .schedule th {
+        background-color: #ffffff;
+        padding-left: 15px;
+        font-weight: normal;
+    }
+
+    .schedule td {
+        padding-left: 15px;
+    }
+
+    .schedule .fake-link {
+        color: #000000;
+    }
+
+    .schedule .leftblackborder {
+        border-left: 4px solid #000000;
+    }
+
+.scheduleTitle {
+    font-weight: normal;
+    font-size: 20px;
+    margin-left: 15px;
 }
 
 
@@ -166,8 +175,8 @@ padding-left:15px;
 }
 
 .bootstrap-datetimepicker-widget table td.disabled,
-.bootstrap-datetimepicker-widget table td.disabled:hover{
-    color:rgba(189, 189, 189, 0.48);
+.bootstrap-datetimepicker-widget table td.disabled:hover {
+    color: rgba(189, 189, 189, 0.48);
 }
 
 
@@ -249,13 +258,13 @@ padding-left:15px;
         vertical-align: text-bottom;
     }
 
-#redisterHeadDiv h2 {
-    display: inline;
-}
+    #redisterHeadDiv h2 {
+        display: inline;
+    }
 
-#redisterHeadDiv span{
-    margin-left:15px;
-}
+    #redisterHeadDiv span {
+        margin-left: 15px;
+    }
 
 
 /*======================================= 6. Course details ==================================*/
@@ -289,7 +298,61 @@ padding-left:15px;
     margin-bottom: 20px;
 }
 
+
+
 /*======================================= 8. Create Document ==================================*/
-#fileselected{
-    margin-left:10px;
+#fileselected {
+    margin-left: 10px;
 }
+
+/*======================================= 9. List Document ==================================*/
+
+.document-list {
+    font-size: 12px;
+    color: #6D6D6D;
+}
+
+    .document-list > tbody > tr > td {
+        border: none 1px
+    }
+
+    .document-list .selected {
+        border: 1px solid #99D1FF;
+        background-color: #CCE8FF;
+    }
+
+        .document-list .selected td {
+            border: none;
+        }
+
+    .document-list .border {
+        border: 1px solid #99D1FF;
+    }
+
+    .document-list .selected:hover {
+        background-color: #CCE8FF;
+    }
+
+    .document-list tr:hover {
+        background-color: #E5F3FF;
+        cursor: default;
+    }
+
+    .document-list tr:nth-child(1):hover {
+        background-color: white;
+        cursor: default;
+    }
+
+    .document-list > tbody > tr > th {
+        color: #4C6091;
+        font-weight: 100;
+    }
+
+    .document-list td:first-child a {
+        margin-left: 10px;
+        color: black;
+    }
+
+    .document-list img {
+        height: 20px;
+    }

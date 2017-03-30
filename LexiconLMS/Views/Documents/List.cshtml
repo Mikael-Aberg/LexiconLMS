@@ -4,13 +4,8 @@
     ViewBag.Title = "List";
 }
 
-<h2>List</h2>
-
-<table class="table">
+<table class="table document-list">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
@@ -18,56 +13,62 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.User)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.UploadTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Shared)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FilePath)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ContentLength)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ContentType)
-        </th>
-        <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.FirstName)
+            <td data-toggle="tooltip" data-container="body" data-placement="bottom"
+                title="@Html.DisplayNameFor(x => x.ContentType): @Html.DisplayFor(x => item.SmallContentPath)
+@Html.DisplayNameFor(x => x.ContentLength): @Html.DisplayFor(x => item.abbrContentLength)
+@Html.DisplayNameFor(x => x.UploadTime): @Html.DisplayFor(x => item.UploadTime)">
+                <span><img src="~/Images/@(Html.DisplayFor(modelItem => item.FileExtension)).png" /></span><a href="@Html.DisplayFor(x => item.FilePath)" target="_blank">@Html.DisplayFor(modelItem => item.Name)</a>
+            </td>
+            <td data-toggle="tooltip" data-container="body" data-placement="bottom" title="@Html.DisplayFor(modelItem => item.Description)">
+                @Html.DisplayFor(modelItem => item.ShortDescription)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.User.FullName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UploadTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Shared)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FilePath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContentLength)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContentType)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.DisplayFor(modelItem => item.abbrContentLength)
             </td>
         </tr>
     }
 
 </table>
+
+@section Scripts{
+    <script>
+        $(document).on('click', function () {
+            var list = $('.selected');
+            for (var i = 0; i < list.length; i++) {
+                $(list[i]).removeClass('selected');
+                $(list[i]).addClass('border');
+            }
+        });
+
+        $(document).on('click', 'tr', function (event) {
+            event.stopPropagation();
+            if (!$(this).hasClass('selected') && $(this).find('th').length == 0) {
+                var list = $('.selected, .border');
+                for (var i = 0; i < list.length; i++) {
+                    $(list[i]).removeClass('selected');
+                    $(list[i]).removeClass('border');
+                }
+                $(this).addClass('selected');
+            }
+        });
+    </script>
+}

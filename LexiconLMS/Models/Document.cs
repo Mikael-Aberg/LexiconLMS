@@ -10,10 +10,8 @@ namespace LexiconLMS.Models
 {
     public class Document
     {
-        public Document()
-        {
+        public Document() { }
 
-        }
         public int Id { get; set; }
 
         [DisplayName("Filnamn")]
@@ -21,6 +19,9 @@ namespace LexiconLMS.Models
 
         [DisplayName("Beskrivning")]
         public string Description { get; set; }
+
+        [DisplayName("Beskrivning")]
+        public string ShortDescription { get { return (Description.Length > 20) ? Description.Substring(0, 20) + "..." : Description; } }
 
         [DisplayName("Uppladdad")]
         [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}")]
@@ -34,6 +35,8 @@ namespace LexiconLMS.Models
 
         [DisplayName("Storlek")]
         public int ContentLength { get; set; }
+
+        public string SmallContentPath { get; set; }
 
         [DisplayName("Storlek")]
         public string abbrContentLength { get {
@@ -49,8 +52,8 @@ namespace LexiconLMS.Models
                 {
                     return  ContentLength + " bytes";
                 }
-
-            }  }
+            }
+        }
 
         [DisplayName("Filtyp")]
         public string ContentType { get; set; }
@@ -66,7 +69,9 @@ namespace LexiconLMS.Models
         public int? ModuleId { get; set; }
         public int? ActivityId { get; set; }
 
+        [DisplayName("Uppladdat av")]
         public virtual ApplicationUser User { get; set; }
+
         public virtual Course Course { get; set; }
         public virtual Module Module { get; set; }
         public virtual Activity Activity { get; set; }
