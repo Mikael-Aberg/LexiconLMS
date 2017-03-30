@@ -24,18 +24,35 @@
                 <ul class="nav navbar-nav">
                     @if (User.IsInRole("Teacher"))
                     {
-                        <li>@Html.ActionLink("Skapa ny kurs", "Create", "CreateCourse")</li>
-                        <li>@Html.ActionLink("Kurser", "Index", "Courses")</li>
-                        <li>@Html.ActionLink("Lägg till elev", "Register", "Account")</li>
-                        <li>@Html.ActionLink("Lägg till lärare", "RegisterTeacher", "Account")</li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kurser<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Skapa ny kurs", "Create", "CreateCourse")</li>
+                                <li>@Html.ActionLink("Kurser", "Index", "Courses")</li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Användare<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Lägg till elev", "Register", "Account")</li>
+                                <li>@Html.ActionLink("Lägg till lärare", "RegisterTeacher", "Account")</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Byt lösenord", "ChangePassword", "Manage")</li>
+                            </ul>
+                        </li>
                     }
                     else
                     {
                         <li>@Html.ActionLink("Kursinformation", "Details", "Courses")</li>
+                        <li>@Html.ActionLink("Byt lösenord", "ChangePassword", "Manage")</li>
                     }
-                    <li>@Html.ActionLink("Byt lösenord", "ChangePassword", "Manage")</li>
-                    <li>@Html.ActionLink("Alla dokument", "List", "Documents")</li>
-                    <li>@Html.ActionLink("Ladda upp dokument", "Create", "Documents")</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dokument<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Alla dokument", "List", "Documents")</li>
+                            <li>@Html.ActionLink("Ladda upp dokument", "Create", "Documents")</li>
+                        </ul>
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
