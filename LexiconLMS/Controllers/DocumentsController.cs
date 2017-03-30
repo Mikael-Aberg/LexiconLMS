@@ -56,7 +56,6 @@ namespace LexiconLMS.Controllers
         public ActionResult Create([Bind(Include = "Id,Name,Description,UserId,CourseId,ModuleId,ActivityId")] Document document, HttpPostedFileBase file)
         {
 
-
             if (ModelState.IsValid)
             {
                 try
@@ -72,7 +71,7 @@ namespace LexiconLMS.Controllers
                             + " Type:" + file.ContentType
                             + " Location:" + path;
                         ViewBag.Link = "../UploadedFiles/" + file.FileName;
-                        document.FilePath = "~/UploadedFiles/" + file.FileName; ;
+                        document.FilePath = "" + file.FileName; ;
                         document.ContentLength = file.ContentLength;
                         document.ContentType = file.ContentType;
                         var user = db.Users.First(u => u.UserName == User.Identity.Name);
