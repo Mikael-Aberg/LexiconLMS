@@ -63,7 +63,6 @@ namespace LexiconLMS.Controllers
         public ActionResult Create([Bind(Include = "Id,Name,Description,UserId,CourseId,ModuleId,ActivityId")] Document document, HttpPostedFileBase file)
         {
 
-
             if (ModelState.IsValid)
             {
                 try

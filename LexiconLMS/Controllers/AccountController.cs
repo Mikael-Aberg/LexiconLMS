@@ -305,7 +305,7 @@ namespace LexiconLMS.Controllers
         {
             var viewModel = new RegisterTeacherViewModel();
 
-            viewModel.Courses = new SelectList(db.Courses.ToList(), "Id", "Name", 0);
+            viewModel.Courses = new MultiSelectList(db.Courses.ToList(), "Id", "Name");
             viewModel.Msg = msg;
 
             return View(viewModel);
