@@ -313,7 +313,7 @@ textarea {
 }
 
     .document-list > tbody > tr > td {
-        border: none 1px
+        border: none 1px;
     }
 
     .document-list .selected {
@@ -355,4 +355,10 @@ textarea {
 
     .document-list img {
         height: 20px;
+    }
+
+    .document-list > tbody > tr > td {
+        line-height:0.5;
+        padding:4px;
+        vertical-align:inherit;
     }

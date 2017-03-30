@@ -21,7 +21,7 @@ namespace LexiconLMS.Models
         public string Description { get; set; }
 
         [DisplayName("Beskrivning")]
-        public string ShortDescription { get { return (Description.Length > 20) ? Description.Substring(0, 20) + "..." : Description; } }
+        public string ShortDescription { get { return (Description != null) ? (Description.Length > 20) ? Description.Substring(0, 20) + "..." : Description : ""; } }
 
         [DisplayName("Uppladdad")]
         [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}")]

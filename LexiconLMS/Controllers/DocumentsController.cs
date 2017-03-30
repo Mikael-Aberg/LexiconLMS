@@ -40,6 +40,7 @@ namespace LexiconLMS.Controllers
         public ActionResult List(int? courseId, int? moduleId, int? activityId, bool partial = false)
         {
             IQueryable<Document> documents = db.Documents;
+
             if (courseId != null)
             {
                 documents = documents.Where(x => x.CourseId != null);
@@ -47,9 +48,13 @@ namespace LexiconLMS.Controllers
                 {
                     documents = documents.Where(x => x.CourseId == courseId);
                 }
-                else if (courseId == db.Users.First(x => x.CourseId == courseId).CourseId)
+                else if (db.Users.First(x => x.UserName == User.Identity.Name).CourseId == courseId)
                 {
                     documents = documents.Where(x => x.CourseId == courseId);
+                }
+                else
+                {
+                    documents = null;
                 }
             }
             else if (moduleId != null)
@@ -59,9 +64,14 @@ namespace LexiconLMS.Controllers
                 {
                     documents = documents.Where(x => x.ModuleId == moduleId);
                 }
-                else if (courseId == db.Users.First(x => x.CourseId == courseId).CourseId)
+                else if (db.Users.First(x => x.UserName == User.Identity.Name)
+                    .Course.Modules.Any(x => x.Id == moduleId))
                 {
                     documents = documents.Where(x => x.ModuleId == moduleId);
+                }
+                else
+                {
+                    documents = null;
                 }
             }
             else if (activityId != null)
@@ -71,19 +81,45 @@ namespace LexiconLMS.Controllers
                 {
                     documents = documents.Where(x => x.ActivityId == activityId);
                 }
-                else if (courseId == db.Users.First(x => x.CourseId == courseId).CourseId)
+                else if (db.Users.First(x => x.UserName == User.Identity.Name)
+                    .Course.Modules.Any(x => x.Activities.Any(y => y.Id == activityId)))
                 {
                     documents = documents.Where(x => x.ActivityId == activityId);
                 }
+                else
+                {
+                    documents = null;
+                }
+            }
+            else
+            {
+                var user = db.Users.First(x => x.UserName == User.Identity.Name);
+                documents = documents.Where(x => x.CourseId == user.CourseId ||
+                                            user.Course.Modules.Any(m => m.Id == x.ModuleId ||
+                                            user.Course.Modules.Any(n => n.Activities.Any(a => a.Id == x.ActivityId))));
             }
 
             if (partial)
             {
-                return PartialView(documents.ToList());
+                if(documents != null)
+                {
+                    return PartialView(documents.ToList());
+                }
+                else
+                {
+                    return PartialView(new List<Document>());
+                }
             }
             else
             {
-                return View(documents.ToList());
+                if(documents != null)
+                {
+                    return View(documents.ToList());
+                }
+                else
+                {
+                    return View(new List<Document>());
+                }
             }
         }
 
@@ -209,13 +245,13 @@ namespace LexiconLMS.Controllers
                 {
 
                     ViewBag.FileStatus = "Ett Fel inträffade vid uppladdning av fil.";
-                    return PartialView("_DocModal",document);
+                    return PartialView("_DocModal", document);
                 }
 
             }
 
 
-            return PartialView("_DocModal",document);
+            return PartialView("_DocModal", document);
         }
 
         // GET: Documents/Edit/5
