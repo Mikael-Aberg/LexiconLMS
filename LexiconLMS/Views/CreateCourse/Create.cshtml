@@ -30,9 +30,12 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="form-group">
                             @Html.LabelFor(model => model.Course.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
+                            <div class="col-md-4">
                                 @Html.EditorFor(model => model.Course.Name, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Course.Name, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6" id="CourseFileInfo">
+                                
                             </div>
                         </div>
 
@@ -68,6 +71,7 @@
                             @if (Model.Course != null)
                             {
                                 <input id="createNew" type="button" value="Skapa ny kurs" class="btn btn-default" />
+                                <button type="button" class="DocBtn btn btn-info" name="@Model.Course.Id">Ladda upp dokument</button>
                             }
                         </div>
                     </div>
@@ -193,6 +197,24 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Ladda upp dokument</h4>
+            </div>
+            <div id="modalBody" class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script>
     $("#createNew").on("click", function () {
@@ -204,6 +226,66 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
+
+
+            @*document.getElementById("deleteLink").href = "/Account/Delete?CourseId=@ViewBag.CourseId&ControlRef=@ViewBag.ControlRef&ActionRef=@ViewBag.ActionRef&id=" + value;*@
+        $(document).on('change', '#file', function () {
+            var filetext = document.getElementById("file").value.slice(12);
+            document.getElementById("fileselected").innerHTML = filetext;
+            document.getElementById("Name").value = filetext;
+
+        });
+
+        $(document).on("click", ".DocBtn", function () {
+            var value = @( (Model.Course != null)? Model.Course.Id : 0);
+            var CourseName = "@( (Model.Course != null)? Model.Course.Name : "")";
+            document.getElementById("myModalLabel").innerHTML = "Ladda upp dokument för kurs: " + CourseName;
+            $.ajax({
+                url: '@Url.Action("UploadModal", "Documents")',
+                data: {
+                    courseId: value,
+                    showAsPartial: true
+                },
+                type: "GET",
+                success: function (data) {
+                    if(data){
+                        $("#modalBody").html(data);
+                        $("#docModal").modal();
+                    }
+                    else{
+                        alert("No data");
+                    }
+                },
+                error: function (xhr, textStatus, thrownError, data) {
+                    alert("Error: " + thrownError);
+                }
+            });
+        });
+
+        $(document).on('click', '#uploadBtn', function () {
+
+            var formData = new FormData($('#document-form')[0]);
+            formData.append('file', $('input[type=file]')[0].files[0]);
+            var file = $('input[type=file]')[0].files[0];
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("CreateModal","Documents",null)',
+                data: formData,
+                //use contentType, processData for sure.
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data) {
+                        $('#modalBody').html(data);
+                        @*$('#CourseFileInfo').load('@Url.Action("List", "Documents", new { ControlRef = "CreateCourse", ActionRef = "Create" })');*@
+                        document.getElementById("CourseFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";
+                        $('#docModal').modal('hide')
+                    }
+                }
+            });
+        });
+
+
         $(document).on('change','#ActivityDropDown', function(){
             if($('#ActivityDropDown').val()){
                 var row = $('#moduleListDiv').find('tr[name=' + $('#ActivityDropDown').val() +']');
