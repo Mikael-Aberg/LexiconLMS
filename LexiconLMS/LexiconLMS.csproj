@@ -395,6 +395,7 @@
     <Content Include="Views\Schedule\_CurrentModule.cshtml" />
     <Content Include="Views\Account\_RegisterStudent.cshtml" />
     <Content Include="Views\Documents\List.cshtml" />
+    <Content Include="Views\Documents\_DocModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
