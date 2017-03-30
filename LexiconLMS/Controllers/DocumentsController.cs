@@ -45,14 +45,33 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Documents/Create
-        public ActionResult Create(int? courseId, int? moduleId, int? activityId)
+        public ActionResult Create(int? courseId, int? moduleId, int? activityId, bool showAsPartial = false)
         {
             var viewModel = new DocumentCreateViewModel();
             viewModel.CourseId = courseId;
             viewModel.ModuleId = moduleId;
             viewModel.ActivityId = activityId;
             viewModel.UserId = User.Identity.Name;
+            if (showAsPartial)
+            {
+                return PartialView("Create", viewModel);
+            }
             return View(viewModel);
+        }
+
+        // GET: Documents/Create
+        public ActionResult UploadModal(int? courseId, int? moduleId, int? activityId, bool showAsPartial = true)
+        {
+            var viewModel = new DocumentCreateViewModel();
+            viewModel.CourseId = courseId;
+            viewModel.ModuleId = moduleId;
+            viewModel.ActivityId = activityId;
+            viewModel.UserId = User.Identity.Name;
+            if (showAsPartial)
+            {
+                return PartialView("_DocModal", viewModel);
+            }
+            return View("_DocModal", viewModel);
         }
 
         // POST: Documents/Create
@@ -78,7 +97,7 @@ namespace LexiconLMS.Controllers
                             + " Type:" + file.ContentType
                             + " Location:" + path;
                         ViewBag.Link = "../UploadedFiles/" + file.FileName;
-                        document.FilePath = "~/UploadedFiles/" + file.FileName;
+                        document.FilePath = "../UploadedFiles/" + file.FileName;
                         document.ContentLength = file.ContentLength;
                         document.ContentType = file.ContentType;
                         var user = db.Users.First(u => u.UserName == User.Identity.Name);
@@ -103,6 +122,56 @@ namespace LexiconLMS.Controllers
 
 
             return View(document);
+        }
+
+        // POST: Documents/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateModal([Bind(Include = "Id,Name,Description,UserId,CourseId,ModuleId,ActivityId")] Document document, HttpPostedFileBase file)
+        {
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+
+                    if (file != null)
+                    {
+
+                        string path = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(file.FileName));
+                        file.SaveAs(path);
+                        ViewBag.FileStatus = file.FileName + " uploaded successfully."
+                            + " Size:" + file.ContentLength + "bytes"
+                            + " Type:" + file.ContentType
+                            + " Location:" + path;
+                        ViewBag.Link = "../UploadedFiles/" + file.FileName;
+                        document.FilePath = "../UploadedFiles/" + file.FileName;
+                        document.ContentLength = file.ContentLength;
+                        document.ContentType = file.ContentType;
+                        var user = db.Users.First(u => u.UserName == User.Identity.Name);
+
+                        document.UserId = user.Id;
+                        document.Shared = false;
+                        document.UploadTime = DateTime.Now;
+                        db.Documents.Add(document);
+                        db.SaveChanges();
+                        return RedirectToAction("UploadModal", new { courseId = document.CourseId });
+                    }
+
+                }
+                catch (Exception)
+                {
+
+                    ViewBag.FileStatus = "Ett Fel inträffade vid uppladdning av fil.";
+                    return PartialView("_DocModal",document);
+                }
+
+            }
+
+
+            return PartialView("_DocModal",document);
         }
 
         // GET: Documents/Edit/5
