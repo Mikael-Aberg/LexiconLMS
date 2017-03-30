@@ -37,13 +37,13 @@ namespace LexiconLMS.Models
 
         [DisplayName("Storlek")]
         public string abbrContentLength { get {
-                if (ContentLength > 1000000)
+                if (ContentLength > 1048575)
                 {
-                    return (ContentLength / 1000000) + " MB";
+                    return (ContentLength / 1048576) + " MB";
                 }
-                else if (ContentLength > 1000)
+                else if (ContentLength > 1023)
                 {
-                    return (ContentLength / 1000) + " KB";
+                    return (ContentLength / 1024) + " KB";
                 }
                 else
                 {
