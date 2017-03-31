@@ -58,41 +58,53 @@ namespace LexiconLMS.Controllers
             var scheduleList = new List<SchedulePost>();
             for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
             {
-                var post = new SchedulePost();
-                post.Morning = new List<ScheduleLink>();
-                post.Afternoon = new List<ScheduleLink>();
-                post.Date = date.ToShortDateString();
-                post.Day = GetSwedishDay(date.DayOfWeek);
-                var modules = course.Modules.Where(x => (x.StartDate.Date <= date && x.EndDate.Date >= date));
-                StringBuilder moduleBuilder = new StringBuilder();
-                foreach (var module in modules)
+                if (!IsWeekend(date))
                 {
-                    moduleBuilder.Append(module.Name);
-                    moduleBuilder.Append(", ");
-
-                    foreach (var activity in module.Activities.Where(x => (x.StartTime.Date <= date && x.EndTime.Date >= date)))
+                    var post = new SchedulePost();
+                    post.Morning = new List<ScheduleLink>();
+                    post.Afternoon = new List<ScheduleLink>();
+                    post.Date = date.ToShortDateString();
+                    post.Day = GetSwedishDay(date.DayOfWeek);
+                    var modules = course.Modules.Where(x => (x.StartDate.Date <= date && x.EndDate.Date >= date));
+                    StringBuilder moduleBuilder = new StringBuilder();
+                    foreach (var module in modules)
                     {
-                        if (activity.StartTime.TimeOfDay <= morningStart && activity.EndTime.TimeOfDay <= morningEnd)
+                        moduleBuilder.Append(module.Name);
+                        moduleBuilder.Append(", ");
+
+                        foreach (var activity in module.Activities.Where(x => (x.StartTime.Date <= date && x.EndTime.Date >= date)))
                         {
-                            post.Morning.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
-                        }
-                        else if (afternoonStart <= activity.StartTime.TimeOfDay && afternoonEnd <= activity.EndTime.TimeOfDay)
-                        {
-                            post.Afternoon.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
-                        }
-                        else
-                        {
-                            post.Morning.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
-                            post.Afternoon.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
+                            if (activity.StartTime.TimeOfDay <= morningStart && activity.EndTime.TimeOfDay <= morningEnd)
+                            {
+                                post.Morning.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
+                            }
+                            else if (afternoonStart <= activity.StartTime.TimeOfDay && afternoonEnd <= activity.EndTime.TimeOfDay)
+                            {
+                                post.Afternoon.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
+                            }
+                            else
+                            {
+                                post.Morning.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
+                                post.Afternoon.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
+                            }
                         }
                     }
+
+                    if (moduleBuilder.Length > 0) { moduleBuilder.Remove(moduleBuilder.Length - 2, 2); }
+                    post.Module = moduleBuilder.ToString();
+                    scheduleList.Add(post);
                 }
-
-                if (moduleBuilder.Length > 0) { moduleBuilder.Remove(moduleBuilder.Length - 2, 2); }
-
-                post.Module = moduleBuilder.ToString();
-
-                scheduleList.Add(post);
+                else
+                {
+                    scheduleList.Add(new SchedulePost
+                    {
+                        Date = date.Date.ToShortDateString(),
+                        Day = GetSwedishDay(date.DayOfWeek),
+                        Module = "",
+                        Afternoon = new List<ScheduleLink>(),
+                        Morning = new List<ScheduleLink>()
+                    });
+                }
             }
             var viewModel = new ScheduleViewModel { Name = course.Name, Schedule = scheduleList, ShowName = showName };
             if (partial)
@@ -102,6 +114,19 @@ namespace LexiconLMS.Controllers
             else
             {
                 return View(viewModel);
+            }
+        }
+
+        private bool IsWeekend(DateTime date)
+        {
+            switch (date.DayOfWeek)
+            {
+                case DayOfWeek.Saturday:
+                    return true;
+                case DayOfWeek.Sunday:
+                    return true;
+                default:
+                    return false;
             }
         }
 
