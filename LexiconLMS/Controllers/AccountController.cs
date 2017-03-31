@@ -142,7 +142,7 @@ namespace LexiconLMS.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("ChangePassword", "Manage");
+                        return RedirectToAction("Index", "Student");
                     }
                 case SignInStatus.LockedOut:
                     return View("Lockout");

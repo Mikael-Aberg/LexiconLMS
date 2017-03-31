@@ -160,7 +160,6 @@ namespace LexiconLMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description,UserId,CourseId,ModuleId,ActivityId")] Document document, HttpPostedFileBase file)
         {
-
             if (ModelState.IsValid)
             {
                 try
@@ -187,7 +186,7 @@ namespace LexiconLMS.Controllers
                         document.UploadTime = DateTime.Now;
                         db.Documents.Add(document);
                         db.SaveChanges();
-                        return RedirectToAction("Index");
+                        return RedirectToAction("List");
                     }
 
                 }

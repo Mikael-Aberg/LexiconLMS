@@ -13,10 +13,13 @@
     <div class="col-sm-8 schedule-margin">
         <div id="schedule">@Html.Action("Index", "Schedule", new { id = Model.CourseId, partial = true, weekDay = DateTime.Now, showName = false })</div>
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <button id="lastWeek" class="btn btn-default weekPager">Förra vecka</button>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
+                <a>@Html.ActionLink("Se hela schemat", "Index", "Schedule", new { id = Model.CourseId }, new { @class = "btn btn-default" })</a>
+            </div>
+            <div class="col-sm-4">
                 <button id="nextWeek" class="btn btn-default weekPager">Nästa vecka</button>
             </div>
         </div>

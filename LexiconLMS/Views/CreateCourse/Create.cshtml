@@ -518,6 +518,10 @@
                         if (data) {
                             $('#activityDiv').html(data);
                             activityDatePickerInit();
+                            if($('#ActivityDropDown').val()){
+                                var row = $('#moduleListDiv').find('tr[name=' + $('#ActivityDropDown').val() +']');
+                                activityDatePicker($(row).find('td[class=start-date]').text(), $(row).find('td[class=end-date]').text() + ' 23:59:59');
+                            }
                             document.getElementById("ActivityBtn").value = "Spara ändringar";
                         }
                         else {
