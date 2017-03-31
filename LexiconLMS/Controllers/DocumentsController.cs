@@ -91,13 +91,6 @@ namespace LexiconLMS.Controllers
                     documents = null;
                 }
             }
-            else
-            {
-                var user = db.Users.First(x => x.UserName == User.Identity.Name);
-                documents = documents.Where(x => x.CourseId == user.CourseId ||
-                                            user.Course.Modules.Any(m => m.Id == x.ModuleId ||
-                                            user.Course.Modules.Any(n => n.Activities.Any(a => a.Id == x.ActivityId))));
-            }
 
             if (partial)
             {

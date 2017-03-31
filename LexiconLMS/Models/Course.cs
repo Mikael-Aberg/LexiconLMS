@@ -20,8 +20,10 @@ namespace LexiconLMS.Models
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        [DisplayName("Beskrivning")]
+        [Display(Name = "Beskrivning")]
         public string ShortDescription { get { return (Description != null) ? (Description.Length > 20) ? Description.Substring(0, 20) + "..." : Description : ""; } }
+
+        public string ToolTipText { get { return (Description != null) ? (Description.Length > 20) ? Description : "" : ""; } }
 
         [Display(Name = "Startdatum")]
         [Required(ErrorMessage = "Du måste fylla i ett startdatum.")]

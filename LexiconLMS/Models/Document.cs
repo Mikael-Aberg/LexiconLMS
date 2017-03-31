@@ -23,6 +23,10 @@ namespace LexiconLMS.Models
         [DisplayName("Beskrivning")]
         public string ShortDescription { get { return (Description != null) ? (Description.Length > 20) ? Description.Substring(0, 20) + "..." : Description : ""; } }
 
+        public string DescriptionToolTipText { get { return (Description != null) ? (Description.Length > 20) ? Description : "" : ""; } }
+
+        public string NameToolTipText { get { return "Filtyp: " + SmallContentPath + "\n" + "Storlek: " + abbrContentLength + "\n" + "Uppladdat: " + UploadTime; } }
+
         [DisplayName("Uppladdad")]
         [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}")]
         public DateTime UploadTime { get; set; }

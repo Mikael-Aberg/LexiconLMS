@@ -27,23 +27,15 @@
     {
         <tr>
             <td data-toggle="tooltip" data-container="body" data-placement="bottom"
-                title="@Html.DisplayNameFor(x => x.ContentType): @Html.DisplayFor(x => item.SmallContentPath)
-@Html.DisplayNameFor(x => x.ContentLength): @Html.DisplayFor(x => item.abbrContentLength)
-@Html.DisplayNameFor(x => x.UploadTime): @Html.DisplayFor(x => item.UploadTime)">
+                title="@Html.DisplayFor(x => item.NameToolTipText)">
                 <span><img src="~/Images/@(Html.DisplayFor(modelItem => item.FileExtension)).png" /></span><a href="@Html.DisplayFor(x => item.FilePath)" target="_blank">@Html.DisplayFor(modelItem => item.Name)</a>
             </td>
-            <td data-toggle="tooltip" data-container="body" data-placement="bottom" title="@Html.DisplayFor(modelItem => item.Description)">
+            <td data-toggle="tooltip" data-container="body" data-placement="bottom" title="@Html.DisplayFor(modelItem => item.DescriptionToolTipText)">
                 @Html.DisplayFor(modelItem => item.ShortDescription)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UploadTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.abbrContentLength)
-            </td>
+            <td>@Html.DisplayFor(modelItem => item.User.FullName)</td>
+            <td>@Html.DisplayFor(modelItem => item.UploadTime)</td>
+            <td>@Html.DisplayFor(modelItem => item.abbrContentLength)</td>
         </tr>
     }
 
