@@ -300,6 +300,7 @@
             $('.datepicker').datetimepicker({
                 locale:'sv',
                 format: 'YYYY-MM-DD',
+                daysOfWeekDisabled: [6, 0],
                 calendarWeeks: true,
             });
         }
@@ -312,6 +313,7 @@
             $('.moduleDatepicker').datetimepicker({
                 locale:'sv',
                 format: 'YYYY-MM-DD',
+                daysOfWeekDisabled: [6, 0],
                 maxDate: max,
                 minDate: min,
                 calendarWeeks: true,
@@ -321,6 +323,7 @@
 
         var activityDatePickerInit = function(){
             $('.activityDatepicker').datetimepicker({
+                daysOfWeekDisabled: [6, 0],
                 locale:'sv',
             });
         }
@@ -335,6 +338,7 @@
 
             $('.activityDatepicker').datetimepicker({
                 locale:'sv',
+                daysOfWeekDisabled: [6, 0],
                 minDate: startDate,
                 maxDate: endDate,
                 calendarWeeks: true,
