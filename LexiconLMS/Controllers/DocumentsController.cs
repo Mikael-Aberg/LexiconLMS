@@ -39,80 +39,26 @@ namespace LexiconLMS.Controllers
 
         public ActionResult List(int? courseId, int? moduleId, int? activityId, bool partial = false)
         {
-            IQueryable<Document> documents = db.Documents;
-
-            if (courseId != null)
+            if (User.IsInRole("Teacher"))
             {
-                documents = documents.Where(x => x.CourseId != null);
-                if (User.IsInRole("Teacher"))
-                {
-                    documents = documents.Where(x => x.CourseId == courseId);
-                }
-                else if (db.Users.First(x => x.UserName == User.Identity.Name).CourseId == courseId)
-                {
-                    documents = documents.Where(x => x.CourseId == courseId);
-                }
-                else
-                {
-                    documents = null;
-                }
-            }
-            else if (moduleId != null)
-            {
-                documents = documents.Where(x => x.ModuleId != null);
-                if (User.IsInRole("Teacher"))
-                {
-                    documents = documents.Where(x => x.ModuleId == moduleId);
-                }
-                else if (db.Users.First(x => x.UserName == User.Identity.Name)
-                    .Course.Modules.Any(x => x.Id == moduleId))
-                {
-                    documents = documents.Where(x => x.ModuleId == moduleId);
-                }
-                else
-                {
-                    documents = null;
-                }
-            }
-            else if (activityId != null)
-            {
-                documents = documents.Where(x => x.ActivityId != null);
-                if (User.IsInRole("Teacher"))
-                {
-                    documents = documents.Where(x => x.ActivityId == activityId);
-                }
-                else if (db.Users.First(x => x.UserName == User.Identity.Name)
-                    .Course.Modules.Any(x => x.Activities.Any(y => y.Id == activityId)))
-                {
-                    documents = documents.Where(x => x.ActivityId == activityId);
-                }
-                else
-                {
-                    documents = null;
-                }
-            }
-
-            if (partial)
-            {
-                if(documents != null)
-                {
-                    return PartialView(documents.ToList());
-                }
-                else
-                {
-                    return PartialView(new List<Document>());
-                }
+                var documents = db.Documents
+                    .Where(x => (courseId != null)? x.CourseId == courseId : true)
+                    .Where(x => (moduleId != null) ? x.ModuleId == moduleId : true)
+                    .Where(x => (activityId != null) ? x.ActivityId == activityId : true)
+                    .ToList();
+                if (partial) return PartialView(documents);
+                else return View(documents);
             }
             else
             {
-                if(documents != null)
-                {
-                    return View(documents.ToList());
-                }
-                else
-                {
-                    return View(new List<Document>());
-                }
+                courseId = db.Users.First(x => x.UserName.Equals(User.Identity.Name)).CourseId;
+                var documents = db.Documents
+                    .Where(x => x.CourseId == courseId)
+                    .Where(x => (moduleId != null) ? x.ModuleId == moduleId : true)
+                    .Where(x => (activityId != null) ? x.ActivityId == activityId : true)
+                    .ToList();
+                if (partial) return PartialView(documents);
+                else return View(documents);
             }
         }
 
