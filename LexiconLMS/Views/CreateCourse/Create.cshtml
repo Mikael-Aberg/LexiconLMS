@@ -35,7 +35,7 @@
                                 @Html.ValidationMessageFor(model => model.Course.Name, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-md-6" id="CourseFileInfo">
-                                
+
                             </div>
                         </div>
 
@@ -206,7 +206,7 @@
                 <h4 class="modal-title" id="myModalLabel">Ladda upp dokument</h4>
             </div>
             <div id="modalBody" class="modal-body">
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
@@ -306,16 +306,21 @@
         }
         datePicker();
 
+        @{
+            DateTime max = (Model.Course != null) ? Model.Course.EndDate : DateTime.Now;
+            DateTime min = (Model.Course != null) ? Model.Course.StartDate : DateTime.Now;
+        }
+
         var moduleDatepicker = function(){
-            var max = '@(((Model.Course != null)? Model.Course.EndDate.ToShortDateString() : DateTime.Now.AddYears(10).ToShortDateString()))';
-            var min = '@(((Model.Course != null)? Model.Course.StartDate.ToShortDateString() : DateTime.Now.AddYears(-10).ToShortDateString()))';
+            var max = new Date(@max.Year ,@max.Month ,@max.Day ,0 ,0 ,0);
+            var min = new Date(@min.Year ,@min.Month ,@min.Day ,0 ,0 ,0);
 
             $('.moduleDatepicker').datetimepicker({
                 locale:'sv',
                 format: 'YYYY-MM-DD',
                 daysOfWeekDisabled: [6, 0],
-                maxDate: max,
-                minDate: min,
+                maxDate: max.toISOString(),
+                minDate: min.toISOString(),
                 calendarWeeks: true,
             });
         };
