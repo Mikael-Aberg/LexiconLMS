@@ -27,12 +27,12 @@ namespace LexiconLMS.Models
 
         [DisplayName("Startdatum")]
         [Required(ErrorMessage = "Du måste fylla i ett startdatum.")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:MM}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
         public DateTime StartTime { get; set; }
 
         [DisplayName("Slutdatum")]
         [Required(ErrorMessage = "Du måste fylla i ett slutdatum.")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:MM}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
         public DateTime EndTime { get; set; }
 
         public int ModuelId { get; set; }
