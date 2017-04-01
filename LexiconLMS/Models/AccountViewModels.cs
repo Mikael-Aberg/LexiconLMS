@@ -159,10 +159,9 @@ namespace LexiconLMS.Models
         public int? CourseId { get; set; }
 
         [Display(Name = "Kurser")]
-        public MultiSelectList Courses { get; set; }
+        public SelectList Courses { get; set; }
 
         public string Msg { get; set; }
-        public int[] CourseIds { get; set; }
     }
 
     public class ListUserViewModel
