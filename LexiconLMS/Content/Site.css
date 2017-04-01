@@ -103,11 +103,7 @@ textarea {
         background-color: #bdd7ee;
     }
 
-    .schedule .Söndag {
-        background-color: #f8cbad !important;
-    }
-
-    .schedule .Lördag {
+    .schedule .no-activity {
         background-color: #f8cbad !important;
     }
 

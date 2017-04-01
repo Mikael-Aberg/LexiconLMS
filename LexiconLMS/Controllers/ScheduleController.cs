@@ -27,18 +27,18 @@ namespace LexiconLMS.Controllers
                 return RedirectToAction("Index", "Courses", null);
             }
 
-            var course = db.Courses.Find(id);
+            if (!User.IsInRole("Teacher"))
+            {
+                id = db.Users.First(x => x.UserName == User.Identity.Name).CourseId;
+            }
 
+            var course = db.Courses.Find(id);
             if (course == null)
             {
                 return RedirectToAction("Index", "Courses", null);
             }
 
-            TimeSpan morningStart = new TimeSpan(8, 0, 0);
-            TimeSpan morningEnd = new TimeSpan(12, 0, 0);
-
-            TimeSpan afternoonStart = new TimeSpan(12, 0, 0);
-            TimeSpan afternoonEnd = new TimeSpan(17, 0, 0);
+            int midDay = 12;
 
             DateTime startDate;
             DateTime endDate;
@@ -69,30 +69,73 @@ namespace LexiconLMS.Controllers
                     StringBuilder moduleBuilder = new StringBuilder();
                     foreach (var module in modules)
                     {
-                        moduleBuilder.Append(module.Name);
-                        moduleBuilder.Append(", ");
-
-                        foreach (var activity in module.Activities.Where(x => (x.StartTime.Date <= date && x.EndTime.Date >= date)))
+                        var activities = module.Activities.Where(x => (x.StartTime.Date <= date && x.EndTime.Date >= date)).ToList();
+                        if (activities.Count > 0)
                         {
-                            if (activity.StartTime.TimeOfDay <= morningStart && activity.EndTime.TimeOfDay <= morningEnd)
+                            moduleBuilder.Append(module.Name);
+                            moduleBuilder.Append(", ");
+
+                            foreach (var activity in activities)
                             {
-                                post.Morning.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
+
+                                var startHour = activity.StartTime.Hour;
+                                var endHour = activity.EndTime.Hour;
+
+                                // If activity starts this morning
+                                if ((activity.StartTime.Date.Equals(date)) && (startHour < midDay))
+                                {
+                                    post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
+
+                                    // if the activity don't end same day
+                                    if (!activity.EndTime.Date.Equals(date))
+                                    {
+                                        post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
+                                    }
+                                    else if ((endHour > midDay))
+                                    {
+                                        post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
+                                    }
+                                }
+                                // else if the activity starts this afternoon
+                                else if (activity.StartTime.Date.Equals(date) && startHour >= midDay)
+                                {
+                                    post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
+                                }
+                                // else if the activity end this morning
+                                else if (activity.EndTime.Date.Equals(date))
+                                {
+                                    if (endHour > midDay)
+                                    {
+                                        post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
+                                        post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
+                                    }
+                                    else
+                                    {
+                                        post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
+                                    }
+                                }
+                                else
+                                {
+                                    post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
+                                    post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
+                                }
                             }
-                            else if (afternoonStart <= activity.StartTime.TimeOfDay && afternoonEnd <= activity.EndTime.TimeOfDay)
+                            if (moduleBuilder.Length > 0) { moduleBuilder.Remove(moduleBuilder.Length - 2, 2); }
+                            post.Module = moduleBuilder.ToString();
+                            scheduleList.Add(post);
+                        }
+                        else
+                        {
+                            scheduleList.Add(new SchedulePost
                             {
-                                post.Afternoon.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
-                            }
-                            else
-                            {
-                                post.Morning.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
-                                post.Afternoon.Add(new ScheduleLink { Name = activity.Name, Id = activity.Id });
-                            }
+                                Date = date.Date.ToShortDateString(),
+                                Day = GetSwedishDay(date.DayOfWeek),
+                                Module = "",
+                                Afternoon = new List<ScheduleLink>(),
+                                Morning = new List<ScheduleLink>()
+                            });
                         }
                     }
-
-                    if (moduleBuilder.Length > 0) { moduleBuilder.Remove(moduleBuilder.Length - 2, 2); }
-                    post.Module = moduleBuilder.ToString();
-                    scheduleList.Add(post);
                 }
                 else
                 {

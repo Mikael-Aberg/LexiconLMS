@@ -18,5 +18,7 @@ namespace LexiconLMS.Models
         public ICollection<ScheduleLink> Morning { get; set; }
         [DisplayName("Eftermiddag")]
         public ICollection<ScheduleLink> Afternoon { get; set; }
+
+        public bool HasActivity { get { return (Module != ""); } }
     }
 }
