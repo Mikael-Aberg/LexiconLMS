@@ -227,6 +227,7 @@ namespace LexiconLMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Document document = db.Documents.Find(id);
+
             if (document == null)
             {
                 return HttpNotFound();
@@ -240,9 +241,21 @@ namespace LexiconLMS.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Document document = db.Documents.Find(id);
+            string fullPath = Request.MapPath("~/UploadedFiles/" + document.Name);
+
+            int count = db.Documents.Where(f => f.FilePath == document.FilePath).ToList().Count();
+
+            if (count == 1)
+            {
+                if (System.IO.File.Exists(fullPath))
+                {
+                    System.IO.File.Delete(fullPath);
+                }
+            }
+
             db.Documents.Remove(document);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("List");
         }
 
         protected override void Dispose(bool disposing)
