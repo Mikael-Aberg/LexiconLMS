@@ -27,6 +27,8 @@ namespace LexiconLMS.Models
 
         public string NameToolTipText { get { return "Filtyp: " + SmallContentPath + "\n" + "Storlek: " + abbrContentLength + "\n" + "Uppladdat: " + UploadTime; } }
 
+        public bool IsAssignment { get { return (Activity != null) ? Activity.Type.IsAssignment : false; } }
+
         [DisplayName("Uppladdad")]
         [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}")]
         public DateTime UploadTime { get; set; }

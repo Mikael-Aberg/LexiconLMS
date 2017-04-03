@@ -5,31 +5,61 @@
 }
 
 <div class="container-fluid">
-    <div id="currentModule" class="col-sm-4 no-padding">
-        <div class="no-padding">
-            @Html.Action("CurrentModule", "Schedule", new { id = Model.CourseId })
+    <div class="row">
+        <div id="currentModule" class="col-sm-4 no-padding">
+            <div class="no-padding">
+                @Html.Action("CurrentModule", "Schedule", new { id = Model.CourseId })
+            </div>
+        </div>
+        <div class="col-sm-8 schedule-margin">
+            <div id="schedule">@Html.Action("Index", "Schedule", new { id = Model.CourseId, partial = true, weekDay = DateTime.Now, showName = false })</div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <button id="lastWeek" class="btn btn-default weekPager">Förra vecka</button>
+                </div>
+                <div class="col-sm-4">
+                    <a>@Html.ActionLink("Se hela schemat", "Index", "Schedule", new { id = Model.CourseId }, new { @class = "btn btn-default" })</a>
+                </div>
+                <div class="col-sm-4">
+                    <button id="nextWeek" class="btn btn-default weekPager">Nästa vecka</button>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col-sm-8 schedule-margin">
-        <div id="schedule">@Html.Action("Index", "Schedule", new { id = Model.CourseId, partial = true, weekDay = DateTime.Now, showName = false })</div>
-        <div class="row">
-            <div class="col-sm-4">
-                <button id="lastWeek" class="btn btn-default weekPager">Förra vecka</button>
+    <div class="row assignmentList">
+        <div class="col-sm-12">
+            <h3>Kommande inlämningar</h3>
+            @Html.Action("AssignmentsList", "Activities", new { partial = true })
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Ladda upp dokument</h4>
             </div>
-            <div class="col-sm-4">
-                <a>@Html.ActionLink("Se hela schemat", "Index", "Schedule", new { id = Model.CourseId }, new { @class = "btn btn-default" })</a>
+            <div id="modalBody" class="modal-body">
+
             </div>
-            <div class="col-sm-4">
-                <button id="nextWeek" class="btn btn-default weekPager">Nästa vecka</button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
             </div>
         </div>
     </div>
 </div>
 
-
-
-
 @section Scripts {
+
+    <script>
+        $(document).on('change', '#file', function () {
+            var filetext = document.getElementById("file").value.slice(12);
+            document.getElementById("fileselected").innerHTML = filetext;
+            document.getElementById("Name").value = filetext;
+        });
+    </script>
     <script>
         $(document).ready(function(){
             $('#mainBody').addClass("Width-90");
@@ -64,6 +94,44 @@
                 success: function (data) {
                     if (data) {
                         $("#schedule").html(data);
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).on("click", ".doc-upload-btn", function () {
+            var value = $(this).val();
+            $.ajax({
+                url: '@Url.Action("UploadModal", "Documents", null)',
+                data: { activityId: value },
+                type: "GET",
+                success: function (data) {
+                    $("#modalBody").html(data);
+                    $("#docModal").modal();
+                },
+                error: function (xhr, textStatus, thrownError, data) {
+                    alert("Error: " + thrownError);
+                }
+            });
+        });
+
+        $(document).on('click', '#uploadBtn', function () {
+
+            var formData = new FormData($('#document-form')[0]);
+            formData.append('file', $('input[type=file]')[0].files[0]);
+            var file = $('input[type=file]')[0].files[0];
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("CreateModal","Documents",null)',
+                data: formData,
+                //use contentType, processData for sure.
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data) {
+                        $('#modalBody').html(data);
+                        $('#docModal').modal('hide');
                     }
                 }
             });

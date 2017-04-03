@@ -131,6 +131,11 @@ textarea {
     margin-left: 15px;
 }
 
+.assignment-img{
+    height:15px;
+    width:15px;
+}
+
 
 /*======================================= 3. Create Course ===================================*/
 
@@ -294,7 +299,9 @@ textarea {
     margin-bottom: 20px;
 }
 
-
+.assignmentList {
+    margin-top: 40px;
+}
 
 /*======================================= 8. Create Document ==================================*/
 #fileselected {
@@ -350,7 +357,7 @@ textarea {
     }
 
     .document-list > tbody > tr > td {
-        line-height:0.5;
-        padding:4px;
-        vertical-align:inherit;
+        line-height: 0.5;
+        padding: 4px;
+        vertical-align: inherit;
     }

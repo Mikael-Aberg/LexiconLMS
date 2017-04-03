@@ -21,8 +21,7 @@ namespace LexiconLMS.Models
         public string Description { get; set; }
 
         [DisplayName("Beskrivning")]
-        public string ShortDescription { get { return (Description != null) ? (Description.Length > 20) ? Description.Substring(0, 20) + "..." : Description : ""; } }
-
+        public string ShortDescription => (Description != null) ? (Description.Length > 20) ? Description.Substring(0, 20) + "..." : Description : "";  
         public string ToolTipText { get { return (Description != null) ? (Description.Length > 20) ? Description : "" : ""; } }
 
         [DisplayName("Startdatum")]
@@ -37,6 +36,8 @@ namespace LexiconLMS.Models
 
         public int ModuelId { get; set; }
         public int TypeId { get; set; }
+
+        public bool IsAssignemnt { get { return Type.IsAssignment; } }
 
         [ForeignKey("ModuelId")]
         [DisplayName("Modul")]

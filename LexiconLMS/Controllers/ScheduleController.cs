@@ -67,74 +67,88 @@ namespace LexiconLMS.Controllers
                     post.Day = GetSwedishDay(date.DayOfWeek);
                     var modules = course.Modules.Where(x => (x.StartDate.Date <= date && x.EndDate.Date >= date));
                     StringBuilder moduleBuilder = new StringBuilder();
-                    foreach (var module in modules)
+                    if (modules.Count() > 0)
                     {
-                        var activities = module.Activities.Where(x => (x.StartTime.Date <= date && x.EndTime.Date >= date)).ToList();
-                        if (activities.Count > 0)
+                        foreach (var module in modules)
                         {
-                            moduleBuilder.Append(module.Name);
-                            moduleBuilder.Append(", ");
-
-                            foreach (var activity in activities)
+                            var activities = module.Activities.Where(x => (x.StartTime.Date <= date && x.EndTime.Date >= date)).ToList();
+                            if (activities.Count > 0)
                             {
+                                moduleBuilder.Append(module.Name);
+                                moduleBuilder.Append(", ");
 
-                                var startHour = activity.StartTime.Hour;
-                                var endHour = activity.EndTime.Hour;
-
-                                // If activity starts this morning
-                                if ((activity.StartTime.Date.Equals(date)) && (startHour < midDay))
+                                foreach (var activity in activities)
                                 {
-                                    post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
 
-                                    // if the activity don't end same day
-                                    if (!activity.EndTime.Date.Equals(date))
+                                    var startHour = activity.StartTime.Hour;
+                                    var endHour = activity.EndTime.Hour;
+
+                                    // If activity starts this morning
+                                    if ((activity.StartTime.Date.Equals(date)) && (startHour < midDay))
                                     {
-                                        post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
+                                        post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
+
+                                        // if the activity don't end same day
+                                        if (!activity.EndTime.Date.Equals(date))
+                                        {
+                                            post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
+                                        }
+                                        else if ((endHour > midDay))
+                                        {
+                                            post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
+                                        }
                                     }
-                                    else if ((endHour > midDay))
+                                    // else if the activity starts this afternoon
+                                    else if (activity.StartTime.Date.Equals(date) && startHour >= midDay)
                                     {
-                                        post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
+                                        post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
                                     }
-                                }
-                                // else if the activity starts this afternoon
-                                else if (activity.StartTime.Date.Equals(date) && startHour >= midDay)
-                                {
-                                    post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
-                                }
-                                // else if the activity end this morning
-                                else if (activity.EndTime.Date.Equals(date))
-                                {
-                                    if (endHour > midDay)
+                                    // else if the activity end this morning
+                                    else if (activity.EndTime.Date.Equals(date))
                                     {
-                                        post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
-                                        post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
+                                        if (endHour > midDay)
+                                        {
+                                            post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
+                                            post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
+                                        }
+                                        else
+                                        {
+                                            post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
+                                        }
                                     }
                                     else
                                     {
-                                        post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
+                                        post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
+                                        post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
                                     }
                                 }
-                                else
-                                {
-                                    post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
-                                    post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name });
-                                }
+                                if (moduleBuilder.Length > 0) { moduleBuilder.Remove(moduleBuilder.Length - 2, 2); }
+                                post.Module = moduleBuilder.ToString();
+                                scheduleList.Add(post);
                             }
-                            if (moduleBuilder.Length > 0) { moduleBuilder.Remove(moduleBuilder.Length - 2, 2); }
-                            post.Module = moduleBuilder.ToString();
-                            scheduleList.Add(post);
-                        }
-                        else
-                        {
-                            scheduleList.Add(new SchedulePost
+                            else
                             {
-                                Date = date.Date.ToShortDateString(),
-                                Day = GetSwedishDay(date.DayOfWeek),
-                                Module = "",
-                                Afternoon = new List<ScheduleLink>(),
-                                Morning = new List<ScheduleLink>()
-                            });
+                                scheduleList.Add(new SchedulePost
+                                {
+                                    Date = date.Date.ToShortDateString(),
+                                    Day = GetSwedishDay(date.DayOfWeek),
+                                    Module = "",
+                                    Afternoon = new List<ScheduleLink>(),
+                                    Morning = new List<ScheduleLink>()
+                                });
+                            }
                         }
+                    }
+                    else
+                    {
+                        scheduleList.Add(new SchedulePost
+                        {
+                            Date = date.Date.ToShortDateString(),
+                            Day = GetSwedishDay(date.DayOfWeek),
+                            Module = "",
+                            Afternoon = new List<ScheduleLink>(),
+                            Morning = new List<ScheduleLink>()
+                        });
                     }
                 }
                 else
