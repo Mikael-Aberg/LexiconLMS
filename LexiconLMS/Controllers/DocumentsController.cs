@@ -42,7 +42,7 @@ namespace LexiconLMS.Controllers
             if (User.IsInRole("Teacher"))
             {
                 var documents = db.Documents
-                    .Where(x => (courseId != null)? x.CourseId == courseId : true)
+                    .Where(x => (courseId != null) ? x.CourseId == courseId : true)
                     .Where(x => (moduleId != null) ? x.ModuleId == moduleId : true)
                     .Where(x => (activityId != null) ? x.ActivityId == activityId : true)
                     .ToList();
@@ -103,10 +103,8 @@ namespace LexiconLMS.Controllers
             {
                 try
                 {
-
                     if (file != null)
                     {
-
                         string path = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(file.FileName));
                         file.SaveAs(path);
                         ViewBag.FileStatus = file.FileName + " uploaded successfully."
@@ -127,18 +125,13 @@ namespace LexiconLMS.Controllers
                         db.SaveChanges();
                         return RedirectToAction("List");
                     }
-
                 }
                 catch (Exception)
                 {
-
                     ViewBag.FileStatus = "Ett Fel inträffade vid uppladdning av fil.";
                     return View(document);
                 }
-
             }
-
-
             return View(document);
         }
 
@@ -149,12 +142,10 @@ namespace LexiconLMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateModal([Bind(Include = "Id,Name,Description,UserId,CourseId,ModuleId,ActivityId")] Document document, HttpPostedFileBase file)
         {
-
             if (ModelState.IsValid)
             {
                 try
                 {
-
                     if (file != null)
                     {
 
@@ -177,7 +168,6 @@ namespace LexiconLMS.Controllers
                         db.SaveChanges();
                         return RedirectToAction("UploadModal", new { courseId = document.CourseId });
                     }
-
                 }
                 catch (Exception)
                 {
@@ -185,10 +175,7 @@ namespace LexiconLMS.Controllers
                     ViewBag.FileStatus = "Ett Fel inträffade vid uppladdning av fil.";
                     return PartialView("_DocModal", document);
                 }
-
             }
-
-
             return PartialView("_DocModal", document);
         }
 

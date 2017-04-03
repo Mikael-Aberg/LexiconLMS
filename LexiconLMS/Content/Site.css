@@ -294,7 +294,9 @@ textarea {
     margin-bottom: 20px;
 }
 
-
+.assignmentList {
+    margin-top: 40px;
+}
 
 /*======================================= 8. Create Document ==================================*/
 #fileselected {
@@ -350,7 +352,7 @@ textarea {
     }
 
     .document-list > tbody > tr > td {
-        line-height:0.5;
-        padding:4px;
-        vertical-align:inherit;
+        line-height: 0.5;
+        padding: 4px;
+        vertical-align: inherit;
     }

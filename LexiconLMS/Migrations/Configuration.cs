@@ -115,9 +115,9 @@ namespace LexiconLMS.Migrations
 
             var types = new[]
             {
-                new ActivityType { Name = "Övning"},
-                new ActivityType { Name = "E-learning"},
-                new ActivityType { Name = "Föreläsning"},
+                new ActivityType { Name = "Övning", IsAssignment = true },
+                new ActivityType { Name = "E-learning", IsAssignment = false },
+                new ActivityType { Name = "Föreläsning", IsAssignment = false },
             };
 
             context.ActivityTypes.AddOrUpdate(x => x.Name, types);

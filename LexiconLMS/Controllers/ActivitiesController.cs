@@ -21,6 +21,47 @@ namespace LexiconLMS.Controllers
             return View(db.Activities.ToList());
         }
 
+        public ActionResult AssignmentsList(int? moduleId, int? courseId, bool partial = false, bool showHistory = false)
+        {
+            List<AssignmentsListViewModel> assignments = new List<AssignmentsListViewModel>();
+            if (User.IsInRole("Teacher"))
+            {
+                assignments = db.Activities.Where(x => x.Type.IsAssignment)
+                                           .Where(x => (!showHistory)? x.EndTime > DateTime.Now : true)
+                                           .Where(x => (courseId != null) ? x.Module.CourseId == (courseId) : true)
+                                           .Where(x => (moduleId != null) ? x.ModuelId == (moduleId) : true)
+                                           .Select(x => new AssignmentsListViewModel
+                                           {
+                                               ActivityId = x.Id,
+                                               CourseName = x.Module.Course.Name,
+                                               ModuleName = x.Module.Name,
+                                               Name = x.Name,
+                                               Description = x.Description,
+                                               Deadline = x.EndTime
+                                           })
+                                           .ToList();
+            }
+            else
+            {
+                courseId = db.Users.First(x => x.UserName.Equals(User.Identity.Name)).Course.Id;
+                assignments = db.Activities.Where(x => x.Type.IsAssignment && x.Module.CourseId == courseId)
+                                           .Where(x => (!showHistory) ? x.EndTime > DateTime.Now : true)
+                                           .Where(x => (moduleId != null) ? x.ModuelId == (moduleId) : true)
+                                           .Select(x => new AssignmentsListViewModel
+                                           {
+                                               ActivityId = x.Id,
+                                               CourseName = x.Module.Course.Name,
+                                               ModuleName = x.Module.Name,
+                                               Name = x.Name,
+                                               Description = x.Description,
+                                               Deadline = x.EndTime
+                                           })
+                                           .ToList();
+            }
+            if (partial) return PartialView(assignments);
+            else return View(assignments);
+        }
+
         public ActionResult ActivityDetailsModal(int? id)
         {
             if (id == null)
@@ -97,11 +138,6 @@ namespace LexiconLMS.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Create", new { courseId = courseId });
             }
-
-            var errors = ModelState
-                .Where(x => x.Value.Errors.Count > 0)
-                .Select(x => new { x.Key, x.Value.Errors })
-                .ToArray();
 
             var course = db.Courses.Find(courseId);
             var model = new ActivityCreateViewModel { Modules = course.Modules, CourseId = courseId };

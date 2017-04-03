@@ -12,6 +12,7 @@ namespace LexiconLMS.Models
 
         [DisplayName("Namn")]
         public string Name { get; set; }
+        public bool IsAssignment { get; set; }
 
         public virtual ICollection<Activity> Activities { get; set; }
     }

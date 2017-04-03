@@ -185,6 +185,7 @@
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\ActivityCreateViewModel.cs" />
     <Compile Include="Models\ActivityType.cs" />
+    <Compile Include="Models\AssignmentsListViewModel.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\CreateCourseViewModel.cs" />
     <Compile Include="Models\Data_Annotation\RequiredIfNotAttribute.cs" />
@@ -396,6 +397,7 @@
     <Content Include="Views\Account\_RegisterStudent.cshtml" />
     <Content Include="Views\Documents\List.cshtml" />
     <Content Include="Views\Documents\_DocModal.cshtml" />
+    <Content Include="Views\Activities\AssignmentsList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

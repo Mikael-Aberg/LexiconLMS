@@ -263,7 +263,6 @@
         });
 
         $(document).on('click', '#uploadBtn', function () {
-
             var formData = new FormData($('#document-form')[0]);
             formData.append('file', $('input[type=file]')[0].files[0]);
             var file = $('input[type=file]')[0].files[0];
