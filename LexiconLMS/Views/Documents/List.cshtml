@@ -36,6 +36,10 @@
             <td>@Html.DisplayFor(modelItem => item.User.FullName)</td>
             <td>@Html.DisplayFor(modelItem => item.UploadTime)</td>
             <td>@Html.DisplayFor(modelItem => item.abbrContentLength)</td>
+
+            <td>
+                @Html.ActionLink("Ta bort", "Delete", new { id = item.Id })
+            </td>
         </tr>
     }
 
