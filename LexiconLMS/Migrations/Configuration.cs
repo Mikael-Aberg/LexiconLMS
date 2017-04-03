@@ -115,9 +115,10 @@ namespace LexiconLMS.Migrations
 
             var types = new[]
             {
-                new ActivityType { Name = "Övning", IsAssignment = true },
+                new ActivityType { Name = "Övning", IsAssignment = false },
                 new ActivityType { Name = "E-learning", IsAssignment = false },
                 new ActivityType { Name = "Föreläsning", IsAssignment = false },
+                new ActivityType { Name = "Inlämningsuppgift", IsAssignment = true },
             };
 
             context.ActivityTypes.AddOrUpdate(x => x.Name, types);
@@ -203,7 +204,7 @@ namespace LexiconLMS.Migrations
                     StartTime = DateTime.Parse("2016-12-23").Date + new TimeSpan(8,0,0),
                     EndTime = DateTime.Parse("2016-12-23").Date + new TimeSpan(17,0,0),
                     Module = modules[4],
-                    Type = types[0]
+                    Type = types[3]
                 },
                 new Activity
                 {
@@ -257,7 +258,7 @@ namespace LexiconLMS.Migrations
                     StartTime = DateTime.Parse("2016-12-30").Date + new TimeSpan(8,0,0),
                     EndTime = DateTime.Parse("2016-12-30").Date + new TimeSpan(17,0,0),
                     Module = modules[4],
-                    Type = types[0]
+                    Type = types[3]
                 },
                 new Activity
                 {
@@ -338,7 +339,7 @@ namespace LexiconLMS.Migrations
                     StartTime = DateTime.Parse("2017-01-10").Date + new TimeSpan(12,0,0),
                     EndTime = DateTime.Parse("2017-01-10").Date + new TimeSpan(17,0,0),
                     Module = modules[4],
-                    Type = types[0]
+                    Type = types[3]
                 },
                 new Activity
                 {
@@ -383,7 +384,7 @@ namespace LexiconLMS.Migrations
                     StartTime = DateTime.Parse("2017-01-17").Date + new TimeSpan(12,0,0),
                     EndTime = DateTime.Parse("2017-01-17").Date + new TimeSpan(17,0,0),
                     Module = modules[4],
-                    Type = types[0]
+                    Type = types[3]
                 },
 
                 // End C#
@@ -415,7 +416,7 @@ namespace LexiconLMS.Migrations
                     StartTime = DateTime.Parse("2017-01-19").Date + new TimeSpan(12,0,0),
                     EndTime = DateTime.Parse("2017-01-19").Date + new TimeSpan(17,0,0),
                     Module = modules[5],
-                    Type = types[0]
+                    Type = types[3]
                 },
                 new Activity
                 {
@@ -433,7 +434,7 @@ namespace LexiconLMS.Migrations
                     StartTime = DateTime.Parse("2017-01-20").Date + new TimeSpan(12,0,0),
                     EndTime = DateTime.Parse("2017-01-20").Date + new TimeSpan(17,0,0),
                     Module = modules[5],
-                    Type = types[0]
+                    Type = types[3]
                 },
                 new Activity
                 {
@@ -600,7 +601,7 @@ namespace LexiconLMS.Migrations
                     StartTime = DateTime.Parse("2017-02-14").Date + new TimeSpan(12,0,0),
                     EndTime = DateTime.Parse("2017-02-14").Date + new TimeSpan(17,0,0),
                     Module = modules[6],
-                    Type = types[0]
+                    Type = types[3]
                 },
 
                 // End MVC
@@ -782,7 +783,7 @@ namespace LexiconLMS.Migrations
                     StartTime = DateTime.Parse("2017-03-14").Date + new TimeSpan(8,0,0),
                     EndTime = DateTime.Parse("2017-03-14").Date + new TimeSpan(17,0,0),
                     Module = modules[10],
-                    Type = types[0]
+                    Type = types[3]
                 },
                 new Activity
                 {
@@ -836,7 +837,7 @@ namespace LexiconLMS.Migrations
                     StartTime = DateTime.Parse("2017-03-24").Date + new TimeSpan(8,0,0),
                     EndTime = DateTime.Parse("2017-03-24").Date + new TimeSpan(12,0,0),
                     Module = modules[10],
-                    Type = types[0]
+                    Type = types[3]
                 },
                 new Activity
                 {
@@ -863,7 +864,7 @@ namespace LexiconLMS.Migrations
                     StartTime = DateTime.Parse("2017-03-31").Date + new TimeSpan(8,0,0),
                     EndTime = DateTime.Parse("2017-03-31").Date + new TimeSpan(12,0,0),
                     Module = modules[10],
-                    Type = types[0]
+                    Type = types[3]
                 },
                 new Activity
                 {
@@ -890,7 +891,7 @@ namespace LexiconLMS.Migrations
                     StartTime = DateTime.Parse("2017-04-07").Date + new TimeSpan(8,0,0),
                     EndTime = DateTime.Parse("2017-04-07").Date + new TimeSpan(12,0,0),
                     Module = modules[10],
-                    Type = types[0]
+                    Type = types[3]
                 },
                 new Activity
                 {
@@ -908,7 +909,7 @@ namespace LexiconLMS.Migrations
                     StartTime = DateTime.Parse("2017-04-11").Date + new TimeSpan(8,0,0),
                     EndTime = DateTime.Parse("2017-04-11").Date + new TimeSpan(12,0,0),
                     Module = modules[10],
-                    Type = types[0]
+                    Type = types[3]
                 },
                 new Activity
                 {
