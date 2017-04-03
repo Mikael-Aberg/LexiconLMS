@@ -21,6 +21,9 @@
         <th>
             @Html.DisplayNameFor(model => model.ContentLength)
         </th>
+        <th>
+            Redigera
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -36,6 +39,7 @@
             <td>@Html.DisplayFor(modelItem => item.User.FullName)</td>
             <td>@Html.DisplayFor(modelItem => item.UploadTime)</td>
             <td>@Html.DisplayFor(modelItem => item.abbrContentLength)</td>
+            <td></td>
         </tr>
     }
 
