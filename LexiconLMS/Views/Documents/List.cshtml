@@ -22,7 +22,8 @@
             @Html.DisplayNameFor(model => model.ContentLength)
         </th>
         <th>
-            Redigera
+        </th>
+        <th>
         </th>
     </tr>
 
@@ -41,7 +42,14 @@
             <td>@Html.DisplayFor(modelItem => item.abbrContentLength)</td>
 
             <td>
-                @Html.ActionLink("Ta bort", "Delete", new { id = item.Id })
+                <a href='@Url.Action("Edit", "Documents", new { id = item.Id })' title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
+                    <img class="document-img" src="~/Images/documentedit.png" />
+                </a>
+            </td>
+            <td>
+                <a href='@Url.Action("Delete", "Documents", new { id = item.Id })' title="Ta bort: @Html.DisplayFor(modelItem => item.Name)">
+                    <img class="document-img" src="~/Images/documentdelete.png" />
+                </a>
             </td>
         </tr>
     }
