@@ -25,7 +25,11 @@
                 <td>@Html.DisplayFor(x => activity.StartTime)</td>
                 <td>@Html.DisplayFor(x => activity.EndTime)</td>
                 <td><input type="button" value="Redigera" class="editActivityBtn fake-link" name="@activity.Id" /></td>
-                <td><input type="button" value="Ta bort" class="deleteActivityBtn fake-link" name="@activity.Id" /></td>
+                <td>
+                    <input type="button" value="Ta bort" class="deleteActivityBtn fake-link" name="@activity.Id" />
+                    <button type="button" class="DocActivityBtn btn btn-info" name="@activity.Id">Ladda upp dokument</button>
+                </td>
+                
             </tr>
         }
     </table>
