@@ -9,5 +9,6 @@ namespace LexiconLMS.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public bool IsAssignment { get; set; }
     }
 }

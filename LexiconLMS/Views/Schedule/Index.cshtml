@@ -26,13 +26,25 @@
                 <td>
                     @foreach (var link in post.Morning)
                     {
-                        <button value="@link.Id" class="showDetailsBtn fake-link">@Html.DisplayFor(x => link.Name)</button>
+                        <button value="@link.Id" class="showDetailsBtn fake-link">
+                            @Html.DisplayFor(x => link.Name)
+                        @if (link.IsAssignment)
+                        {
+                            <img class="assignment-img" src="~/Images/AssignmentIcon.svg" />
+                        }
+                        </button>
                     }
                 </td>
                 <td>
                     @foreach (var link in post.Afternoon)
                     {
-                        <button value="@link.Id" class="showDetailsBtn fake-link">@Html.DisplayFor(x => link.Name)</button>
+                        <button value="@link.Id" class="showDetailsBtn fake-link">
+                            @Html.DisplayFor(x => link.Name)
+                            @if (link.IsAssignment)
+                            {
+                                <img class="assignment-img" src="~/Images/AssignmentIcon.svg" />
+                            }
+                        </button>
                     }
                 </td>
             </tr>
