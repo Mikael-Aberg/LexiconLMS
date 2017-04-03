@@ -191,10 +191,6 @@ namespace LexiconLMS.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ActivityId = new SelectList(db.Activities, "Id", "Name", document.ActivityId);
-            ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", document.CourseId);
-            ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name", document.ModuleId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", document.UserId);
             return View(document);
         }
 
@@ -203,19 +199,24 @@ namespace LexiconLMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,UploadTime,Shared,FilePath,UserId,CourseId,ModuleId,ActivityId")] Document document)
+        public ActionResult Edit(int? Id, string Name, string Description)
         {
-            if (ModelState.IsValid)
+            if (Id == null)
             {
-                db.Entry(document).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewBag.ActivityId = new SelectList(db.Activities, "Id", "Name", document.ActivityId);
-            ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", document.CourseId);
-            ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name", document.ModuleId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", document.UserId);
-            return View(document);
+            Document document = db.Documents.Find(Id);
+            if (document == null)
+            {
+                return HttpNotFound();
+            }
+            
+            db.Entry(document).State = EntityState.Modified;
+            document.Name = Name;
+            document.Description = Description;
+            db.SaveChanges();
+            return RedirectToAction("List");
+
         }
 
         // GET: Documents/Delete/5
