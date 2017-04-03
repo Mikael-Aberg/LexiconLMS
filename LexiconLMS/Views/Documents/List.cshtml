@@ -21,10 +21,9 @@
         <th>
             @Html.DisplayNameFor(model => model.ContentLength)
         </th>
-        <th>
-        </th>
-        <th>
-        </th>
+        <th></th>
+        <th></th>
+        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -42,13 +41,18 @@
             <td>@Html.DisplayFor(modelItem => item.abbrContentLength)</td>
 
             <td>
-                <a href='@Url.Action("Edit", "Documents", new { id = item.Id })' title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
+                <a href='@Url.Action("Edit", "Documents", new { id = item.Id })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
                     <img class="document-img" src="~/Images/documentedit.png" />
                 </a>
             </td>
             <td>
-                <a href='@Url.Action("Delete", "Documents", new { id = item.Id })' title="Ta bort: @Html.DisplayFor(modelItem => item.Name)">
+                <a href='@Url.Action("Delete", "Documents", new { id = item.Id })' data-toggle="icons" title="Ta bort: @Html.DisplayFor(modelItem => item.Name)">
                     <img class="document-img" src="~/Images/documentdelete.png" />
+                </a>
+            </td>
+            <td>
+                <a href='@Url.Action("DownloadFile", "Documents", new { id = item.Id })' data-toggle="icons" title="Ladda ned: @Html.DisplayFor(modelItem => item.Name)">
+                    <img class="document-img" src="~/Images/documentdownload.png" />
                 </a>
             </td>
         </tr>
@@ -77,5 +81,10 @@
                 $(this).addClass('selected');
             }
         });
+
+$(document).ready(function(){
+    $('[data-toggle="icons"]').tooltip();
+});
+
     </script>
 }

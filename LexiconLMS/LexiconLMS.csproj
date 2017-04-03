@@ -218,6 +218,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\AssignmentIcon.svg" />
     <Content Include="Images\documentdelete.png" />
+    <Content Include="Images\documentdownload.png" />
     <Content Include="Images\documentedit.png" />
     <Content Include="Images\logo-lexicon.gif" />
     <Content Include="Scripts\bootstrap-datepicker.js" />

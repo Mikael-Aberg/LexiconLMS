@@ -241,6 +241,10 @@ namespace LexiconLMS.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Document document = db.Documents.Find(id);
+            if (document == null)
+            {
+                return HttpNotFound();
+            }
             string fullPath = Request.MapPath("~/UploadedFiles/" + document.Name);
 
             int count = db.Documents.Where(f => f.FilePath == document.FilePath).ToList().Count();
@@ -256,6 +260,32 @@ namespace LexiconLMS.Controllers
             db.Documents.Remove(document);
             db.SaveChanges();
             return RedirectToAction("List");
+        }
+
+        public ActionResult DownloadFile(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Document document = db.Documents.Find(id);
+            if (document == null)
+            {
+                return HttpNotFound();
+            }
+            string fullPath = Request.MapPath("/UploadedFiles/" + document.FilePath.Substring(17));
+            byte[] filedata = System.IO.File.ReadAllBytes(fullPath);
+            string contentType = MimeMapping.GetMimeMapping(fullPath);
+
+            var cd = new System.Net.Mime.ContentDisposition
+            {
+                FileName = document.FilePath.Substring(17),
+                Inline = false,
+            };
+
+            Response.AppendHeader("Content-Disposition", cd.ToString());
+
+            return File(filedata, contentType);
         }
 
         protected override void Dispose(bool disposing)
