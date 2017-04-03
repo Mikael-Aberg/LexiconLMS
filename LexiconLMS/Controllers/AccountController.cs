@@ -277,11 +277,13 @@ namespace LexiconLMS.Controllers
 
                         //if (User.IsInRole("Teacher"))
                         //{
-                        model.Title = "Lägg till elev";
-                        model.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
-                        model.Msg = $"{user.FullName} har blivit registrerad";
-                        model.IsEditing = false;
-                        return PartialView("_RegisterStudent", model);
+                        var viewModel = new RegisterViewModel();
+                        viewModel.Title = "Lägg till elev";
+                        viewModel.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
+                        viewModel.Msg = $"{user.FullName} har blivit registrerad";
+                        viewModel.IsEditing = false;
+                        ModelState.Clear();
+                        return PartialView("_RegisterStudent", viewModel);
                         //}  
                         //return RedirectToAction("Index", "HomeStudent");
                     }
