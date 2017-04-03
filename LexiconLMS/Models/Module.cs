@@ -22,9 +22,9 @@ namespace LexiconLMS.Models
         public string Description { get; set; }
 
         [DisplayName("Beskrivning")]
-        public string ShortDescription { get { return (Description != null) ? (Description.Length > 20) ? Description.Substring(0, 20) + "..." : Description : ""; } }
+        public string ShortDescription { get { return (Description != null) ? (Description.Length > 17) ? Description.Substring(0, 17) + "..." : Description : ""; } }
 
-        public string ToolTipText { get { return (Description != null) ? (Description.Length > 20) ? Description : "" : ""; } }
+        public string ToolTipText { get { return (Description != null) ? (Description.Length > 17) ? Description : "" : ""; } }
 
         [DisplayName("Startdatum")]
         [Required(ErrorMessage = "Du måste fylla i ett startdatum.")]

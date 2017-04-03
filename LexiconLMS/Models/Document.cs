@@ -21,9 +21,9 @@ namespace LexiconLMS.Models
         public string Description { get; set; }
 
         [DisplayName("Beskrivning")]
-        public string ShortDescription { get { return (Description != null) ? (Description.Length > 20) ? Description.Substring(0, 20) + "..." : Description : ""; } }
+        public string ShortDescription { get { return (Description != null) ? (Description.Length > 17) ? Description.Substring(0, 17) + "..." : Description : ""; } }
 
-        public string DescriptionToolTipText { get { return (Description != null) ? (Description.Length > 20) ? Description : "" : ""; } }
+        public string DescriptionToolTipText { get { return (Description != null) ? (Description.Length > 17) ? Description : "" : ""; } }
 
         public string NameToolTipText { get { return "Filtyp: " + SmallContentPath + "\n" + "Storlek: " + abbrContentLength + "\n" + "Uppladdat: " + UploadTime; } }
 

@@ -48,7 +48,7 @@ namespace LexiconLMS.Controllers
                 viewModel.ActivityModel.Activity = db.Activities.Find(activityId);
             }
 
-            viewModel.CourseIn = (!moduleShow && !activityShow || courseShow) ? "in" : "";
+            viewModel.CourseIn = ((!moduleShow && !activityShow) || courseShow) ? "in" : "";
             viewModel.ModuleIn = (moduleShow) ? "in" : "";
             viewModel.ActivityIn = (activityShow) ? "in" : "";
 
