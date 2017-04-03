@@ -15,19 +15,7 @@
         {
             <tr name="@module.Id">
                 <td>@Html.DisplayFor(x => module.Name)</td>
-                <td>
-                    @if (module.Description != null)
-                    {
-                        if (module.Description.Length > 25)
-                        {
-                            <p>@module.Description.Substring(0, 25)...</p>
-                        }
-                        else
-                        {
-                            @Html.DisplayFor(x => module.Description)
-                        }
-                    }
-                </td>
+                <td data-toggle="tooltip" title="@Html.DisplayFor(x => module.ToolTipText)">@Html.DisplayFor(x => module.ShortDescription)</td>
                 <td class="start-date">@Html.DisplayFor(x => module.StartDate)</td>
                 <td class="end-date">@Html.DisplayFor(x => module.EndDate)</td>
                 <td>@Html.DisplayFor(x => module.NumberOfActivities)</td>

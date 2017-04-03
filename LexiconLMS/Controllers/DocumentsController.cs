@@ -39,51 +39,26 @@ namespace LexiconLMS.Controllers
 
         public ActionResult List(int? courseId, int? moduleId, int? activityId, bool partial = false)
         {
-            IQueryable<Document> documents = db.Documents;
-            if (courseId != null)
+            if (User.IsInRole("Teacher"))
             {
-                documents = documents.Where(x => x.CourseId != null);
-                if (User.IsInRole("Teacher"))
-                {
-                    documents = documents.Where(x => x.CourseId == courseId);
-                }
-                else if (courseId == db.Users.First(x => x.CourseId == courseId).CourseId)
-                {
-                    documents = documents.Where(x => x.CourseId == courseId);
-                }
-            }
-            else if (moduleId != null)
-            {
-                documents = documents.Where(x => x.ModuleId != null);
-                if (User.IsInRole("Teacher"))
-                {
-                    documents = documents.Where(x => x.ModuleId == moduleId);
-                }
-                else if (courseId == db.Users.First(x => x.CourseId == courseId).CourseId)
-                {
-                    documents = documents.Where(x => x.ModuleId == moduleId);
-                }
-            }
-            else if (activityId != null)
-            {
-                documents = documents.Where(x => x.ActivityId != null);
-                if (User.IsInRole("Teacher"))
-                {
-                    documents = documents.Where(x => x.ActivityId == activityId);
-                }
-                else if (courseId == db.Users.First(x => x.CourseId == courseId).CourseId)
-                {
-                    documents = documents.Where(x => x.ActivityId == activityId);
-                }
-            }
-
-            if (partial)
-            {
-                return PartialView(documents.ToList());
+                var documents = db.Documents
+                    .Where(x => (courseId != null)? x.CourseId == courseId : true)
+                    .Where(x => (moduleId != null) ? x.ModuleId == moduleId : true)
+                    .Where(x => (activityId != null) ? x.ActivityId == activityId : true)
+                    .ToList();
+                if (partial) return PartialView(documents);
+                else return View(documents);
             }
             else
             {
-                return View(documents.ToList());
+                courseId = db.Users.First(x => x.UserName.Equals(User.Identity.Name)).CourseId;
+                var documents = db.Documents
+                    .Where(x => x.CourseId == courseId)
+                    .Where(x => (moduleId != null) ? x.ModuleId == moduleId : true)
+                    .Where(x => (activityId != null) ? x.ActivityId == activityId : true)
+                    .ToList();
+                if (partial) return PartialView(documents);
+                else return View(documents);
             }
         }
 
@@ -124,7 +99,6 @@ namespace LexiconLMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description,UserId,CourseId,ModuleId,ActivityId")] Document document, HttpPostedFileBase file)
         {
-
             if (ModelState.IsValid)
             {
                 try
@@ -151,7 +125,7 @@ namespace LexiconLMS.Controllers
                         document.UploadTime = DateTime.Now;
                         db.Documents.Add(document);
                         db.SaveChanges();
-                        return RedirectToAction("Index");
+                        return RedirectToAction("List");
                     }
 
                 }
@@ -209,13 +183,13 @@ namespace LexiconLMS.Controllers
                 {
 
                     ViewBag.FileStatus = "Ett Fel inträffade vid uppladdning av fil.";
-                    return PartialView("_DocModal",document);
+                    return PartialView("_DocModal", document);
                 }
 
             }
 
 
-            return PartialView("_DocModal",document);
+            return PartialView("_DocModal", document);
         }
 
         // GET: Documents/Edit/5

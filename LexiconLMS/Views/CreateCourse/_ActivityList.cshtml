@@ -21,19 +21,7 @@
             <tr>
                 <td>@Html.DisplayFor(x => activity.Type.Name)</td>
                 <td>@Html.DisplayFor(x => activity.Name)</td>
-                <td>
-                    @if (activity.Description != null)
-                    {
-                        if (activity.Description.Length > 25)
-                        {
-                            <p>@activity.Description.Substring(0, 25)...</p>
-                        }
-                        else
-                        {
-                            @Html.DisplayFor(x => activity.Description)
-                        }
-                    }
-                </td>
+                <td data-toggle="tooltip" title="@Html.DisplayFor(x => activity.ToolTipText)">@Html.DisplayFor(x => activity.ShortDescription)</td>
                 <td>@Html.DisplayFor(x => activity.StartTime)</td>
                 <td>@Html.DisplayFor(x => activity.EndTime)</td>
                 <td><input type="button" value="Redigera" class="editActivityBtn fake-link" name="@activity.Id" /></td>

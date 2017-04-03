@@ -103,11 +103,7 @@ textarea {
         background-color: #bdd7ee;
     }
 
-    .schedule .Söndag {
-        background-color: #f8cbad !important;
-    }
-
-    .schedule .Lördag {
+    .schedule .no-activity {
         background-color: #f8cbad !important;
     }
 
@@ -313,17 +309,13 @@ textarea {
 }
 
     .document-list > tbody > tr > td {
-        border: none 1px
+        border: none;
     }
 
     .document-list .selected {
         border: 1px solid #99D1FF;
         background-color: #CCE8FF;
     }
-
-        .document-list .selected td {
-            border: none;
-        }
 
     .document-list .border {
         border: 1px solid #99D1FF;
@@ -355,4 +347,10 @@ textarea {
 
     .document-list img {
         height: 20px;
+    }
+
+    .document-list > tbody > tr > td {
+        line-height:0.5;
+        padding:4px;
+        vertical-align:inherit;
     }

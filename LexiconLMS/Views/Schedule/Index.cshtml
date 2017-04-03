@@ -9,7 +9,6 @@
 }
 
 <table class="schedule">
-
     <tr>
         <th>@Html.DisplayNameFor(x => x.Schedule.First().Date)</th>
         <th>@Html.DisplayNameFor(x => x.Schedule.First().Day)</th>
@@ -20,7 +19,7 @@
     <tbody>
         @foreach (var post in Model.Schedule)
         {
-            <tr class="@Html.DisplayFor(x => post.Day)">
+            <tr class="@( (post.HasActivity)? "" : "no-activity" )">
                 <td class="leftblackborder">@Html.DisplayFor(x => post.Date)</td>
                 <td>@Html.DisplayFor(x => post.Day)</td>
                 <td class="leftblackborder">@Html.DisplayFor(x => post.Module)</td>
@@ -29,7 +28,6 @@
                     {
                         <button value="@link.Id" class="showDetailsBtn fake-link">@Html.DisplayFor(x => link.Name)</button>
                     }
-
                 </td>
                 <td>
                     @foreach (var link in post.Afternoon)

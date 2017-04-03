@@ -20,14 +20,19 @@ namespace LexiconLMS.Models
         [DisplayName("Beskrivning")]
         public string Description { get; set; }
 
+        [DisplayName("Beskrivning")]
+        public string ShortDescription { get { return (Description != null) ? (Description.Length > 20) ? Description.Substring(0, 20) + "..." : Description : ""; } }
+
+        public string ToolTipText { get { return (Description != null) ? (Description.Length > 20) ? Description : "" : ""; } }
+
         [DisplayName("Startdatum")]
         [Required(ErrorMessage = "Du måste fylla i ett startdatum.")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:MM}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
         public DateTime StartTime { get; set; }
 
         [DisplayName("Slutdatum")]
         [Required(ErrorMessage = "Du måste fylla i ett slutdatum.")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:MM}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
         public DateTime EndTime { get; set; }
 
         public int ModuelId { get; set; }

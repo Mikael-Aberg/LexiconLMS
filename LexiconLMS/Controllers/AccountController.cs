@@ -142,7 +142,7 @@ namespace LexiconLMS.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("ChangePassword", "Manage");
+                        return RedirectToAction("Index", "Student");
                     }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -304,8 +304,6 @@ namespace LexiconLMS.Controllers
         public ActionResult RegisterTeacher(string msg = "")
         {
             var viewModel = new RegisterTeacherViewModel();
-
-            viewModel.Courses = new MultiSelectList(db.Courses.ToList(), "Id", "Name");
             viewModel.Msg = msg;
 
             return View(viewModel);
@@ -324,10 +322,8 @@ namespace LexiconLMS.Controllers
                 Console.WriteLine();
                 var result = await UserManager.CreateAsync(user, model.Password);
 
-                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.db));
-                var adminUser = userManager.FindByName(model.Email);
-                userManager.AddToRole(adminUser.Id, "Teacher");
-
+                var adminUser = UserManager.FindByName(model.Email);
+                UserManager.AddToRole(adminUser.Id, "Teacher");
                 if (result.Succeeded)
                 {
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
@@ -347,9 +343,7 @@ namespace LexiconLMS.Controllers
                 if (result.Errors.Any(x => x.Contains("Password")))
                     AddErrors(new IdentityResult("Lösenord måste ha åtminstone en icke bokstav eller siffra karaktär.Lösenord måste ha minst en siffra('0' - '9').Lösenord måste ha minst ett versalt(\"A\" - \"Z\")."));
             }
-
             model.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
