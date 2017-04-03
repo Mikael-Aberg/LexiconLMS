@@ -27,7 +27,7 @@ namespace LexiconLMS.Migrations
 
             context.Courses.AddOrUpdate(x => x.Name, courses);
             context.SaveChanges();
-
+            
             var modules = new[]
             {
                 new Module {Name = "JavaEE", Description = "", StartDate = DateTime.Now.AddDays(1).Date + new TimeSpan(0,0,0), EndDate = DateTime.Now.AddDays(2).Date + new TimeSpan(0,0,0), CourseId = courses[0].Id },

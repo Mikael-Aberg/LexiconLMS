@@ -10,18 +10,22 @@
     </div>
     <hr />
     <h4>@Model.Description</h4>
-    <div class="panel-group">
-        @foreach (var module in Model.Modules)
-            {
 
-            <div class="panel panel-default">
+    @foreach (var module in Model.Modules)
+    {
+        <div class="panel panel-default hover-link" id="accordion-@module.Id">
+
+            <a data-parent="#accordion-@module.Id" href="#module-@module.Id" data-toggle="collapse">
                 <div class="panel-heading headerDiv">
                     <h3>@module.Name</h3><span>@module.StartDate.ToShortDateString() - @module.EndDate.ToShortDateString()</span>
                     @if (User.IsInRole("Teacher"))
                     {
-                        @Html.ActionLink("Redigera", "Create", "CreateCourse", new { courseId = Model.Id, moduleId = module.Id, moduleShow = true }, null)
+                        <p class="fake-link edit-text" name="@module.Id">Redigera</p>
                     }
                 </div>
+            </a>
+
+            <div class="panel-collapse collapse" id="module-@module.Id">
                 <div class="panel-body">
                     <h5>@module.Description</h5>
                     @if (module.Description != null)
@@ -40,30 +44,27 @@
                                 <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Description)</th>
                                 <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().StartTime)</th>
                                 <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().EndTime)</th>
-                                <th nowrap></th>
+                                @if (User.IsInRole("Teacher"))
+                                {
+                                    <th nowrap>Inlämnade uppgifter</th>
+                                }
                                 <th nowrap></th>
                             </tr>
 
-                            @foreach (var activity in module.Activities)
+                            @foreach (var activity in module.Activities.OrderByDescending(x => x.EndTime))
                             {
                                 <tr>
                                     <td>@Html.DisplayFor(x => activity.Type.Name)</td>
                                     <td>@Html.DisplayFor(x => activity.Name)</td>
-                                    <td>
-                                        @if (activity.Description != null)
-                                        {
-                                            if (activity.Description.Length > 25)
-                                            {
-                                                <p>@activity.Description.Substring(0, 25)...</p>
-                                            }
-                                            else
-                                            {
-                                                @Html.DisplayFor(x => activity.Description)
-                                            }
-                                        }
-                                    </td>
+                                    <td data-toggle="tooltip" title="@Html.DisplayFor(x => activity.ToolTipText)">@Html.DisplayFor(x => activity.ShortDescription)</td>
                                     <td>@Html.DisplayFor(x => activity.StartTime)</td>
                                     <td>@Html.DisplayFor(x => activity.EndTime)</td>
+                                    <td>
+                                        @if (activity.IsAssignemnt && User.IsInRole("Teacher"))
+                                        {
+                                            <button name="@activity.Id" class="fake-link doc-btn">@activity.Documents.Where(x => x.IsAssignment && x.User.UserName != User.Identity.Name).Count() / @Model.Students.Count</button>
+                                        }
+                                    </td>
                                     <td>
                                         @if (User.IsInRole("Teacher"))
                                         {
@@ -76,16 +77,33 @@
                     }
                 </div>
             </div>
-        }
-
-            <div class="panel panel-default">
-                <div class="panel-heading headerDiv">
-                    <h3>Elever</h3>
-                </div>
-                <div class="panel-body">
-                    @Html.Action("List", "Account", new { CourseId = Model.Id, ControlRef = "Courses", ActionRef = "Details" })
-                </div>
-            </div>
-
+        </div>
+    }
+    <div class="panel panel-default">
+        <div class="panel-heading headerDiv">
+            <h3>Elever</h3>
+        </div>
+        <div class="panel-body">
+            @Html.Action("List", "Account", new { CourseId = Model.Id, ControlRef = "Courses", ActionRef = "Details" })
+        </div>
     </div>
 </div>
+
+@section scripts{
+    <script>
+        $(document).on('click', ".edit-text", function (e) {
+            e.stopPropagation();
+            var value = $(this).attr('name');
+            var url = '@(Html.Raw(Url.Action("Create", "CreateCourse", new { courseId = Model.Id, moduleId = -1, moduleShow = true, courseShow = false })))'.replace('-1', value);
+            window.location.href = url;
+        });
+    </script>
+    <script>
+        $(document).on('click', ".doc-btn", function (e) {
+            e.stopPropagation();
+            var value = $(this).attr('name');
+            var url = '@(Html.Raw(Url.Action("List", "Documents", new { activityId = -1 })))'.replace('-1', value);
+            window.location.href = url;
+        });
+    </script>
+}
