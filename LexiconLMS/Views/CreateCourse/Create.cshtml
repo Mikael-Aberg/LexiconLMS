@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Create";
 }
-
+<input id="documentfor" name="documentfor" type="hidden" value="course" />
 <div class="panel-group" id="accordion">
     <div class="panel panel-default">
         <a data-toggle="collapse" data-parent="#accordion" href="#collapseCourse" class="accordion-header-link">
@@ -181,6 +181,7 @@
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
                                 <input type="button" id="ActivityBtn" value="@( ((Model.ActivityModel.Activity != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default hidden" />
+
                             </div>
                         </div>
                     }
@@ -227,19 +228,17 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script>
 
-
-            @*document.getElementById("deleteLink").href = "/Account/Delete?CourseId=@ViewBag.CourseId&ControlRef=@ViewBag.ControlRef&ActionRef=@ViewBag.ActionRef&id=" + value;*@
         $(document).on('change', '#file', function () {
             var filetext = document.getElementById("file").value.slice(12);
             document.getElementById("fileselected").innerHTML = filetext;
             document.getElementById("Name").value = filetext;
-
         });
 
         $(document).on("click", ".DocBtn", function () {
             var value = @( (Model.Course != null)? Model.Course.Id : 0);
             var CourseName = "@( (Model.Course != null)? Model.Course.Name : "")";
             document.getElementById("myModalLabel").innerHTML = "Ladda upp dokument för kurs: " + CourseName;
+            document.getElementById("documentfor").value = "course";
             $.ajax({
                 url: '@Url.Action("UploadModal", "Documents")',
                 data: {
@@ -262,22 +261,95 @@
             });
         });
 
+        $(document).on("click", ".DocModuleBtn", function () {
+            document.getElementById("documentfor").value = "module";
+            var courseId = @( (Model.Course != null)? Model.Course.Id : 0);
+            var value = $(this).attr('name');
+            document.getElementById("myModalLabel").innerHTML = "Ladda upp dokument för modul";
+            $.ajax({
+                url: '@Url.Action("UploadModal", "Documents")',
+                data: {
+                    courseId: courseId,
+                    ModuleId: value,
+                    showAsPartial: true
+                },
+                type: "GET",
+                success: function (data) {
+                    if(data){
+                        $("#modalBody").html(data);
+                        $("#docModal").modal();
+                    }
+                    else{
+                        alert("No data");
+                    }
+                },
+                error: function (xhr, textStatus, thrownError, data) {
+                    alert("Error: " + thrownError);
+                }
+            });
+        });
+
+        $(document).on("click", ".DocActivityBtn", function () {
+            document.getElementById("documentfor").value = "activity";
+            var courseId = @( (Model.Course != null)? Model.Course.Id : 0);
+            var value = $(this).attr('name');
+            document.getElementById("myModalLabel").innerHTML = "Ladda upp dokument för aktivitet";
+            $.ajax({
+                url: '@Url.Action("UploadModal", "Documents")',
+                data: {
+                    courseId: courseId,
+                    ActivityId: value,
+                    showAsPartial: true
+                },
+                type: "GET",
+                success: function (data) {
+                    if(data){
+                        $("#modalBody").html(data);
+                        $("#docModal").modal();
+                    }
+                    else{
+                        alert("No data");
+                    }
+                },
+                error: function (xhr, textStatus, thrownError, data) {
+                    alert("Error: " + thrownError);
+                }
+            });
+        });
+
         $(document).on('click', '#uploadBtn', function () {
             var formData = new FormData($('#document-form')[0]);
             formData.append('file', $('input[type=file]')[0].files[0]);
             var file = $('input[type=file]')[0].files[0];
+            var documentfor = document.getElementById("documentfor").value
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("CreateModal","Documents",null)',
                 data: formData,
-                //use contentType, processData for sure.
                 contentType: false,
                 processData: false,
                 success: function (data) {
                     if (data) {
                         $('#modalBody').html(data);
+                        document.getElementById("CourseFileInfo").innerHTML = "";
+                        document.getElementById("ModuleFileInfo").innerHTML = "";
+                        document.getElementById("ActivityFileInfo").innerHTML = "";
                         @*$('#CourseFileInfo').load('@Url.Action("List", "Documents", new { ControlRef = "CreateCourse", ActionRef = "Create" })');*@
-                        document.getElementById("CourseFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";
+                        // Use above code instead to reload list of documents on the appropriate place?
+                        // This is temporary code to view the most recent uploaded document - should be replaced by lists
+                        switch(documentfor) {
+                            case "course":
+                                document.getElementById("CourseFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";    
+                                break;
+                            case "module":
+                                document.getElementById("ModuleFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";
+                                break;
+                            case "activity":
+                                document.getElementById("ActivityFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";
+                                break;
+                            default:
+                                break;
+                        }
                         $('#docModal').modal('hide')
                     }
                 }
