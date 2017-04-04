@@ -40,6 +40,10 @@ namespace LexiconLMS.Controllers
 
         public ActionResult List(int? courseId, int? moduleId, int? activityId, bool partial = false)
         {
+            ViewBag.courseId = courseId;
+            ViewBag.moduleId = moduleId;
+            ViewBag.activityId = activityId;
+            ViewBag.partial = partial;
             if (User.IsInRole("Teacher"))
             {
                 var documents = db.Documents
@@ -225,7 +229,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: Documents/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, int? courseId, int? moduleId, int? activityId, bool partial = false)
         {
             if (id == null)
             {
@@ -236,6 +240,10 @@ namespace LexiconLMS.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.courseId = courseId;
+            ViewBag.moduleId = moduleId;
+            ViewBag.activityId = activityId;
+            ViewBag.partial = partial;
             return View(document);
         }
 
@@ -244,7 +252,7 @@ namespace LexiconLMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int? Id, string Name, string Description)
+        public ActionResult Edit(int? Id, string Name, string Description, int? courseId, int? moduleId, int? activityId, bool partial = false)
         {
             if (Id == null)
             {
@@ -260,7 +268,7 @@ namespace LexiconLMS.Controllers
             document.Name = Name;
             document.Description = Description;
             db.SaveChanges();
-            return RedirectToAction("List");
+            return RedirectToAction("List", new { courseId = courseId, moduleId = moduleId, activityId = activityId, partial = partial });
 
         }
 

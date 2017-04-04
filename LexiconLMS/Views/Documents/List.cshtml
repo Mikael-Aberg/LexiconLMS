@@ -55,7 +55,7 @@
                 </a>
             </td>
             <td>
-                <a href='@Url.Action("Edit", "Documents", new { id = item.Id })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
+                <a href='@Url.Action("Edit", "Documents", new { id = item.Id, courseId =  ViewBag.courseId, moduleId = ViewBag.moduleId, activityId = ViewBag.activityId, partial = ViewBag.partial })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
                     <img class="document-img" src="~/Images/documentedit.png" />
                 </a>
             </td>

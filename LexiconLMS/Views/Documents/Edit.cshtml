@@ -11,6 +11,10 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
+        <input type="hidden" id="courseId" name="courseId" value="@ViewBag.courseId" />
+        <input type="hidden" id="moduleId" name="moduleId" value="@ViewBag.moduleId" />
+        <input type="hidden" id="activityId" name="activityId" value="@ViewBag.activityId" />
+        <input type="hidden" id="partial" name="partial" value="@ViewBag.partial" />
 
         <hr />
 
@@ -36,7 +40,7 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <a href='@Url.Action("List", "Documents")' class="btn btn-default">
+                    <a href='@Url.Action("List", "Documents", new {courseId =  ViewBag.courseId, moduleId = ViewBag.moduleId, activityId = ViewBag.activityId, partial = ViewBag.partial })' class="btn btn-default">
                         Avbryt
                     </a>
                     <input type="submit" value="Spara ändringar" class="btn btn-info" />
