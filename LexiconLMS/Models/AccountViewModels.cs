@@ -143,13 +143,13 @@ namespace LexiconLMS.Models
         [Display(Name = "E-post")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Du måste fylla i ett lösenord.")]
+        [RequiredIfNot("IsEditing", ErrorMessage = "Du måste fylla i ett lösenord.")]
         [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Lösenord")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Du måste fylla i ett lösenord.")]
+        [RequiredIfNot("IsEditing", ErrorMessage = "Du måste fylla i ett lösenord.")]
         [DataType(DataType.Password)]
         [Display(Name = "Bekräfta lösenord")]
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Lösenordet och bekräftade lösenordet är inte lika.")]

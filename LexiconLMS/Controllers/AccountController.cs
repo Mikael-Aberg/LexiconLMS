@@ -440,11 +440,13 @@ namespace LexiconLMS.Controllers
 
                         //if (User.IsInRole("Teacher"))
                         //{
-                        model.Title = "Lägg till lärare";
+                        var viewModel = new RegisterTeacherViewModel();
+                        viewModel.Title = "Lägg till lärare";
                         //model.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
-                        model.Msg = $"{user.FullName} har blivit registrerad";
-                        model.IsEditing = false;
-                        return PartialView("_RegisterTeacher", model);
+                        viewModel.Msg = $"{user.FullName} har blivit registrerad";
+                        viewModel.IsEditing = false;
+                        ModelState.Clear();
+                        return PartialView("_RegisterTeacher", viewModel);
                         //}  
                         //return RedirectToAction("Index", "HomeStudent");
                     }
