@@ -1,4 +1,4 @@
-﻿@model LexiconLMS.Models.Course
+﻿@model LexiconLMS.Models.CourseDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -6,7 +6,7 @@
 
 <div class="container toppadding">
     <div class="headerDiv">
-        <h1>@Model.Name</h1><span>@Model.StartDate.ToShortDateString() - @Model.EndDate.ToShortDateString()</span>
+        <h1>@Model.Name</h1><span>@Model.StartDate - @Model.EndDate</span>
     </div>
     <hr />
     <h4>@Model.Description</h4>
@@ -17,7 +17,7 @@
 
             <a data-parent="#accordion-@module.Id" href="#module-@module.Id" data-toggle="collapse">
                 <div class="panel-heading headerDiv">
-                    <h3>@module.Name</h3><span>@module.StartDate.ToShortDateString() - @module.EndDate.ToShortDateString()</span>
+                    <h3>@module.Name</h3><span>@module.StartDate - @module.EndDate</span>
                     @if (User.IsInRole("Teacher"))
                     {
                         <p class="fake-link edit-text" name="@module.Id">Redigera</p>
@@ -39,7 +39,7 @@
                     {
                         <table class="table">
                             <tr>
-                                <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Type)</th>
+                                <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().TypeName)</th>
                                 <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Name)</th>
                                 <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().Description)</th>
                                 <th nowrap>@Html.DisplayNameFor(x => module.Activities.First().StartTime)</th>
@@ -54,15 +54,17 @@
                             @foreach (var activity in module.Activities.OrderByDescending(x => x.EndTime))
                             {
                                 <tr>
-                                    <td>@Html.DisplayFor(x => activity.Type.Name)</td>
+                                    <td>@Html.DisplayFor(x => activity.TypeName)</td>
                                     <td>@Html.DisplayFor(x => activity.Name)</td>
                                     <td data-toggle="tooltip" title="@Html.DisplayFor(x => activity.ToolTipText)">@Html.DisplayFor(x => activity.ShortDescription)</td>
                                     <td>@Html.DisplayFor(x => activity.StartTime)</td>
                                     <td>@Html.DisplayFor(x => activity.EndTime)</td>
                                     <td>
-                                        @if (activity.IsAssignemnt && User.IsInRole("Teacher"))
+                                        @if (activity.IsAssignment && User.IsInRole("Teacher"))
                                         {
-                                            <button name="@activity.Id" class="fake-link doc-btn">@activity.Documents.Where(x => x.IsAssignment && x.User.UserName != User.Identity.Name).Count() / @Model.Students.Count</button>
+                                            <button name="@activity.Id" class="fake-link doc-btn">
+                                                @activity.DocumentString
+                                            </button>
                                         }
                                     </td>
                                     <td>

@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LexiconLMS.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
 
 namespace LexiconLMS.Controllers
 {
@@ -46,7 +48,44 @@ namespace LexiconLMS.Controllers
             {
                 return HttpNotFound();
             }
-            return View(course);
+
+            var viewModel = new CourseDetailsViewModel
+            {
+                Id = course.Id,
+                Name = course.Name,
+                Description = course.Description,
+                EndDate = course.EndDate.ToShortDateString(),
+                StartDate = course.StartDate.ToShortDateString(),
+            };
+
+            var userStore = new UserStore<ApplicationUser>(db);
+            var userManager = new UserManager<ApplicationUser>(userStore);
+
+            var modules = course.Modules.Select(x => new CourseDetailsModuleViewModel
+            {
+                Name = x.Name,
+                StartDate = x.StartDate.ToShortDateString(),
+                EndDate = x.EndDate.ToShortDateString(),
+                Description = x.Description,
+                Id = (int)x.Id,
+                Activities = x.Activities.Select(a => new CourseDetailsActivityViewModel
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    EndTime = a.EndTime,
+                    TypeName = a.Type.Name,
+                    StartTime = a.StartTime,
+                    Description = a.Description,
+                    IsAssignment = a.IsAssignemnt,
+                    DocumentString = a.Documents
+                    .Where(d => d.IsAssignment && !userManager.IsInRole(d.User.Id, "Teacher"))
+                    .Select(u => u.User).Distinct().Count()
+                     + $"/{course.Students.Count} - inlämnade"
+                }).ToList()
+            });
+
+            viewModel.Modules = modules.ToList();
+            return View(viewModel);
         }
 
         // GET: Courses/Create

@@ -11,7 +11,7 @@ using LexiconLMS.Models;
 namespace LexiconLMS.Controllers
 {
     [Authorize]
-    public class FeedBackController : Controller
+    public class FeedbackController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 

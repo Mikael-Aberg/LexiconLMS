@@ -24,9 +24,10 @@
         <th></th>
         <th></th>
         <th></th>
+        <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.OrderBy(x => x.User.LastName))
     {
         <tr>
             <td data-toggle="tooltip" data-container="body" data-placement="bottom"
@@ -39,7 +40,15 @@
             <td>@Html.DisplayFor(modelItem => item.User.FullName)</td>
             <td>@Html.DisplayFor(modelItem => item.UploadTime)</td>
             <td>@Html.DisplayFor(modelItem => item.abbrContentLength)</td>
-
+            <td>
+                @if (item.Activity != null)
+                {
+                    if (item.Activity.IsAssignemnt)
+                    {
+                        @Html.ActionLink("Ge feedback", "Create", "Feedback",new { userId = item.UserId, activityId = item.ActivityId}, null);
+                    }
+                }
+            </td>
             <td>
                 <a href='@Url.Action("Edit", "Documents", new { id = item.Id })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
                     <img class="document-img" src="~/Images/documentedit.png" />
@@ -82,9 +91,9 @@
             }
         });
 
-$(document).ready(function(){
-    $('[data-toggle="icons"]').tooltip();
-});
+        $(document).ready(function () {
+            $('[data-toggle="icons"]').tooltip();
+        });
 
     </script>
 }

@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.Feedback.ApplicationUserId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.User.FirstName)
+            @Html.DisplayNameFor(model => model.User.FullName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Message)
@@ -26,13 +26,13 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.OrderBy(x => x.Feedback.Student.LastName ).ThenByDescending(x => x.PostedTime)) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Feedback.ApplicationUserId)
+            @Html.DisplayFor(modelItem => item.Feedback.Student.FullName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.User.FirstName)
+            @Html.DisplayFor(modelItem => item.User.FullName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Message)

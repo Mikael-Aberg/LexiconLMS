@@ -11,6 +11,7 @@ using System.IO;
 
 namespace LexiconLMS.Controllers
 {
+    [Authorize]
     public class DocumentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
