@@ -137,7 +137,7 @@ namespace LexiconLMS.Controllers
             }
             else
             {
-                return RedirectToAction("RegisterTeacher");
+                return RedirectToAction("Register");
             }
 
         }
