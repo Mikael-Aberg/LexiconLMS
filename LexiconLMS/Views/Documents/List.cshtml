@@ -4,27 +4,27 @@
     ViewBag.Title = "List";
 }
 
-<table class="table document-list">
+<table class="document-list">
     <tr>
-        <th>
+        <th class="filename">
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        <th>
+        <th class="leftthinborder">
             @Html.DisplayNameFor(model => model.Description)
         </th>
-        <th>
+        <th class="leftthinborder">
             @Html.DisplayNameFor(model => model.User)
         </th>
-        <th>
+        <th class="leftthinborder">
             @Html.DisplayNameFor(model => model.UploadTime)
         </th>
-        <th>
+        <th class="leftthinborder">
             @Html.DisplayNameFor(model => model.ContentLength)
         </th>
         <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th width="2%" class="leftthinborder"></th>
+        <th width="2%"></th>
+        <th width="2%"></th>
     </tr>
 
     @foreach (var item in Model.OrderBy(x => x.User.LastName))
@@ -50,24 +50,42 @@
                 }
             </td>
             <td>
+                <a href='@Url.Action("DownloadFile", "Documents", new { id = item.Id })' data-toggle="icons" title="Ladda ned: @Html.DisplayFor(modelItem => item.Name)">
+                    <img class="document-img" src="~/Images/documentdownload.png" />
+                </a>
+            </td>
+            <td>
                 <a href='@Url.Action("Edit", "Documents", new { id = item.Id })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
                     <img class="document-img" src="~/Images/documentedit.png" />
                 </a>
             </td>
             <td>
-                <a href='@Url.Action("Delete", "Documents", new { id = item.Id })' data-toggle="icons" title="Ta bort: @Html.DisplayFor(modelItem => item.Name)">
-                    <img class="document-img" src="~/Images/documentdelete.png" />
-                </a>
-            </td>
-            <td>
-                <a href='@Url.Action("DownloadFile", "Documents", new { id = item.Id })' data-toggle="icons" title="Ladda ned: @Html.DisplayFor(modelItem => item.Name)">
-                    <img class="document-img" src="~/Images/documentdownload.png" />
-                </a>
+
+                    <img name="@Html.DisplayFor(modelItem => item.Name)" id="@item.Id" class="document-img deleteDocument" src="~/Images/documentdelete.png" data-toggle="icons" title="Ta bort: @Html.DisplayFor(modelItem => item.Name)"/>
+
             </td>
         </tr>
     }
-
 </table>
+
+<div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Ta bort dokument</h4>
+            </div>
+            <div class="modal-body">
+                Är du säker på att du vill ta bort "<span id="spanDocument"></span>"?
+            </div>
+            <div class="modal-footer">
+                <div id="testOutput"></div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
+                <a href="" id="deleteLink" class="btn btn-danger">Ta bort</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts{
     <script>
@@ -91,9 +109,17 @@
             }
         });
 
-        $(document).ready(function () {
+        $(document).ready(function(){
             $('[data-toggle="icons"]').tooltip();
         });
 
+        $(document).on('click', '.deleteDocument', function () {
+            var name = $(this).attr('name');
+            var value = $(this).attr('id');
+            document.getElementById("spanDocument").innerHTML = name;
+            document.getElementById("deleteLink").href = "/Documents/DeleteConfirmed/" + value;
+            $('#docModal').modal();
+
+        });
     </script>
 }
