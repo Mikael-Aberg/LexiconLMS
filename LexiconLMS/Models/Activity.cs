@@ -37,7 +37,7 @@ namespace LexiconLMS.Models
         public int ModuelId { get; set; }
         public int TypeId { get; set; }
 
-        public bool IsAssignemnt { get { return Type.IsAssignment; } }
+        public bool IsAssignment { get { return Type.IsAssignment; } }
 
         [ForeignKey("ModuelId")]
         [DisplayName("Modul")]

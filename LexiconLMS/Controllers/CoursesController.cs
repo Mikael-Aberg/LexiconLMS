@@ -37,11 +37,12 @@ namespace LexiconLMS.Controllers
             {
                 var user = db.Users.First(u => u.UserName == User.Identity.Name);
                 Course courseModel = db.Courses.Find(user.CourseId);
+
                 if (courseModel == null)
                 {
                     return HttpNotFound();
                 }
-                return View(courseModel);
+                return View(CreateViewModel(courseModel));
             }
             Course course = db.Courses.Find(id);
             if (course == null)
@@ -49,6 +50,11 @@ namespace LexiconLMS.Controllers
                 return HttpNotFound();
             }
 
+            return View(CreateViewModel(course));
+        }
+
+        private CourseDetailsViewModel CreateViewModel(Course course)
+        {
             var viewModel = new CourseDetailsViewModel
             {
                 Id = course.Id,
@@ -57,7 +63,6 @@ namespace LexiconLMS.Controllers
                 EndDate = course.EndDate.ToShortDateString(),
                 StartDate = course.StartDate.ToShortDateString(),
             };
-
             var userStore = new UserStore<ApplicationUser>(db);
             var userManager = new UserManager<ApplicationUser>(userStore);
 
@@ -76,16 +81,16 @@ namespace LexiconLMS.Controllers
                     TypeName = a.Type.Name,
                     StartTime = a.StartTime,
                     Description = a.Description,
-                    IsAssignment = a.IsAssignemnt,
+                    IsAssignment = a.IsAssignment,
                     DocumentString = a.Documents
                     .Where(d => d.IsAssignment && !userManager.IsInRole(d.User.Id, "Teacher"))
                     .Select(u => u.User).Distinct().Count()
                      + $"/{course.Students.Count} - inlämnade"
                 }).ToList()
             });
-
             viewModel.Modules = modules.ToList();
-            return View(viewModel);
+
+            return viewModel;
         }
 
         // GET: Courses/Create

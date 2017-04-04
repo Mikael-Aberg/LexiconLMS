@@ -43,7 +43,7 @@
             <td>
                 @if (item.Activity != null)
                 {
-                    if (item.Activity.IsAssignemnt)
+                    if (item.Activity.IsAssignment)
                     {
                         @Html.ActionLink("Ge feedback", "Create", "Feedback",new { userId = item.UserId, activityId = item.ActivityId}, null);
                     }
@@ -60,9 +60,7 @@
                 </a>
             </td>
             <td>
-
                     <img name="@Html.DisplayFor(modelItem => item.Name)" id="@item.Id" class="document-img deleteDocument" src="~/Images/documentdelete.png" data-toggle="icons" title="Ta bort: @Html.DisplayFor(modelItem => item.Name)"/>
-
             </td>
         </tr>
     }

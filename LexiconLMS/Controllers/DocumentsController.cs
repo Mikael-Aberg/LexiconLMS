@@ -120,6 +120,26 @@ namespace LexiconLMS.Controllers
                         var user = db.Users.First(u => u.UserName == User.Identity.Name);
 
                         document.UserId = user.Id;
+
+                        if (document.CourseId == null)
+                        {
+                            if (document.ActivityId != null)
+                            {
+                                document.CourseId = db.Activities.Find(document.ActivityId).Module.CourseId;
+                            }
+                            else if (document.ModuleId != null)
+                            {
+                                document.CourseId = db.Modules.Find(document.ModuleId).CourseId;
+                            }
+                            else
+                            {
+                                if (!User.IsInRole("Teacher"))
+                                {
+                                    document.CourseId = db.Users.First(x => x.UserName == User.Identity.Name).CourseId;
+                                }
+                            }
+                        }
+
                         document.Shared = false;
                         document.UploadTime = DateTime.Now;
                         db.Documents.Add(document);
@@ -164,6 +184,25 @@ namespace LexiconLMS.Controllers
                         document.ContentType = file.ContentType;
                         var user = db.Users.First(u => u.UserName == User.Identity.Name);
 
+                        if (document.CourseId == null)
+                        {
+                            if (document.ActivityId != null)
+                            {
+                                document.CourseId = db.Activities.Find(document.ActivityId).Module.CourseId;
+                            }
+                            else if (document.ModuleId != null)
+                            {
+                                document.CourseId = db.Modules.Find(document.ModuleId).CourseId;
+                            }
+                            else
+                            {
+                                if (!User.IsInRole("Teacher"))
+                                {
+                                    document.CourseId = db.Users.First(x => x.UserName == User.Identity.Name).CourseId;
+                                }
+                            }
+                        }
+
                         document.UserId = user.Id;
                         document.Shared = false;
                         document.UploadTime = DateTime.Now;
@@ -176,7 +215,7 @@ namespace LexiconLMS.Controllers
                 {
 
                     ViewBag.FileStatus = "Ett Fel inträffade vid uppladdning av fil.";
-                    var errmodel = new DocumentCreateViewModel() {CourseId = document.CourseId, ModuleId = document.ModuleId, ActivityId = document.ActivityId, Name = document.Name, Description = document.Description };
+                    var errmodel = new DocumentCreateViewModel() { CourseId = document.CourseId, ModuleId = document.ModuleId, ActivityId = document.ActivityId, Name = document.Name, Description = document.Description };
 
                     return PartialView("_DocModal", errmodel);
                 }
@@ -216,7 +255,7 @@ namespace LexiconLMS.Controllers
             {
                 return HttpNotFound();
             }
-            
+
             db.Entry(document).State = EntityState.Modified;
             document.Name = Name;
             document.Description = Description;
