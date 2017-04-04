@@ -241,8 +241,6 @@ namespace LexiconLMS.Controllers
         }
 
         // POST: Documents/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Document document = db.Documents.Find(id);
