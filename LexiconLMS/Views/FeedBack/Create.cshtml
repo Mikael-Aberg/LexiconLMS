@@ -12,9 +12,9 @@
     <div class="form-horizontal">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(x => x.FeedbackId);
-        @Html.HiddenFor(x => x.PostedById);
-        @Html.HiddenFor(x => x.StudentId);
+        @Html.HiddenFor(x => x.FeedbackId)
+        @Html.HiddenFor(x => x.PostedById)
+        @Html.HiddenFor(x => x.StudentId)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label col-md-2" })
