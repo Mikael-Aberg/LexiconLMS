@@ -87,8 +87,12 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Ta bort dokument" class="btn btn-default" />
-            @Html.ActionLink("Tillbaka till dokumentlistan", "List")
+            <a href='@Url.Action("List", "Documents")' class="btn btn-default">
+                Avbryt
+            </a>
+            <input type="submit" value="Ta bort dokument" class="btn btn-info" />
+            
         </div>
     }
 </div>
+

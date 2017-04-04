@@ -129,10 +129,12 @@ namespace LexiconLMS.Controllers
                 catch (Exception)
                 {
                     ViewBag.FileStatus = "Ett Fel inträffade vid uppladdning av fil.";
-                    return View(document);
+                    var errmodel = new DocumentCreateViewModel() { CourseId = document.CourseId, ModuleId = document.ModuleId, ActivityId = document.ActivityId, Name = document.Name, Description = document.Description };
+                    return View(errmodel);
                 }
             }
-            return View(document);
+            var model = new DocumentCreateViewModel() { CourseId = document.CourseId, ModuleId = document.ModuleId, ActivityId = document.ActivityId, Name = document.Name, Description = document.Description };
+            return View(model);
         }
 
         // POST: Documents/Create
@@ -173,10 +175,13 @@ namespace LexiconLMS.Controllers
                 {
 
                     ViewBag.FileStatus = "Ett Fel inträffade vid uppladdning av fil.";
-                    return PartialView("_DocModal", document);
+                    var errmodel = new DocumentCreateViewModel() {CourseId = document.CourseId, ModuleId = document.ModuleId, ActivityId = document.ActivityId, Name = document.Name, Description = document.Description };
+
+                    return PartialView("_DocModal", errmodel);
                 }
             }
-            return PartialView("_DocModal", document);
+            var model = new DocumentCreateViewModel() { CourseId = document.CourseId, ModuleId = document.ModuleId, ActivityId = document.ActivityId, Name = document.Name, Description = document.Description };
+            return PartialView("_DocModal", model);
         }
 
         // GET: Documents/Edit/5
