@@ -1,4 +1,4 @@
-﻿@model LexiconLMS.Models.Feedback
+﻿@model LexiconLMS.Models.FeedBackMessage
 
 @{
     ViewBag.Title = "Details";
@@ -7,15 +7,15 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Feedback</h4>
+    <h4>FeedBackMessage</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Activity.Name)
+            @Html.DisplayNameFor(model => model.Feedback.ApplicationUserId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Activity.Name)
+            @Html.DisplayFor(model => model.Feedback.ApplicationUserId)
         </dd>
 
         <dt>
@@ -35,19 +35,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PostedDate)
+            @Html.DisplayNameFor(model => model.PostedTime)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PostedDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsPostedByTeacher)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsPostedByTeacher)
+            @Html.DisplayFor(model => model.PostedTime)
         </dd>
 
     </dl>
