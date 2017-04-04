@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -13,7 +14,8 @@ namespace LexiconLMS.Models
         }
 
         public int Id { get; set; }
-        public string ApplicationUserId { get; set; }
+        public string PostedById { get; set; }
+        public string PostedToId { get; set; }
         public int ActivityId { get; set; }
 
         public string Message { get; set; }
@@ -21,7 +23,10 @@ namespace LexiconLMS.Models
 
         public bool IsPostedByTeacher { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
+        [ForeignKey("PostedById")]
+        public virtual ApplicationUser PostedBy { get; set; }
+        [ForeignKey("PostedToId")]
+        public virtual ApplicationUser PostedTo { get; set; }
         public virtual Activity Activity { get; set; }
     }
 }

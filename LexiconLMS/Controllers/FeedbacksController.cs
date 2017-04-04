@@ -17,7 +17,7 @@ namespace LexiconLMS.Controllers
         // GET: Feedbacks
         public ActionResult Index()
         {
-            var feedbacks = db.Feedbacks.Include(f => f.Activity).Include(f => f.User);
+            var feedbacks = db.Feedbacks.Include(f => f.Activity);
             return View(feedbacks.ToList());
         }
 
@@ -40,7 +40,7 @@ namespace LexiconLMS.Controllers
         public ActionResult Create()
         {
             ViewBag.ActivityId = new SelectList(db.Activities, "Id", "Name");
-            ViewBag.ApplicationUserId = new SelectList(db.ApplicationUsers, "Id", "FirstName");
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "FirstName");
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace LexiconLMS.Controllers
             }
 
             ViewBag.ActivityId = new SelectList(db.Activities, "Id", "Name", feedback.ActivityId);
-            ViewBag.ApplicationUserId = new SelectList(db.ApplicationUsers, "Id", "FirstName", feedback.ApplicationUserId);
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "FirstName");
             return View(feedback);
         }
 
@@ -76,7 +76,7 @@ namespace LexiconLMS.Controllers
                 return HttpNotFound();
             }
             ViewBag.ActivityId = new SelectList(db.Activities, "Id", "Name", feedback.ActivityId);
-            ViewBag.ApplicationUserId = new SelectList(db.ApplicationUsers, "Id", "FirstName", feedback.ApplicationUserId);
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "FirstName");
             return View(feedback);
         }
 
@@ -94,7 +94,7 @@ namespace LexiconLMS.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.ActivityId = new SelectList(db.Activities, "Id", "Name", feedback.ActivityId);
-            ViewBag.ApplicationUserId = new SelectList(db.ApplicationUsers, "Id", "FirstName", feedback.ApplicationUserId);
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "FirstName");
             return View(feedback);
         }
 
