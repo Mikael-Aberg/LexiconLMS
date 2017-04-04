@@ -162,6 +162,12 @@ namespace LexiconLMS.Models
         public SelectList Courses { get; set; }
 
         public string Msg { get; set; }
+
+        public bool IsEditing { get; set; }
+
+        public string Title { get; set; }
+
+        public string UserId { get; set; }
     }
 
     public class ListUserViewModel
@@ -207,18 +213,18 @@ namespace LexiconLMS.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "E-post")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Lösenord")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Bekräfta lösenord")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Lösenordet och bekräftade lösenordet är inte lika.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
@@ -228,7 +234,7 @@ namespace LexiconLMS.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "E-post")]
         public string Email { get; set; }
     }
 }

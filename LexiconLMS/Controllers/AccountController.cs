@@ -92,6 +92,31 @@ namespace LexiconLMS.Controllers
             return PartialView(model);
         }
 
+        //
+        // GET: /Account/Login
+        [AllowAnonymous]
+        public ActionResult ListTeacher(int? Id, int? CourseId, string ControlRef = "", string ActionRef = "")
+        {
+            if (CourseId != null) Id = CourseId;
+            ViewBag.CourseId = -1;
+            ViewBag.ControlRef = ControlRef;
+            ViewBag.ActionRef = ActionRef;
+            var allusers = db.Users.Where(x => x.Course == null).ToList();
+            //if (Id != null && Id != -1)
+            //{
+            //    allusers = allusers.Where(x => x.Course.Id == Id).ToList();
+            //    ViewBag.CourseId = Id;
+            //}
+
+            var model = new List<ListUserViewModel>();
+            foreach (var user in allusers)
+            {
+                var u = new ListUserViewModel(user);
+                model.Add(u);
+            }
+            return PartialView(model);
+        }
+
         [Authorize(Roles = "Teacher")]
         public ActionResult Delete(string id, int? CourseId, string ControlRef = "", string ActionRef = "")
         {
@@ -101,7 +126,7 @@ namespace LexiconLMS.Controllers
             var user = db.Users.First(u => u.UserName == id);
             if (count < 2 && UserManager.IsInRole(user.Id, "Teacher"))
             {
-                return RedirectToAction("Register", new { msg = "Du kan inte ta bort sista läraren!" });
+                return RedirectToAction("RegisterTeacher", new { msg = "Du kan inte ta bort sista läraren!" });
             }
 
             db.Users.Remove(user);
@@ -112,7 +137,7 @@ namespace LexiconLMS.Controllers
             }
             else
             {
-                return RedirectToAction("Register");
+                return RedirectToAction("RegisterTeacher");
             }
 
         }
@@ -301,11 +326,36 @@ namespace LexiconLMS.Controllers
         //
         // GET: /Account/Register
         [Authorize(Roles = "Teacher")]
-        public ActionResult RegisterTeacher(string msg = "")
+        //public ActionResult RegisterTeacher(string msg = "")
+        public ActionResult RegisterTeacher(string name, string msg = "")
         {
-            var viewModel = new RegisterTeacherViewModel();
+            /*var viewModel = new RegisterTeacherViewModel();
             viewModel.Msg = msg;
 
+            return View(viewModel);*/
+            var viewModel = new RegisterTeacherViewModel();
+
+            viewModel.Msg = msg;
+            viewModel.Title = "Lägg till lärare";
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                ModelState.Clear();
+                var user = db.Users.First(x => x.UserName == name);
+
+                //viewModel.CourseId = (int)user.CourseId;
+                viewModel.FirstName = user.FirstName;
+                viewModel.LastName = user.LastName;
+                viewModel.SocialSecurityNumber = user.SocialSecurityNumber;
+                viewModel.Email = user.Email;
+                viewModel.UserId = user.Id;
+
+                //viewModel.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
+                viewModel.IsEditing = true;
+                return PartialView("_RegisterTeacher", viewModel);
+            }
+
+            //viewModel.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
             return View(viewModel);
         }
 
@@ -316,7 +366,7 @@ namespace LexiconLMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterTeacher(RegisterTeacherViewModel model)
         {
-            if (ModelState.IsValid)
+            /*if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, SocialSecurityNumber = model.SocialSecurityNumber, FirstName = model.FirstName, LastName = model.LastName, Email = model.Email, CourseId = model.CourseId };
                 Console.WriteLine();
@@ -345,7 +395,68 @@ namespace LexiconLMS.Controllers
             }
             model.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View(model);*/
+
+            if (ModelState.IsValid)
+            {
+                if (model.IsEditing)
+                {
+                    var user = UserManager.FindById(model.UserId);
+
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.SocialSecurityNumber = model.SocialSecurityNumber;
+                    user.Email = model.Email;
+                    user.UserName = model.Email;
+                    //user.CourseId = model.CourseId;
+
+                    UserManager.Update(user);
+                    var newModel = new RegisterTeacherViewModel();
+                    newModel.Title = "Lägg till lärare";
+                    //newModel.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
+                    newModel.Msg = $"{user.FullName} har blivit uppdaterad";
+                    newModel.IsEditing = false;
+
+                    ModelState.Clear();
+
+                    return PartialView("_RegisterTeacher", newModel);
+                }
+                else
+                {
+                    var user = new ApplicationUser { UserName = model.Email, SocialSecurityNumber = model.SocialSecurityNumber, FirstName = model.FirstName, LastName = model.LastName, Email = model.Email };
+
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                        //if (User.IsInRole("Teacher"))
+                        //{
+                        model.Title = "Lägg till lärare";
+                        //model.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
+                        model.Msg = $"{user.FullName} har blivit registrerad";
+                        model.IsEditing = false;
+                        return PartialView("_RegisterTeacher", model);
+                        //}  
+                        //return RedirectToAction("Index", "HomeStudent");
+                    }
+                    if (result.Errors.Any(x => x.Contains("Password")))
+                    {
+                        AddErrors(new IdentityResult("Lösenord måste ha åtminstone en icke bokstav eller siffra karaktär.Lösenord måste ha minst en siffra('0' - '9').Lösenord måste ha minst ett versalt(\"A\" - \"Z\")."));
+                    }
+                }
+            }
+            model.Title = "Lägg till lärare";
+            //model.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
+
+            // If we got this far, something failed, redisplay form
+            return PartialView("_RegisterTeacher", model);
         }
 
         //
@@ -387,10 +498,10 @@ namespace LexiconLMS.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
