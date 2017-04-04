@@ -8,25 +8,13 @@ namespace LexiconLMS.Models
 {
     public class Feedback
     {
-        public Feedback()
-        {
-            PostedDate = DateTime.Now;
-        }
-
         public int Id { get; set; }
-        public string PostedById { get; set; }
-        public string PostedToId { get; set; }
         public int ActivityId { get; set; }
+        public string ApplicationUserId { get; set; }
+        public bool PassingGrade { get; set; }
 
-        public string Message { get; set; }
-        public DateTime PostedDate { get; private set; }
-
-        public bool IsPostedByTeacher { get; set; }
-
-        [ForeignKey("PostedById")]
-        public virtual ApplicationUser PostedBy { get; set; }
-        [ForeignKey("PostedToId")]
-        public virtual ApplicationUser PostedTo { get; set; }
+        public virtual ApplicationUser Student { get; set; }
         public virtual Activity Activity { get; set; }
+        public virtual ICollection<FeedBackMessage> Messages { get; set; }
     }
 }

@@ -173,7 +173,7 @@
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\CreateCourseController.cs" />
     <Compile Include="Controllers\DocumentsController.cs" />
-    <Compile Include="Controllers\FeedbacksController.cs" />
+    <Compile Include="Controllers\FeedBackController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
@@ -193,6 +193,8 @@
     <Compile Include="Models\Document.cs" />
     <Compile Include="Models\DocumentCreateViewModel.cs" />
     <Compile Include="Models\Feedback.cs" />
+    <Compile Include="Models\FeedBackCreateViewModel.cs" />
+    <Compile Include="Models\FeedBackMessage.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Module.cs" />
@@ -404,11 +406,11 @@
     <Content Include="Views\Documents\List.cshtml" />
     <Content Include="Views\Documents\_DocModal.cshtml" />
     <Content Include="Views\Activities\AssignmentsList.cshtml" />
-    <Content Include="Views\Feedbacks\Create.cshtml" />
-    <Content Include="Views\Feedbacks\Delete.cshtml" />
-    <Content Include="Views\Feedbacks\Details.cshtml" />
-    <Content Include="Views\Feedbacks\Edit.cshtml" />
-    <Content Include="Views\Feedbacks\Index.cshtml" />
+    <Content Include="Views\FeedBack\Create.cshtml" />
+    <Content Include="Views\FeedBack\Delete.cshtml" />
+    <Content Include="Views\FeedBack\Details.cshtml" />
+    <Content Include="Views\FeedBack\Edit.cshtml" />
+    <Content Include="Views\FeedBack\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
