@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LexiconLMS.Models.Feedback>
+﻿@model IEnumerable<LexiconLMS.Models.FeedBackMessage>
 
 @{
     ViewBag.Title = "Index";
@@ -12,7 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Activity.Name)
+            @Html.DisplayNameFor(model => model.Feedback.ApplicationUserId)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.User.FirstName)
@@ -21,10 +21,7 @@
             @Html.DisplayNameFor(model => model.Message)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PostedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsPostedByTeacher)
+            @Html.DisplayNameFor(model => model.PostedTime)
         </th>
         <th></th>
     </tr>
@@ -32,7 +29,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Activity.Name)
+            @Html.DisplayFor(modelItem => item.Feedback.ApplicationUserId)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.User.FirstName)
@@ -41,10 +38,7 @@
             @Html.DisplayFor(modelItem => item.Message)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PostedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsPostedByTeacher)
+            @Html.DisplayFor(modelItem => item.PostedTime)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
