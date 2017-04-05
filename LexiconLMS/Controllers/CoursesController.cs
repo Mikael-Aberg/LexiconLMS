@@ -55,6 +55,10 @@ namespace LexiconLMS.Controllers
 
         private CourseDetailsViewModel CreateViewModel(Course course)
         {
+
+
+            var userStore = new UserStore<ApplicationUser>(db);
+            var userManager = new UserManager<ApplicationUser>(userStore);
             var viewModel = new CourseDetailsViewModel
             {
                 Id = course.Id,
@@ -62,36 +66,71 @@ namespace LexiconLMS.Controllers
                 Description = course.Description,
                 EndDate = course.EndDate.ToShortDateString(),
                 StartDate = course.StartDate.ToShortDateString(),
-                DocumentCount = course.Documents.Count(),
+                DocumentCount = db.Documents.Where(x => x.CourseId == course.Id).Count(),
             };
-            var userStore = new UserStore<ApplicationUser>(db);
-            var userManager = new UserManager<ApplicationUser>(userStore);
-
-            var modules = course.Modules.Select(x => new CourseDetailsModuleViewModel
+            if (!User.IsInRole("Teacher"))
             {
-                Name = x.Name,
-                StartDate = x.StartDate.ToShortDateString(),
-                EndDate = x.EndDate.ToShortDateString(),
-                Description = x.Description,
-                Id = (int)x.Id,
-                DocumentCount = x.Documents.Count(),
-                Activities = x.Activities.Select(a => new CourseDetailsActivityViewModel
+                viewModel.DocumentCount = course.Documents.Where(x => x.User.UserName.Equals(User.Identity.Name) || x.User.CourseId == null && x.CourseId == course.Id).Count();
+                viewModel.DocumentCount += course.Documents.Where(x => x.User.UserName != User.Identity.Name && x.ActivityId == null && x.User.CourseId != null).Count();
+            }
+
+            if (User.IsInRole("Teacher"))
+            {
+                var modules = course.Modules.Select(x => new CourseDetailsModuleViewModel
                 {
-                    Id = a.Id,
-                    Name = a.Name,
-                    EndTime = a.EndTime,
-                    TypeName = a.Type.Name,
-                    StartTime = a.StartTime,
-                    Description = a.Description,
-                    IsAssignment = a.IsAssignment,
-                    DocumentCount = a.Documents.Count(),
-                    DocumentString = a.Documents
-                    .Where(d => d.IsAssignment && !userManager.IsInRole(d.User.Id, "Teacher"))
-                    .Select(u => u.User).Distinct().Count()
-                     + $"/{course.Students.Count} - inlämnade"
-                }).ToList()
-            });
-            viewModel.Modules = modules.ToList();
+                    Name = x.Name,
+                    StartDate = x.StartDate.ToShortDateString(),
+                    EndDate = x.EndDate.ToShortDateString(),
+                    Description = x.Description,
+                    Id = (int)x.Id,
+                    DocumentCount = x.Documents.Count(),
+                    Activities = x.Activities.Select(a => new CourseDetailsActivityViewModel
+                    {
+                        Id = a.Id,
+                        Name = a.Name,
+                        EndTime = a.EndTime,
+                        TypeName = a.Type.Name,
+                        StartTime = a.StartTime,
+                        Description = a.Description,
+                        IsAssignment = a.IsAssignment,
+                        DocumentCount = a.Documents.Count(),
+                        DocumentString = a.Documents
+                        .Where(d => d.IsAssignment && !userManager.IsInRole(d.User.Id, "Teacher"))
+                        .Select(u => u.User).Distinct().Count()
+                         + $"/{course.Students.Count} - inlämnade"
+                    }).ToList()
+                });
+                viewModel.Modules = modules.ToList();
+
+            }
+            else
+            {
+                var studentmodules = course.Modules.Select(x => new CourseDetailsModuleViewModel
+                {
+                    Name = x.Name,
+                    StartDate = x.StartDate.ToShortDateString(),
+                    EndDate = x.EndDate.ToShortDateString(),
+                    Description = x.Description,
+                    Id = (int)x.Id,
+                    DocumentCount = x.Documents.Where(y => y.User.UserName.Equals(User.Identity.Name) || y.User.CourseId == null).Count(),
+                    Activities = x.Activities.Select(a => new CourseDetailsActivityViewModel
+                    {
+                        Id = a.Id,
+                        Name = a.Name,
+                        EndTime = a.EndTime,
+                        TypeName = a.Type.Name,
+                        StartTime = a.StartTime,
+                        Description = a.Description,
+                        IsAssignment = a.IsAssignment,
+                        DocumentCount = a.Documents.Where(z => z.User.UserName.Equals(User.Identity.Name) || z.User.CourseId == null).Count(),
+                        DocumentString = a.Documents
+                        .Where(d => d.IsAssignment && !userManager.IsInRole(d.User.Id, "Teacher"))
+                        .Select(u => u.User).Distinct().Count()
+                         + $"/{course.Students.Count} - inlämnade"
+                    }).ToList()
+                });
+                viewModel.Modules = studentmodules.ToList();
+            }
 
             return viewModel;
         }
