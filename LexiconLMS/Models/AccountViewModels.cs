@@ -178,6 +178,7 @@ namespace LexiconLMS.Models
         public ListUserViewModel(ApplicationUser user)
         {
             this.UserName = user.UserName;
+            this.Email = user.Email;
             this.FullName = user.FirstName + " " + user.LastName;
             this.SocialSecurityNumber = user.SocialSecurityNumber;
             if (user.Course != null)
@@ -195,6 +196,9 @@ namespace LexiconLMS.Models
 
         [Display(Name = "Användarnamn")]
         public string UserName { get; set; }
+
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         [Display(Name = "Namn")]
         public string FullName { get; set; }

@@ -62,6 +62,7 @@ namespace LexiconLMS.Controllers
                 Description = course.Description,
                 EndDate = course.EndDate.ToShortDateString(),
                 StartDate = course.StartDate.ToShortDateString(),
+                DocumentCount = course.Documents.Count(),
             };
             var userStore = new UserStore<ApplicationUser>(db);
             var userManager = new UserManager<ApplicationUser>(userStore);
@@ -73,6 +74,7 @@ namespace LexiconLMS.Controllers
                 EndDate = x.EndDate.ToShortDateString(),
                 Description = x.Description,
                 Id = (int)x.Id,
+                DocumentCount = x.Documents.Count(),
                 Activities = x.Activities.Select(a => new CourseDetailsActivityViewModel
                 {
                     Id = a.Id,
@@ -82,6 +84,7 @@ namespace LexiconLMS.Controllers
                     StartTime = a.StartTime,
                     Description = a.Description,
                     IsAssignment = a.IsAssignment,
+                    DocumentCount = a.Documents.Count(),
                     DocumentString = a.Documents
                     .Where(d => d.IsAssignment && !userManager.IsInRole(d.User.Id, "Teacher"))
                     .Select(u => u.User).Distinct().Count()

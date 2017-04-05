@@ -18,6 +18,7 @@ namespace LexiconLMS.Models
         public string EndDate { get; set; }
         [Display(Name = "Beskrivning")]
         public string Description { get; set; }
+        public int DocumentCount { get; set; }
         [Display(Name = "Beskrivning")]
         public string ShortDescription { get { return (Description != null) ? (Description.Length > 17) ? Description.Substring(0, 17) + "..." : Description : ""; } }
         public string ToolTipText { get { return (Description != null) ? (Description.Length > 17) ? Description : "" : ""; } }
@@ -35,6 +36,7 @@ namespace LexiconLMS.Models
         public string EndDate { get; set; }
         [DisplayName("Beskrivning")]
         public string Description { get; set; }
+        public int DocumentCount { get; set; }
         [Display(Name = "Beskrivning")]
         public string ShortDescription { get { return (Description != null) ? (Description.Length > 17) ? Description.Substring(0, 17) + "..." : Description : ""; } }
         public string ToolTipText { get { return (Description != null) ? (Description.Length > 17) ? Description : "" : ""; } }
@@ -55,6 +57,7 @@ namespace LexiconLMS.Models
         public DateTime EndTime { get; set; }
         [DisplayName("Beskrivning")]
         public string Description { get; set; }
+        public int DocumentCount { get; set; }
         [Display(Name = "Beskrivning")]
         public string ShortDescription { get { return (Description != null) ? (Description.Length > 17) ? Description.Substring(0, 17) + "..." : Description : ""; } }
         public string ToolTipText { get { return (Description != null) ? (Description.Length > 17) ? Description : "" : ""; } }
