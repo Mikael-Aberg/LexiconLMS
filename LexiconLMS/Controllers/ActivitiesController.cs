@@ -35,6 +35,7 @@ namespace LexiconLMS.Controllers
                                                ActivityId = x.Id,
                                                CourseName = x.Module.Course.Name,
                                                ModuleName = x.Module.Name,
+                                               DocumentCount = x.Documents.Where(y => y.ActivityId == x.Id).Count(),
                                                Name = x.Name,
                                                Description = x.Description,
                                                Deadline = x.EndTime
@@ -52,6 +53,7 @@ namespace LexiconLMS.Controllers
                                                ActivityId = x.Id,
                                                CourseName = x.Module.Course.Name,
                                                ModuleName = x.Module.Name,
+                                               DocumentCount = x.Documents.Where(y => (y.User.UserName.Equals(User.Identity.Name) || y.User.CourseId == null) && y.ActivityId == x.Id).Count(),
                                                Name = x.Name,
                                                Description = x.Description,
                                                Deadline = x.EndTime

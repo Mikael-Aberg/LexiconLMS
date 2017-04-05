@@ -4,7 +4,6 @@
     ViewBag.Title = "List";
 }
 <h3>@ViewBag.header</h3>
-
 <table class="document-list">
     <tr>
         <th>
@@ -26,8 +25,8 @@
         <th width="2%" class="leftthinborder"></th>
         @if (User.IsInRole("Teacher"))
         {
-        <th width="2%"></th>
-        <th width="2%"></th>
+            <th width="2%"></th>
+            <th width="2%"></th>
         }
     </tr>
 
@@ -49,7 +48,7 @@
                 {
                     if (item.Activity.IsAssignment)
                     {
-                        @Html.ActionLink("Ge feedback", "Create", "Feedback",new { userId = item.UserId, activityId = item.ActivityId}, null);
+                        @Html.ActionLink("Ge feedback", "Create", "Feedback", new { userId = item.UserId, activityId = item.ActivityId }, null);
                     }
                 }
             </td>
@@ -58,16 +57,19 @@
                     <img class="document-img" src="~/Images/documentdownload.png" />
                 </a>
             </td>
+            @if (User.Identity.Name == item.User.UserName || User.IsInRole("Teacher"))
+            {
+                <td>
+                    <a href='@Url.Action("Edit", "Documents", new { id = item.Id, courseId = ViewBag.courseId, moduleId = ViewBag.moduleId, activityId = ViewBag.activityId, partial = ViewBag.partial })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
+                        <img class="document-img" src="~/Images/documentedit.png" />
+                    </a>
+                </td>
+            }
             @if (User.IsInRole("Teacher"))
             {
-            <td>
-                <a href='@Url.Action("Edit", "Documents", new { id = item.Id, courseId =  ViewBag.courseId, moduleId = ViewBag.moduleId, activityId = ViewBag.activityId, partial = ViewBag.partial })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
-                    <img class="document-img" src="~/Images/documentedit.png" />
-                </a>
-            </td>
-            <td>
-                    <img name="@Html.DisplayFor(modelItem => item.Name)" id="@item.Id" class="document-img deleteDocument" src="~/Images/documentdelete.png" data-toggle="icons" title="Ta bort: @Html.DisplayFor(modelItem => item.Name)"/>
-            </td>
+                <td>
+                    <img name="@Html.DisplayFor(modelItem => item.Name)" id="@item.Id" class="document-img deleteDocument" src="~/Images/documentdelete.png" data-toggle="icons" title="Ta bort: @Html.DisplayFor(modelItem => item.Name)" />
+                </td>
             }
         </tr>
     }
@@ -114,7 +116,7 @@
             }
         });
 
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('[data-toggle="icons"]').tooltip();
         });
 

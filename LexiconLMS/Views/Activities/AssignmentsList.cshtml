@@ -20,6 +20,7 @@
         }
         <th></th>
         <th></th>
+        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -42,6 +43,14 @@
                 </td>
             }
             <td><button class="fake-link doc-upload-btn" value="@item.ActivityId">@((User.IsInRole("Teacher") ? "Ladda upp dokument" : "Lämna in uppgift"))</button></td>
+            <td>
+                @if (@item.DocumentCount > 0)
+                {
+                    <a href='@Url.Action("List", "Documents", new { activityId = item.ActivityId })' data-toggle="icons" title="@item.DocumentCount dokument tillhörande @item.CourseName">
+                        <img class="documentsimg" src="~/Images/documents.png" />
+                    </a>
+                }
+            </td>
         </tr>
     }
 </table>
