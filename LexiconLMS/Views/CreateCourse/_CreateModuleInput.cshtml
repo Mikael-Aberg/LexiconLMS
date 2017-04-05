@@ -36,7 +36,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Module.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Module.StartDate, new { htmlAttributes = new { @class = "form-control moduleDatepicker" } })
+            @Html.EditorFor(model => model.Module.StartDate, new { htmlAttributes = new { @class = "form-control moduleDatepicker", @id = "moduleStartDate" } })
             @Html.ValidationMessageFor(model => model.Module.StartDate, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -44,7 +44,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Module.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Module.EndDate, new { htmlAttributes = new { @class = "form-control moduleDatepicker" } })
+            @Html.EditorFor(model => model.Module.EndDate, new { htmlAttributes = new { @class = "form-control moduleDatepicker", @id = "moduleEndDate" } })
             @Html.ValidationMessageFor(model => model.Module.EndDate, "", new { @class = "text-danger" })
         </div>
     </div>

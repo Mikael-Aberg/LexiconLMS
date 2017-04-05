@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using LexiconLMS.Models;
 using System.IO;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace LexiconLMS.Controllers
 {
@@ -40,10 +43,6 @@ namespace LexiconLMS.Controllers
 
         public ActionResult List(int? courseId, int? moduleId, int? activityId, bool partial = false)
         {
-            ViewBag.courseId = courseId;
-            ViewBag.moduleId = moduleId;
-            ViewBag.activityId = activityId;
-            ViewBag.partial = partial;
             if (User.IsInRole("Teacher"))
             {
                 var documents = db.Documents
@@ -57,11 +56,26 @@ namespace LexiconLMS.Controllers
             else
             {
                 courseId = db.Users.First(x => x.UserName.Equals(User.Identity.Name)).CourseId;
-                var documents = db.Documents
-                    .Where(x => x.CourseId == courseId)
-                    .Where(x => (moduleId != null) ? x.ModuleId == moduleId : true)
-                    .Where(x => (activityId != null) ? x.ActivityId == activityId : true)
-                    .ToList();
+                var documents = db.Documents.Where(x => x.CourseId == courseId)
+                                            .Where(x => (moduleId != null) ? x.ModuleId == moduleId : true)
+                                            .Where(x => (activityId != null) ? x.ActivityId == activityId : true).ToList();
+                var usermanager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var templist = documents.ToList();
+                foreach (var document in templist)
+                {
+                    if(document.Activity != null)
+                    {
+                        if (document.IsAssignment)
+                        {
+                            if ((!document.User.UserName.Equals(User.Identity.Name)) && (!usermanager.IsInRole(document.UserId, "Teacher")))
+                            {
+                                documents.Remove(document);
+                            }
+                        }
+                    }
+                }
+
+
                 if (partial) return PartialView(documents);
                 else return View(documents);
             }

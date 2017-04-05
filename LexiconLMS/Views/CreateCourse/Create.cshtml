@@ -50,7 +50,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Course.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Course.StartDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.EditorFor(model => model.Course.StartDate, new { htmlAttributes = new { @class = "form-control datepicker", @id = "courseStartDate" } })
                                 @Html.ValidationMessageFor(model => model.Course.StartDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -58,7 +58,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Course.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Course.EndDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.EditorFor(model => model.Course.EndDate, new { htmlAttributes = new { @class = "form-control datepicker", @id = "courseEndDate" } })
                                 @Html.ValidationMessageFor(model => model.Course.EndDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -374,26 +374,31 @@
                 daysOfWeekDisabled: [6, 0],
                 calendarWeeks: true,
             });
+            $('#courseStartDate').val($('#courseStartDate').attr('value')).change();
+            $('#courseEndDate').val($('#courseEndDate').attr('value')).change();
         }
         datePicker();
 
         @{
-            DateTime max = (Model.Course != null) ? Model.Course.EndDate : DateTime.Now;
-            DateTime min = (Model.Course != null) ? Model.Course.StartDate : DateTime.Now;
+            String max = (Model.Course != null) ? Model.Course.EndDate.ToShortDateString() : DateTime.Now.ToShortDateString();
+            String min = (Model.Course != null) ? Model.Course.StartDate.ToShortDateString() : DateTime.Now.ToShortDateString();
         }
 
         var moduleDatepicker = function(){
-            var max = new Date(@max.Year ,@max.Month ,@max.Day ,0 ,0 ,0);
-            var min = new Date(@min.Year ,@min.Month ,@min.Day ,0 ,0 ,0);
+            var max = '@max';
+            var min = '@min';
 
             $('.moduleDatepicker').datetimepicker({
                 locale:'sv',
                 format: 'YYYY-MM-DD',
                 daysOfWeekDisabled: [6, 0],
-                maxDate: max.toISOString(),
-                minDate: min.toISOString(),
+                maxDate: max,
+                minDate: min,
                 calendarWeeks: true,
             });
+
+            $('#moduleStartDate').val($('#moduleStartDate').attr('value')).change();
+            $('#moduleEndDate').val($('#moduleEndDate').attr('value')).change();
         };
         moduleDatepicker();
 
@@ -402,6 +407,9 @@
                 daysOfWeekDisabled: [6, 0],
                 locale:'sv',
             });
+
+            $('#activityStartDate').val($('#activityStartDate').attr('value')).change();
+            $('#activityEndDate').val($('#activityEndDate').attr('value')).change();
         }
         activityDatePickerInit();
 
@@ -419,6 +427,9 @@
                 maxDate: endDate,
                 calendarWeeks: true,
             });
+
+            $('#activityStartDate').val($('#activityStartDate').attr('value')).change();
+            $('#activityEndDate').val($('#activityEndDate').attr('value')).change();
         }
 
         function getSelectedText() {

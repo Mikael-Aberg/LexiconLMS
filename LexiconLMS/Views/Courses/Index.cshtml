@@ -38,8 +38,7 @@
                 @Html.ActionLink("Redigera", "Create", "CreateCourse", new { courseId = course.Id, courseShow = true }, null) |
                 @Html.ActionLink("Detaljer", "Details", new { id = course.Id }) |
                 @Html.ActionLink("Ta bort", "Delete", new { id = course.Id }) |
-                @Html.ActionLink("Schema", "Index", "Schedule", new { id = course.Id }, null) |
-                @Html.ActionLink("Veckans schema", "Index", "Schedule", new { id = course.Id, weekDay = DateTime.Now }, null)
+                @Html.ActionLink("Schema", "Index", "Schedule", new { id = course.Id }, null)
             </td>
         </tr>
     }
