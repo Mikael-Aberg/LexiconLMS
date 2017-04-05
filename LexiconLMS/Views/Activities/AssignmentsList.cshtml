@@ -46,7 +46,7 @@
             <td>
                 @if (@item.DocumentCount > 0)
                 {
-                    <a href='@Url.Action("List", "Documents", new { activityId = item.ActivityId })' data-toggle="icons" title="@item.DocumentCount dokument tillhörande @item.CourseName">
+                    <a href='@Url.Action("List", "Documents", new { activityId = item.ActivityId })' data-toggle="icons" title="@item.DocumentCount dokument tillhörande @item.ModuleName">
                         <img class="documentsimg" src="~/Images/documents.png" />
                     </a>
                 }
