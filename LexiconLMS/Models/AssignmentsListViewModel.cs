@@ -17,6 +17,7 @@ namespace LexiconLMS.Models
         public string Name { get; set; }
         [DisplayName("Beskrivning")]
         public string Description { get; set; }
+        public int DocumentCount { get; set; }
         [DisplayName("Sista inlämningstillfälle")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
         public DateTime Deadline { get; set; }

@@ -4,7 +4,6 @@
     ViewBag.Title = "List";
 }
 <h3>@ViewBag.header</h3>
-
 <table class="document-list">
     <tr>
         <th>
@@ -51,16 +50,21 @@
                 <a href='@Url.Action("DownloadFile", "Documents", new { id = item.Id })' data-toggle="icons" title="Ladda ned: @Html.DisplayFor(modelItem => item.Name)">
                     <img class="document-img" src="~/Images/document_download.png" />
                 </a>
-                @if (User.IsInRole("Teacher"))
-                {
-                    <a href='@Url.Action("Edit", "Documents", new { id = item.Id, courseId =  ViewBag.courseId, moduleId = ViewBag.moduleId, activityId = ViewBag.activityId, partial = ViewBag.partial })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
+            </td>
+            @if (User.Identity.Name == item.User.UserName || User.IsInRole("Teacher"))
+            {
+                <td>
+                    <a href='@Url.Action("Edit", "Documents", new { id = item.Id, courseId = ViewBag.courseId, moduleId = ViewBag.moduleId, activityId = ViewBag.activityId, partial = ViewBag.partial })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
                         <img class="document-img" src="~/Images/document_edit.png" />
                     </a>
-                    <a>
-                        <img name="@Html.DisplayFor(modelItem => item.Name)" id="@item.Id" class="document-img deleteDocument" src="~/Images/document_delete.png" data-toggle="icons" title="Ta bort: @Html.DisplayFor(modelItem => item.Name)" />
-                    </a>
-                }
-            </td>
+                </td>
+            }
+            @if (User.IsInRole("Teacher"))
+            {
+                <td>
+                    <img name="@Html.DisplayFor(modelItem => item.Name)" id="@item.Id" class="document-img deleteDocument" src="~/Images/document_delete.png" data-toggle="icons" title="Ta bort: @Html.DisplayFor(modelItem => item.Name)" />
+                </td>
+            }
         </tr>
     }
 </table>

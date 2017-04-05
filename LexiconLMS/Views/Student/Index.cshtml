@@ -54,6 +54,10 @@
 @section Scripts {
 
     <script>
+        $(document).ready(function () {
+            $('[data-toggle="icons"]').tooltip();
+        });
+
         $(document).on('change', '#file', function () {
             var filetext = document.getElementById("file").value.slice(12);
             document.getElementById("fileselected").innerHTML = filetext;
@@ -121,6 +125,7 @@
             var formData = new FormData($('#document-form')[0]);
             formData.append('file', $('input[type=file]')[0].files[0]);
             var file = $('input[type=file]')[0].files[0];
+            var ActivityId = document.getElementById("ActivityId").value;
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("CreateModal","Documents",null)',
@@ -132,6 +137,7 @@
                     if (data) {
                         $('#modalBody').html(data);
                         $('#docModal').modal('hide');
+                        window.location.href = "/Documents/List?activityId=" + ActivityId;
                     }
                 }
             });
