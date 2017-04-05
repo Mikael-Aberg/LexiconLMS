@@ -36,6 +36,29 @@ textarea {
 */
 
 /*======================================= 1. All around ===================================*/
+.no-background {
+    background: transparent;
+    padding: 2px;
+}
+
+.no-underline:hover {
+    text-decoration: none;
+}
+
+.icon {
+    height: 20px;
+    background: transparent;
+}
+
+.icon-lg {
+    height: 30px;
+    background: transparent;
+}
+
+.table-scroll {
+    max-height: 400px;
+    overflow-y: scroll;
+}
 
 .no-padding {
     padding: 0;
@@ -290,6 +313,7 @@ textarea {
 .headerDiv p {
     float: right;
 }
+
 .documentsimg {
     height: 20px;
 }
@@ -319,9 +343,11 @@ textarea {
 /*======================================= 9. List Document ==================================*/
 
 .document-list {
+    width:100%;
+    max-width:100%;
     font-size: 12px;
     color: #6D6D6D;
-    margin-top:10px;
+    margin-top: 10px;
 }
 
     .document-list > tbody > tr > td {
@@ -354,13 +380,11 @@ textarea {
     .document-list > tbody > tr > th {
         color: #4C6091;
         font-weight: 100;
-        padding-left:4px;
-
+        padding-left: 4px;
     }
 
     .document-list .filename {
-        padding-left:34px;
-
+        padding-left: 34px;
     }
 
     .document-list td:first-child a {
@@ -378,7 +402,6 @@ textarea {
         vertical-align: inherit;
     }
 
-    .leftthinborder{
-        border-left:1px solid #e5e5e5;
-    }
-
+.leftthinborder {
+    border-left: 1px solid #e5e5e5;
+}

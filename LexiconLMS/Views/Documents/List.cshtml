@@ -23,12 +23,6 @@
             @Html.DisplayNameFor(model => model.ContentLength)
         </th>
         <th></th>
-        <th width="2%" class="leftthinborder"></th>
-        @if (User.IsInRole("Teacher"))
-        {
-        <th width="2%"></th>
-        <th width="2%"></th>
-        }
     </tr>
 
     @foreach (var item in Model.OrderBy(x => x.User.LastName))
@@ -44,31 +38,29 @@
             <td>@Html.DisplayFor(modelItem => item.User.FullName)</td>
             <td>@Html.DisplayFor(modelItem => item.UploadTime)</td>
             <td>@Html.DisplayFor(modelItem => item.abbrContentLength)</td>
-            <td>
+            <td class="text-right">
                 @if (item.Activity != null)
                 {
                     if (item.Activity.IsAssignment)
                     {
-                        @Html.ActionLink("Ge feedback", "Create", "Feedback",new { userId = item.UserId, activityId = item.ActivityId}, null);
+                        <a class="no-background no-underline" data-toggle="tooltip" title="Ge feedback till @item.User.FullName" href="@Url.Action("Create", "Feedback",new { userId = item.UserId, activityId = item.ActivityId})">
+                            <img class="icon-lg" src="~/Images/feedback.png" />
+                        </a>
                     }
                 }
-            </td>
-            <td>
                 <a href='@Url.Action("DownloadFile", "Documents", new { id = item.Id })' data-toggle="icons" title="Ladda ned: @Html.DisplayFor(modelItem => item.Name)">
-                    <img class="document-img" src="~/Images/documentdownload.png" />
+                    <img class="document-img" src="~/Images/document_download.png" />
                 </a>
+                @if (User.IsInRole("Teacher"))
+                {
+                    <a href='@Url.Action("Edit", "Documents", new { id = item.Id, courseId =  ViewBag.courseId, moduleId = ViewBag.moduleId, activityId = ViewBag.activityId, partial = ViewBag.partial })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
+                        <img class="document-img" src="~/Images/document_edit.png" />
+                    </a>
+                    <a>
+                        <img name="@Html.DisplayFor(modelItem => item.Name)" id="@item.Id" class="document-img deleteDocument" src="~/Images/document_delete.png" data-toggle="icons" title="Ta bort: @Html.DisplayFor(modelItem => item.Name)" />
+                    </a>
+                }
             </td>
-            @if (User.IsInRole("Teacher"))
-            {
-            <td>
-                <a href='@Url.Action("Edit", "Documents", new { id = item.Id, courseId =  ViewBag.courseId, moduleId = ViewBag.moduleId, activityId = ViewBag.activityId, partial = ViewBag.partial })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
-                    <img class="document-img" src="~/Images/documentedit.png" />
-                </a>
-            </td>
-            <td>
-                    <img name="@Html.DisplayFor(modelItem => item.Name)" id="@item.Id" class="document-img deleteDocument" src="~/Images/documentdelete.png" data-toggle="icons" title="Ta bort: @Html.DisplayFor(modelItem => item.Name)"/>
-            </td>
-            }
         </tr>
     }
 </table>
@@ -114,7 +106,7 @@
             }
         });
 
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('[data-toggle="icons"]').tooltip();
         });
 

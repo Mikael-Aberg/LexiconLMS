@@ -227,6 +227,9 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip(); 
+        });
 
         $(document).on('change', '#file', function () {
             var filetext = document.getElementById("file").value.slice(12);

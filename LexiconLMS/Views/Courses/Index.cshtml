@@ -35,11 +35,27 @@
                 @Html.DisplayFor(modelItem => course.EndDate)
             </td>
             <td>
-                @Html.ActionLink("Redigera", "Create", "CreateCourse", new { courseId = course.Id, courseShow = true }, null) |
-                @Html.ActionLink("Detaljer", "Details", new { id = course.Id }) |
-                @Html.ActionLink("Ta bort", "Delete", new { id = course.Id }) |
-                @Html.ActionLink("Schema", "Index", "Schedule", new { id = course.Id }, null)
+                <a class="no-background no-underline" data-toggle="tooltip" title="Detaljer om @course.Name" href="@Url.Action("Details", new { id = course.Id })">
+                    <img class="icon-lg" src="~/Images/details.png" />
+                </a>
+                <a class="no-background no-underline" data-toggle="tooltip" title="Redigera @course.Name" href="@Url.Action("Create", "CreateCourse", new { courseId = course.Id, courseShow = true })">
+                    <img class="icon-lg" src="~/Images/edit.png"/>
+                </a>
+                <a class="no-background no-underline" data-toggle="tooltip" title="Se @course.Name's schema" href="@Url.Action("Index", "Schedule", new { id = course.Id })">
+                    <img class="icon-lg" src="~/Images/schedule.png" />
+                </a>
+                <a class="no-background no-underline" data-toggle="tooltip" title="Ta bort @course.Name" href="@Url.Action("Delete", new { id = course.Id })">
+                    <img class="icon-lg" src="~/Images/delete.png" />
+                </a>
             </td>
         </tr>
     }
 </table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}

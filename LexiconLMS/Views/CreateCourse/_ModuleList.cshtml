@@ -2,31 +2,39 @@
 
 @if (Model != null)
 {
-    <table class="table">
-        <tr>
-            <th>@Html.DisplayNameFor(x => x.Name)</th>
-            <th>@Html.DisplayNameFor(x => x.Description)</th>
-            <th>@Html.DisplayNameFor(x => x.StartDate)</th>
-            <th>@Html.DisplayNameFor(x => x.EndDate)</th>
-            <th>@Html.DisplayNameFor(x => x.NumberOfActivities)</th>
-            <th></th>
-        </tr>
-        @foreach (var module in Model)
-        {
-            <tr name="@module.Id">
-                <td>@Html.DisplayFor(x => module.Name)</td>
-                <td data-toggle="tooltip" title="@Html.DisplayFor(x => module.ToolTipText)">@Html.DisplayFor(x => module.ShortDescription)</td>
-                <td class="start-date">@Html.DisplayFor(x => module.StartDate)</td>
-                <td class="end-date">@Html.DisplayFor(x => module.EndDate)</td>
-                <td>@Html.DisplayFor(x => module.NumberOfActivities)</td>
-                <td>
-                    <input type="button" value="Redigera" class="editModuleBtn fake-link" name="@module.Id" />
-                    <input type="button" value="Ta bort" class="deleteModuleBtn fake-link" name="@module.Id" />
-                    <button type="button" class="DocModuleBtn btn btn-info" name="@module.Id">Ladda upp dokument</button>
-                </td>
+    <div class="table-responsive table-scroll">
+        <table class="table table-condensed">
+            <tr>
+                <th>@Html.DisplayNameFor(x => x.Name)</th>
+                <th>@Html.DisplayNameFor(x => x.Description)</th>
+                <th>@Html.DisplayNameFor(x => x.StartDate)</th>
+                <th>@Html.DisplayNameFor(x => x.EndDate)</th>
+                <th>@Html.DisplayNameFor(x => x.NumberOfActivities)</th>
+                <th></th>
             </tr>
-        }
-    </table>
+            @foreach (var module in Model)
+            {
+                <tr name="@module.Id">
+                    <td>@Html.DisplayFor(x => module.Name)</td>
+                    <td data-toggle="tooltip" title="@Html.DisplayFor(x => module.ToolTipText)">@Html.DisplayFor(x => module.ShortDescription)</td>
+                    <td class="start-date">@Html.DisplayFor(x => module.StartDate)</td>
+                    <td class="end-date">@Html.DisplayFor(x => module.EndDate)</td>
+                    <td>@Html.DisplayFor(x => module.NumberOfActivities)</td>
+                    <td>
+                        <button data-toggle="tooltip" title="Redigera @module.Name" type="button" class="editModuleBtn btn no-background" name="@module.Id">
+                            <img class="icon" src="~/Images/edit.png" />
+                        </button>
+                        <button data-toggle="tooltip" title="Ta bort @module.Name" type="button" class="deleteModuleBtn btn no-background" name="@module.Id">
+                            <img class="icon" src="~/Images/delete.png" />
+                        </button>
+                        <button data-toggle="tooltip" title="Ladda upp dokument" type="button" class="DocModuleBtn btn no-background" name="@module.Id">
+                            <img class="icon" src="~/Images/document_upload.png"/>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
 }
 
 

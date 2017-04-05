@@ -2,35 +2,42 @@
 
 @foreach (var module in Model)
 {
+
     <h3>@Html.DisplayFor(x => module.Name)</h3>
+    <div class="table-responsive table-scroll">
+        <table class="table table-condensed">
 
-    <table class="table">
-
-        <tr>
-            <th>@Html.DisplayNameFor(x => x.Activities.FirstOrDefault().Type.Name)</th>
-            <th>@Html.DisplayNameFor(x => x.Activities.FirstOrDefault().Name)</th>
-            <th>@Html.DisplayNameFor(x => x.Activities.FirstOrDefault().Description)</th>
-            <th>@Html.DisplayNameFor(x => x.Activities.FirstOrDefault().StartTime)</th>
-            <th>@Html.DisplayNameFor(x => x.Activities.FirstOrDefault().EndTime)</th>
-            <th></th>
-            <th></th>
-        </tr>
-
-        @foreach (var activity in module.Activities.OrderBy(x => x.StartTime))
-        {
             <tr>
-                <td>@Html.DisplayFor(x => activity.Type.Name)</td>
-                <td>@Html.DisplayFor(x => activity.Name)</td>
-                <td data-toggle="tooltip" title="@Html.DisplayFor(x => activity.ToolTipText)">@Html.DisplayFor(x => activity.ShortDescription)</td>
-                <td>@Html.DisplayFor(x => activity.StartTime)</td>
-                <td>@Html.DisplayFor(x => activity.EndTime)</td>
-                <td><input type="button" value="Redigera" class="editActivityBtn fake-link" name="@activity.Id" /></td>
-                <td>
-                    <input type="button" value="Ta bort" class="deleteActivityBtn fake-link" name="@activity.Id" />
-                    <button type="button" class="DocActivityBtn btn btn-info" name="@activity.Id">Ladda upp dokument</button>
-                </td>
-                
+                <th>@Html.DisplayNameFor(x => x.Activities.FirstOrDefault().Type.Name)</th>
+                <th>@Html.DisplayNameFor(x => x.Activities.FirstOrDefault().Name)</th>
+                <th>@Html.DisplayNameFor(x => x.Activities.FirstOrDefault().Description)</th>
+                <th>@Html.DisplayNameFor(x => x.Activities.FirstOrDefault().StartTime)</th>
+                <th>@Html.DisplayNameFor(x => x.Activities.FirstOrDefault().EndTime)</th>
+                <th></th>
             </tr>
-        }
-    </table>
+
+            @foreach (var activity in module.Activities.OrderBy(x => x.StartTime))
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => activity.Type.Name)</td>
+                    <td>@Html.DisplayFor(x => activity.Name)</td>
+                    <td data-toggle="tooltip" title="@Html.DisplayFor(x => activity.ToolTipText)">@Html.DisplayFor(x => activity.ShortDescription)</td>
+                    <td>@Html.DisplayFor(x => activity.StartTime)</td>
+                    <td>@Html.DisplayFor(x => activity.EndTime)</td>
+                    <td>
+                        <button type="button" data-toggle="tooltip" title="Redigera @activity.Name" class="editActivityBtn btn no-background" name="@activity.Id">
+                            <img class="icon" src="~/Images/edit.png" />
+                        </button>
+                        <button type="button" data-toggle="tooltip" title="Ta bort @activity.Name" class="deleteActivityBtn btn no-background" name="@activity.Id" >
+                            <img class="icon" src="~/Images/delete.png"/>
+                        </button>
+                        <button type="button" data-toggle="tooltip" title="Ladda upp dokument" class="DocActivityBtn btn no-background" name="@activity.Id">
+                            <img class="icon" src="~/Images/document_upload.png" />
+                        </button>
+                    </td>
+
+                </tr>
+            }
+        </table>
+    </div>
 }
