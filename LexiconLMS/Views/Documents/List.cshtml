@@ -4,70 +4,76 @@
     ViewBag.Title = "List";
 }
 <h3>@ViewBag.header</h3>
-<table class="document-list">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th class="leftthinborder">
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th class="leftthinborder">
-            @Html.DisplayNameFor(model => model.User)
-        </th>
-        <th class="leftthinborder">
-            @Html.DisplayNameFor(model => model.UploadTime)
-        </th>
-        <th class="leftthinborder">
-            @Html.DisplayNameFor(model => model.ContentLength)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.OrderBy(x => x.User.LastName))
-    {
+<div class="table-responsive">
+    <table class="document-list">
         <tr>
-            <td data-toggle="tooltip" data-container="body" data-placement="bottom"
-                title="@Html.DisplayFor(x => item.NameToolTipText)">
-                <span><img src="~/Images/@(Html.DisplayFor(modelItem => item.FileExtension)).png" /></span><a href="@Html.DisplayFor(x => item.FilePath)" target="_blank">@Html.DisplayFor(modelItem => item.Name)</a>
-            </td>
-            <td data-toggle="tooltip" data-container="body" data-placement="bottom" title="@Html.DisplayFor(modelItem => item.DescriptionToolTipText)">
-                @Html.DisplayFor(modelItem => item.ShortDescription)
-            </td>
-            <td>@Html.DisplayFor(modelItem => item.User.FullName)</td>
-            <td>@Html.DisplayFor(modelItem => item.UploadTime)</td>
-            <td>@Html.DisplayFor(modelItem => item.abbrContentLength)</td>
-            <td class="text-right">
-                @if (item.Activity != null)
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="leftthinborder">
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th class="leftthinborder">
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th class="leftthinborder">
+                @Html.DisplayNameFor(model => model.UploadTime)
+            </th>
+            <th class="leftthinborder">
+                @Html.DisplayNameFor(model => model.ContentLength)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.OrderBy(x => x.User.LastName))
+            {
+            <tr>
+                <td data-toggle="tooltip" data-container="body" data-placement="bottom"
+                    title="@Html.DisplayFor(x => item.NameToolTipText)">
+                    <span><img src="~/Images/@(Html.DisplayFor(modelItem => item.FileExtension)).png" /></span><a href="@Html.DisplayFor(x => item.FilePath)" target="_blank">@Html.DisplayFor(modelItem => item.Name)</a>
+                </td>
+                <td data-toggle="tooltip" data-container="body" data-placement="bottom" title="@Html.DisplayFor(modelItem => item.DescriptionToolTipText)">
+                    @Html.DisplayFor(modelItem => item.ShortDescription)
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.User.FullName)</td>
+                <td>@Html.DisplayFor(modelItem => item.UploadTime)</td>
+                <td>@Html.DisplayFor(modelItem => item.abbrContentLength)</td>
+                <td class="text-right">
+                    @if (item.Activity != null)
                 {
                     if (item.Activity.IsAssignment)
                     {
-                        <a class="no-background no-underline" data-toggle="tooltip" title="Ge feedback till @item.User.FullName" href="@Url.Action("Create", "Feedback",new { userId = item.UserId, activityId = item.ActivityId})">
-                            <img class="icon-lg" src="~/Images/feedback.png" />
+                            <a class="no-background no-underline" data-toggle="tooltip" title="Ge feedback till @item.User.FullName" href="@Url.Action("Create", "Feedback",new { userId = item.UserId, activityId = item.ActivityId})">
+                                <img class="icon-lg" src="~/Images/feedback.png" />
+                            </a>
+                        }
+                    }
+                    <a href='@Url.Action("DownloadFile", "Documents", new { id = item.Id })' data-toggle="icons" title="Ladda ned: @Html.DisplayFor(modelItem => item.Name)">
+                        <img class="document-img" src="~/Images/document_download.png" />
+                    </a>
+                    @if (User.Identity.Name == item.User.UserName || User.IsInRole("Teacher"))
+                {
+                        <a href='@Url.Action("Edit", "Documents", new { id = item.Id, courseId = ViewBag.courseId, moduleId = ViewBag.moduleId, activityId = ViewBag.activityId, partial = ViewBag.partial })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
+                            <img class="document-img" src="~/Images/document_edit.png" />
                         </a>
                     }
-                }
-                <a href='@Url.Action("DownloadFile", "Documents", new { id = item.Id })' data-toggle="icons" title="Ladda ned: @Html.DisplayFor(modelItem => item.Name)">
-                    <img class="document-img" src="~/Images/document_download.png" />
-                </a>
-            </td>
-            @if (User.Identity.Name == item.User.UserName || User.IsInRole("Teacher"))
-            {
-                <td>
-                    <a href='@Url.Action("Edit", "Documents", new { id = item.Id, courseId = ViewBag.courseId, moduleId = ViewBag.moduleId, activityId = ViewBag.activityId, partial = ViewBag.partial })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
-                        <img class="document-img" src="~/Images/document_edit.png" />
-                    </a>
+                    else
+                    {
+                        <img class="document-img" src="~/Images/Empty.png" />
+                    }
+                    @if (User.IsInRole("Teacher"))
+                {
+                        <img name="@Html.DisplayFor(modelItem => item.Name)" id="@item.Id" class="document-img deleteDocument" src="~/Images/document_delete.png" data-toggle="icons" title="Ta bort: @Html.DisplayFor(modelItem => item.Name)" />
+                    }
+                    else
+                    {
+                        <img class="document-img" src="~/Images/Empty.png" />
+                    }
                 </td>
-            }
-            @if (User.IsInRole("Teacher"))
-            {
-                <td>
-                    <img name="@Html.DisplayFor(modelItem => item.Name)" id="@item.Id" class="document-img deleteDocument" src="~/Images/document_delete.png" data-toggle="icons" title="Ta bort: @Html.DisplayFor(modelItem => item.Name)" />
-                </td>
-            }
-        </tr>
-    }
-</table>
+            </tr>
+        }
+    </table>
+</div>
 
 <div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">

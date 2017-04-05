@@ -343,12 +343,16 @@ textarea {
 /*======================================= 9. List Document ==================================*/
 
 .document-list {
-    width:100%;
-    max-width:100%;
+    width: 70%;
+    max-width: 100%;
     font-size: 12px;
     color: #6D6D6D;
-    margin-top:20px;
+    margin-top: 20px;
 }
+
+    .document-list tr th:last-of-type {
+        width:20%;
+    }
 
     .document-list > tbody > tr > td {
         border: none;
