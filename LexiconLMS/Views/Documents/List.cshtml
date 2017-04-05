@@ -3,10 +3,11 @@
 @{
     ViewBag.Title = "List";
 }
+<h3>@ViewBag.header</h3>
 
 <table class="document-list">
     <tr>
-        <th class="filename">
+        <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th class="leftthinborder">
@@ -23,9 +24,9 @@
         </th>
         <th></th>
         <th width="2%" class="leftthinborder"></th>
-        <th width="2%"></th>
         @if (User.IsInRole("Teacher"))
         {
+        <th width="2%"></th>
         <th width="2%"></th>
         }
     </tr>
@@ -57,13 +58,13 @@
                     <img class="document-img" src="~/Images/documentdownload.png" />
                 </a>
             </td>
+            @if (User.IsInRole("Teacher"))
+            {
             <td>
                 <a href='@Url.Action("Edit", "Documents", new { id = item.Id, courseId =  ViewBag.courseId, moduleId = ViewBag.moduleId, activityId = ViewBag.activityId, partial = ViewBag.partial })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
                     <img class="document-img" src="~/Images/documentedit.png" />
                 </a>
             </td>
-            @if (User.IsInRole("Teacher"))
-            {
             <td>
                     <img name="@Html.DisplayFor(modelItem => item.Name)" id="@item.Id" class="document-img deleteDocument" src="~/Images/documentdelete.png" data-toggle="icons" title="Ta bort: @Html.DisplayFor(modelItem => item.Name)"/>
             </td>

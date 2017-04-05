@@ -225,6 +225,7 @@
     <Content Include="Images\documentdelete.png" />
     <Content Include="Images\documentdownload.png" />
     <Content Include="Images\documentedit.png" />
+    <Content Include="Images\documents.png" />
     <Content Include="Images\logo-lexicon.gif" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.sv.js" />

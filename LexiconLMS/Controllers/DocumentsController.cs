@@ -44,6 +44,9 @@ namespace LexiconLMS.Controllers
             ViewBag.moduleId = moduleId;
             ViewBag.activityId = activityId;
             ViewBag.partial = partial;
+            ViewBag.header = (courseId != null) ? "Dokument tillhörande \"" + db.Courses.Find(courseId).Name + "\"" : "Alla dokument";
+            if (moduleId != null) ViewBag.header = "Dokument tillhörande \"" + db.Modules.Find(moduleId).Name + "\"";
+            if (activityId != null) ViewBag.header = "Dokument tillhörande \"" + db.Activities.Find(activityId).Name + "\"";
             if (User.IsInRole("Teacher"))
             {
                 var documents = db.Documents
