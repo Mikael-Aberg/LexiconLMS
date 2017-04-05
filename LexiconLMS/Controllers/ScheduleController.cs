@@ -86,40 +86,40 @@ namespace LexiconLMS.Controllers
                                     // If activity starts this morning
                                     if ((activity.StartTime.Date.Equals(date)) && (startHour < midDay))
                                     {
-                                        post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
+                                        post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignment });
 
                                         // if the activity don't end same day
                                         if (!activity.EndTime.Date.Equals(date))
                                         {
-                                            post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
+                                            post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignment });
                                         }
                                         else if ((endHour > midDay))
                                         {
-                                            post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
+                                            post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignment });
                                         }
                                     }
                                     // else if the activity starts this afternoon
                                     else if (activity.StartTime.Date.Equals(date) && startHour >= midDay)
                                     {
-                                        post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
+                                        post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignment });
                                     }
                                     // else if the activity end this morning
                                     else if (activity.EndTime.Date.Equals(date))
                                     {
                                         if (endHour > midDay)
                                         {
-                                            post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
-                                            post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
+                                            post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignment });
+                                            post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignment });
                                         }
                                         else
                                         {
-                                            post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
+                                            post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignment });
                                         }
                                     }
                                     else
                                     {
-                                        post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
-                                        post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignemnt });
+                                        post.Morning.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignment });
+                                        post.Afternoon.Add(new ScheduleLink { Id = activity.Id, Name = activity.Name, IsAssignment = activity.IsAssignment });
                                     }
                                 }
                                 if (moduleBuilder.Length > 0) { moduleBuilder.Remove(moduleBuilder.Length - 2, 2); }

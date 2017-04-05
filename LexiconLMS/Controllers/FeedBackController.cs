@@ -49,7 +49,7 @@ namespace LexiconLMS.Controllers
                     var activity = db.Activities.FirstOrDefault(x => x.Id == activityId);
                     if (activity != null)
                     {
-                        if (activity.IsAssignemnt)
+                        if (activity.IsAssignment)
                         {
                             var feedBackBase = new Feedback();
                             feedBackBase.ApplicationUserId = userId;
