@@ -19,7 +19,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Lexicon LMS", "Index", "Courses", new { area = "" }, new { @class = "navbar-brand" })
+                <a href="@Html.Raw(Url.Action("Index", "Courses"))" class="navbar-brand"><img src="~/Images/brand-logo-lexicon.gif" /></a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -39,7 +39,7 @@
                                 <li>@Html.ActionLink("Lägg till lärare", "RegisterTeacher", "Account")</li>
                                 <li role="separator" class="divider"></li>
                                 <li>@Html.ActionLink("Byt lösenord", "ChangePassword", "Manage")</li>
-                                <li>@Html.ActionLink("Glömt lösenord", "ForgotPassword", "Account")</li>
+                                @*<li>@Html.ActionLink("Glömt lösenord", "ForgotPassword", "Account")</li>*@
                             </ul>
                         </li>
                     }
