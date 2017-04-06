@@ -355,6 +355,9 @@
                                 break;
                         }
                         $('#docModal').modal('hide')
+                        $('html, body').animate({
+                            scrollTop: $("#documentfor").offset().top
+                        }, 500);
                     }
                 }
             });
