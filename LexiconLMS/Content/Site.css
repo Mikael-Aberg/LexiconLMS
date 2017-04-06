@@ -92,7 +92,9 @@ textarea {
 .toppadding {
     padding-top: 20px;
 }
-
+.genericimg {
+        height: 20px;
+    }
 
 /*======================================= 2. Schedule ===================================*/
 
@@ -403,7 +405,7 @@ textarea {
     .document-list img {
         height: 20px;
     }
-
+    
     .document-list > tbody > tr > td {
         line-height: 0.5;
         padding: 4px;

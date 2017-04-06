@@ -21,6 +21,12 @@ namespace LexiconLMS.Controllers
             return View(db.Activities.ToList());
         }
 
+        public ActionResult AssignmentsTeacher()
+        {
+
+            return View();
+        }
+
         public ActionResult AssignmentsList(int? moduleId, int? courseId, bool partial = false, bool showHistory = false)
         {
             List<AssignmentsListViewModel> assignments = new List<AssignmentsListViewModel>();
@@ -36,6 +42,7 @@ namespace LexiconLMS.Controllers
                                                CourseName = x.Module.Course.Name,
                                                ModuleName = x.Module.Name,
                                                DocumentCount = x.Documents.Where(y => y.ActivityId == x.Id).Count(),
+                                               CourseId = courseId,
                                                Name = x.Name,
                                                Description = x.Description,
                                                Deadline = x.EndTime
@@ -54,6 +61,7 @@ namespace LexiconLMS.Controllers
                                                CourseName = x.Module.Course.Name,
                                                ModuleName = x.Module.Name,
                                                DocumentCount = x.Documents.Where(y => (y.User.UserName.Equals(User.Identity.Name) || y.User.CourseId == null) && y.ActivityId == x.Id).Count(),
+                                               CourseId = courseId,
                                                Name = x.Name,
                                                Description = x.Description,
                                                Deadline = x.EndTime

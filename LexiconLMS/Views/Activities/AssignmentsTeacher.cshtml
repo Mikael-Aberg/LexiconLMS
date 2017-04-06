@@ -1,0 +1,142 @@
+﻿
+
+<div class="container-fluid">
+    <div class="row assignmentList">
+        <div class="col-sm-12">
+            <h3>Kommande inlämningar</h3>
+            <div id="AssignmentsList">
+                @Html.Action("AssignmentsList", "Activities", new { partial = true })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Ladda upp dokument</h4>
+            </div>
+            <div id="modalBody" class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="icons"]').tooltip();
+        });
+
+        $(document).on('change', '#file', function () {
+            var filetext = document.getElementById("file").value.slice(12);
+            document.getElementById("fileselected").innerHTML = filetext;
+            document.getElementById("Name").value = filetext;
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('#mainBody').addClass("Width-90");
+        });
+    </script>
+    <script>
+        Date.prototype.addDays = function (days) {
+            var dat = new Date(this.valueOf());
+            dat.setDate(dat.getDate() + days);
+            return dat;
+        }
+
+        var date = new Date();
+
+    </script>
+    <script>
+        $(document).on("click", ".doc-upload-btn", function () {
+            var value = $(this).val();
+            $.ajax({
+                url: '@Url.Action("UploadModal", "Documents", null)',
+                data: { activityId: value },
+                type: "GET",
+                success: function (data) {
+                    $("#modalBody").html(data);
+                    $("#docModal").modal();
+                },
+                error: function (xhr, textStatus, thrownError, data) {
+                    alert("Error: " + thrownError);
+                }
+            });
+        });
+
+        $(document).on('click', '#uploadBtn', function () {
+
+            var formData = new FormData($('#document-form')[0]);
+            formData.append('file', $('input[type=file]')[0].files[0]);
+            var file = $('input[type=file]')[0].files[0];
+            var ActivityId = document.getElementById("ActivityId").value;
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("CreateModal","Documents",null)',
+                data: formData,
+                //use contentType, processData for sure.
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data) {
+                        $('#modalBody').html(data);
+                        $('#docModal').modal('hide');
+                        window.location.href = "/Documents/List?activityId=" + ActivityId;
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).on("click", ".showDetailsBtn", function () {
+            var value = $(this).val();
+            $.ajax({
+                url: '@Url.Action("ActivityDetailsModal", "Activities", null)',
+                data: { id: value },
+                type: "GET",
+                success: function (data) {
+                    $("#modalContent").html(data);
+                    $("#detailsModal").modal();
+                },
+                error: function (xhr, textStatus, thrownError, data) {
+                    alert("Error: " + thrownError);
+                }
+            });
+        });
+        var deleteActivity = function(){
+            $(document).on('click', '.deleteActivityBtn', function () {
+                var value = $(this).attr("name");
+                $.ajax({
+                    url: '@Url.Action("DeleteActivity")',
+                    type: 'POST',
+                    data: {
+                        activityId: value,
+                        @*courseId: @(((Model.Course != null)? Model.Course.Id : 0)),*@
+                    },
+                    success: function (data) {
+                        if (data) {
+                            //$('#activityListDiv').html(data);
+                            $('#AssignmentsList').load('@Url.Action("AssignmentsList", "Activities", new { partial = true })')
+                            @*$('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')*@
+}
+                        else {
+                                        alert('NoData');
+                                    }
+                                },
+                    error: function (xhr, textStatus, thrownError, data) {
+                                    alert("Error: " + thrownError);
+                                }
+                            });
+            });
+        }
+    </script>
+}

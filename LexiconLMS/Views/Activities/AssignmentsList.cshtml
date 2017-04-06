@@ -33,14 +33,6 @@
             <td>@Html.DisplayFor(modelItem => item.Name)</td>
             <td data-toggle="tooltip" title="@Html.DisplayFor(x => item.ToolTipText)">@Html.DisplayFor(modelItem => item.ShortDescription)</td>
             <td>@Html.DisplayFor(modelItem => item.Deadline)</td>
-            @if (User.IsInRole("Teacher"))
-            {
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ActivityId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ActivityId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ActivityId })
-                </td>
-            }
             <td>
                 <button class="doc-upload-btn btn no-background" value="@item.ActivityId" data-toggle="icons" title="@((User.IsInRole("Teacher") ? "Ladda upp dokument" : "Lämna in uppgift"))">
                     <img class="icon" src="~/Images/document_upload.png" />
@@ -55,6 +47,15 @@
                 {
                     <img class="icon" src="~/Images/Empty.png" />
                 }
+            @if (User.IsInRole("Teacher"))
+            {
+                    <a href='@Url.Action("Create", "CreateCourse", new {courseId = item.CourseId, activityId = item.ActivityId, activityShow = true })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
+                        <img class="genericimg" src="~/Images/document_edit.png" /></a>
+                    <button type="button" data-toggle="icons" title="Ta bort @item.Name" class="deleteActivityBtn btn no-background" name="item.ActivityId">
+                        <img class="icon" src="~/Images/delete.png" />
+                    </button>
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.ActivityId })*@
+            }
             </td>
         </tr>
     }
