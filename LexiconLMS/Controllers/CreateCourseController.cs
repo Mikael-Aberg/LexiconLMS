@@ -219,10 +219,52 @@ namespace LexiconLMS.Controllers
             {
                 return HttpNotFound();
             }
+            RemoveDocuments(null, module.Id, null);
             db.Modules.Remove(module);
             db.SaveChanges();
             return RedirectToAction("Create", new { courseId = courseId, moduleShow = true });
         }
+
+        private void RemoveDocuments(int? courseId, int? moduleId, int? activityId)
+        {
+
+            var documents = db.Documents.ToList();
+                
+            if(courseId != null)
+            {
+                documents = documents.Where(x => x.CourseId == courseId).ToList();
+            }
+            else if(moduleId != null)
+            {
+                documents = documents.Where(x => x.ModuleId == moduleId).ToList();
+            }
+            else if(activityId != null)
+            {
+                documents = documents.Where(x => x.ActivityId == activityId).ToList();
+            }               
+
+            foreach (var document in documents)
+            {
+                if (document == null)
+                {
+                    break;
+                }
+                string fullPath = Request.MapPath("~/UploadedFiles/" + document.Name);
+
+                int count = db.Documents.Where(f => f.FilePath == document.FilePath).ToList().Count();
+
+                if (count == 1)
+                {
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+                }
+                db.Documents.Remove(document);
+                db.SaveChanges();
+            }
+        }
+
 
         [HttpPost]
         public ActionResult DeleteActivity(int courseId, int activityId)
@@ -236,13 +278,14 @@ namespace LexiconLMS.Controllers
             {
                 return HttpNotFound();
             }
+            RemoveDocuments(null, null, activity.Id);
             db.Activities.Remove(activity);
             db.SaveChanges();
             return PartialView("_ActivityList", db.Courses.Find(courseId).Modules.ToList());
         }
 
         [HttpPost]
-        public ActionResult Delete(int id,int courseId)
+        public ActionResult Delete(int id, int courseId)
         {
             Module module = db.Modules.Find(id);
             db.Modules.Remove(module);

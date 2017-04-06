@@ -25,13 +25,13 @@
                     <td>@Html.DisplayFor(x => activity.StartTime)</td>
                     <td>@Html.DisplayFor(x => activity.EndTime)</td>
                     <td>
-                        <button type="button" data-toggle="tooltip" title="Redigera @activity.Name" class="editActivityBtn btn no-background" name="@activity.Id">
+                        <button type="button" data-toggle="icons" title="Redigera @activity.Name" class="editActivityBtn btn no-background" name="@activity.Id">
                             <img class="icon" src="~/Images/edit.png" />
                         </button>
-                        <button type="button" data-toggle="tooltip" title="Ta bort @activity.Name" class="deleteActivityBtn btn no-background" name="@activity.Id" >
+                        <button type="button" data-toggle="icons" title="Ta bort @activity.Name" class="deleteActivityBtn btn no-background" name="@activity.Id" >
                             <img class="icon" src="~/Images/delete.png"/>
                         </button>
-                        <button type="button" data-toggle="tooltip" title="Ladda upp dokument" class="DocActivityBtn btn no-background" name="@activity.Id">
+                        <button type="button" data-toggle="icons" title="Ladda upp dokument" class="DocActivityBtn btn no-background" name="@activity.Id">
                             <img class="icon" src="~/Images/document_upload.png" />
                         </button>
                     </td>

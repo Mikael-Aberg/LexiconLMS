@@ -41,14 +41,20 @@
                     @Html.ActionLink("Delete", "Delete", new { id = item.ActivityId })
                 </td>
             }
-            <td>
+            <td class="text-right">
+                @if (@item.DocumentCount > 0 && !User.IsInRole("Teacher"))
+                {
+                    <button class="feedback-btn btn no-background" value="@item.ActivityId" data-toggle="icons" title="Se din feedback">
+                        <img class="icon" src="~/Images/feedback.png" />
+                    </button>
+                }
                 <button class="doc-upload-btn btn no-background" value="@item.ActivityId" data-toggle="icons" title="@((User.IsInRole("Teacher") ? "Ladda upp dokument" : "Lämna in uppgift"))">
                     <img class="icon" src="~/Images/document_upload.png" />
                 </button>
                 @if (@item.DocumentCount > 0)
                 {
-                    <a href='@Url.Action("List", "Documents", new { activityId = item.ActivityId })' data-toggle="icons" title="@item.DocumentCount dokument tillhörande @item.ModuleName">
-                        <img class="documentsimg icon" src="~/Images/document_info.png" />
+                    <a href='@Url.Action("List", "Documents", new { activityId = item.ActivityId })' class="btn no-background" data-toggle="icons" title="@item.DocumentCount dokument tillhörande @item.">
+                        <img class="icon" src="~/Images/document_info.png" />
                     </a>
                 }
                 else
