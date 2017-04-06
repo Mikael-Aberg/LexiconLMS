@@ -123,7 +123,6 @@ namespace LexiconLMS.Controllers
 
             var course = db.Courses.Find(courseId);
             var model = new ModuleCreateViewModel { Modules = course.Modules, CourseId = courseId };
-
             return PartialView("_CreateModuleInput", model);
         }
 
@@ -140,8 +139,9 @@ namespace LexiconLMS.Controllers
             return PartialView("_CreateModuleInput", viewModel);
         }
 
-        public ActionResult GetModuleList(int courseId)
+        public ActionResult GetModuleList(int courseId, string EditedModuleId = "")
         {
+            ViewBag.EditedModuleId = EditedModuleId;
             return PartialView("_ModuleList", db.Courses.Find(courseId).Modules.ToList());
         }
 

@@ -18,7 +18,7 @@
 
             @foreach (var activity in module.Activities.OrderBy(x => x.StartTime))
             {
-                <tr>
+                <tr id="activity@(activity.Id)">
                     <td>@Html.DisplayFor(x => activity.Type.Name)</td>
                     <td>@Html.DisplayFor(x => activity.Name)</td>
                     <td data-toggle="tooltip" title="@Html.DisplayFor(x => activity.ToolTipText)">@Html.DisplayFor(x => activity.ShortDescription)</td>

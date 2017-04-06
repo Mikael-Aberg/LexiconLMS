@@ -340,7 +340,9 @@ textarea {
 #fileselected {
     margin-left: 10px;
 }
-
+.editedrow{
+    background-color:#e9f8ed;
+}
 /*======================================= 9. List Document ==================================*/
 
 .document-list {
