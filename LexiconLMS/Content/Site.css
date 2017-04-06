@@ -33,6 +33,7 @@ textarea {
     7. Student splashscreen
     8. Create Document
     9. List Document
+    10. Footer always on the bottom
 */
 
 /*======================================= 1. All around ===================================*/
@@ -408,4 +409,35 @@ textarea {
 
 .leftthinborder {
     border-left: 1px solid #e5e5e5;
+}
+
+
+/*============================== 10. Footer always on the bottom ====================================*/
+
+html {
+	height: 100%;
+	box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+body {
+	position: relative;
+	margin: 0;
+	padding-bottom: 6rem;
+	min-height: 100%;
+}
+
+footer 
+{
+    position: absolute;
+    right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 1rem;
+    background-color: #efefef;
 }
