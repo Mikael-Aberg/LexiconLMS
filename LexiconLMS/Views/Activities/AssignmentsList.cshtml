@@ -45,7 +45,7 @@
                 </button>
                 @if (@item.DocumentCount > 0)
                 {
-                    <a href='@Url.Action("List", "Documents", new { activityId = item.ActivityId })' class="btn no-background" data-toggle="icons" title="@item.DocumentCount dokument tillhörande @item.">
+                    <a href='@Url.Action("List", "Documents", new { activityId = item.ActivityId })' class="btn no-background" data-toggle="icons" title="@item.DocumentCount dokument tillhörande @item.Name">
                         <img class="icon" src="~/Images/document_info.png" />
                     </a>
                 }
@@ -57,10 +57,6 @@
             {
                     <a href='@Url.Action("Create", "CreateCourse", new {courseId = item.CourseId, activityId = item.ActivityId, activityShow = true })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
                         <img class="genericimg" src="~/Images/document_edit.png" /></a>
-                    @*<button type="button" data-toggle="icons" title="Ta bort @item.Name" class="deleteActivityBtn btn no-background" name="@item.ActivityId">
-                        <img class="icon" src="~/Images/delete.png" />
-                    </button>*@
-                    @*@Html.ActionLink("Delete", "Delete", new { id = item.ActivityId })*@
             }
             </td>
         </tr>
