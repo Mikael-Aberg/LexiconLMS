@@ -19,7 +19,7 @@ namespace LexiconLMS.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: FeedBack
-        public ActionResult Index(string userId, int? activityId)
+        public ActionResult Index(string userId, int? activityId, bool partial = false)
         {
             ViewBag.userId = userId;
             ViewBag.activityId = activityId;
@@ -30,8 +30,15 @@ namespace LexiconLMS.Controllers
                 .Where(f => f.Feedback.ApplicationUserId == userId)
                 .Where(f => f.Feedback.ActivityId == activityId);
 
-            return View(feedBackMessages.ToList());
+            if (partial) return PartialView(feedBackMessages.ToList());
+            else return View(feedBackMessages.ToList());
         }
+
+        public ActionResult Messages(string userId, int activityId)
+        {
+            return View(new FeedbackViewModel { StudentId = userId, ActivityId = activityId, ActivityName = db.Activities.Find(activityId).Name });
+        }
+
 
         // GET: FeedBack/Details/5
         public ActionResult Details(int? id, string userId, int? activityId)
@@ -46,7 +53,7 @@ namespace LexiconLMS.Controllers
         }
 
         // GET: FeedBack/Create
-        public ActionResult Create(string userId, int? activityId)
+        public ActionResult Create(string userId, int? activityId, bool partial = false)
         {
             if (!string.IsNullOrWhiteSpace(userId) && activityId != null)
             {
@@ -79,7 +86,9 @@ namespace LexiconLMS.Controllers
 
                 viewModel.StudentId = userId;
                 viewModel.PostedById = db.Users.First(x => x.UserName == User.Identity.Name).Id;
-                return View(viewModel);
+
+                if (partial) return PartialView(viewModel);
+                else return View(viewModel);
             }
             else { return RedirectToAction("Index", "Courses"); }
         }
@@ -89,17 +98,18 @@ namespace LexiconLMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StudentId,PostedById,Message,FeedbackId")] FeedBackCreateViewModel model, string userId, int? activityId)
+        public ActionResult Create([Bind(Include = "StudentId,PostedById,Message,FeedbackId")] FeedBackCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var message = new FeedBackMessage { FeedbackId = model.FeedbackId, Message = model.Message, PostedBy = model.PostedById };
                 db.FeedBackMessages.Add(message);
                 db.SaveChanges();
-                return RedirectToAction("Index", new { userId=userId, activityId=activityId });
+                ModelState.Clear();
+                return PartialView(new FeedBackCreateViewModel { FeedbackId = model.FeedbackId, PostedById = model.PostedById, StudentId = model.StudentId});
             }
 
-            return View(model);
+            return PartialView(model);
         }
 
         // GET: FeedBack/Edit/5

@@ -33,6 +33,7 @@ textarea {
     7. Student splashscreen
     8. Create Document
     9. List Document
+    10. Feedback
 */
 
 /*======================================= 1. All around ===================================*/
@@ -351,7 +352,7 @@ textarea {
 }
 
     .document-list tr th:last-of-type {
-        width:20%;
+        width: 20%;
     }
 
     .document-list > tbody > tr > td {
@@ -408,4 +409,131 @@ textarea {
 
 .leftthinborder {
     border-left: 1px solid #e5e5e5;
+}
+/*======================================= 10. Feedback ==================================*/
+
+.glyphicon.glyphicon-one-fine-dot-you:before {
+    content: "\25cf";
+    font-size: 1.5em;
+    color: red;
+}
+
+.glyphicon.glyphicon-one-fine-dot-other:before {
+    content: "\25cf";
+    font-size: 1.5em;
+    color: green;
+}
+.chat{
+    max-height:500px;
+    overflow:scroll;
+}
+
+.chat .chat-history {
+    padding: 30px 30px 20px;
+    border-bottom: 2px solid white;
+}
+
+    .chat .chat-history .message-data {
+        margin-bottom: 15px;
+    }
+
+    .chat .chat-history .message-data-time {
+        color: #a8aab1;
+        padding-left: 6px;
+    }
+
+    .chat .chat-history .message {
+        color: white;
+        padding: 18px 20px;
+        line-height: 26px;
+        font-size: 16px;
+        border-radius: 5px;
+        margin-bottom: 30px;
+        width: 90%;
+        position: relative;
+    }
+
+        .chat .chat-history .message pre{
+            background:none;
+            border:none;
+            white-space:pre-wrap;
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-size:17px;
+            line-height:26px;
+            color:black;
+            padding:0;
+            margin:0;
+        }
+
+        .chat .chat-history .message:after {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            border-width: 0 15px 15px;
+            border-style: solid;
+            border-color: #CCDBDC transparent;
+            display: block;
+            width: 0;
+        }
+
+    .chat .chat-history .you-message {
+        background: #CCDBDC;
+        color: #003366;
+    }
+
+    .chat .chat-history .me-message {
+        background: #E9724C;
+    }
+
+    .chat .chat-history .me-message pre{
+        color:white;
+    }
+
+        .chat .chat-history .me-message:after {
+            border-color: #E9724C transparent;
+            right: 20px;
+            top: -15px;
+            left: auto;
+            bottom: auto;
+        }
+
+.chat .chat-message {
+    padding: 30px;
+}
+
+    .chat .chat-message .fa-file-o, .chat .chat-message .fa-file-image-o {
+        font-size: 16px;
+        color: gray;
+        cursor: pointer;
+    }
+
+.chat-ul li {
+    list-style-type: none;
+}
+
+.multi-line{
+    white-space:pre-wrap;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.float-right {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
 }

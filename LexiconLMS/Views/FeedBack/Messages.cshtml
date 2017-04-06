@@ -1,0 +1,45 @@
+﻿@model LexiconLMS.Models.FeedbackViewModel
+
+@{
+    ViewBag.Title = "Messages";
+}
+
+<h2>Feedback för inlämningsuppgift '@Model.ActivityName'</h2>
+<div class="container">
+    <div id="historyDiv">
+        @Html.Action("Index", new { userId = Model.StudentId, activityId = Model.ActivityId, partial = true })
+    </div>
+
+    <form id="messageForm">
+        <div id="messageDiv">
+            @Html.Action("Create", new { userId = Model.StudentId, activityId = Model.ActivityId, partial = true })
+        </div>
+    </form>
+</div>
+
+
+@section scripts{
+@Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).on('click', '#messageBtn', function () {
+            $.ajax({
+                url: '@Url.Action("Create")',
+                data: $('#messageForm').serialize(),
+                type: 'POST',
+                success: function(data){
+                    if(data){
+                        $('#messageDiv').html(data);
+                        $('#historyDiv').load('@Html.Raw(Url.Action("Index", new { userId = Model.StudentId, activityId = Model.ActivityId, partial = true }))', updateScroll)
+                    }
+                }
+            });
+        });
+
+        function updateScroll() {
+            var element = document.getElementById("chatDiv");
+            element.scrollTop = element.scrollHeight;
+        }
+
+        updateScroll();
+    </script>
+}
