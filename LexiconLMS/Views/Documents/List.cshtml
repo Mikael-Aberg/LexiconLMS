@@ -48,12 +48,12 @@
                             </a>
                         }
                     }
-                    <a href='@Url.Action("DownloadFile", "Documents", new { id = item.Id })' data-toggle="icons" title="Ladda ned: @Html.DisplayFor(modelItem => item.Name)">
+                    <a class="no-underline" href='@Url.Action("DownloadFile", "Documents", new { id = item.Id })' data-toggle="icons" title="Ladda ned: @Html.DisplayFor(modelItem => item.Name)">
                         <img class="document-img" src="~/Images/document_download.png" />
                     </a>
                     @if (User.Identity.Name == item.User.UserName || User.IsInRole("Teacher"))
                     {
-                        <a href='@Url.Action("Edit", "Documents", new { id = item.Id, courseId = ViewBag.courseId, moduleId = ViewBag.moduleId, activityId = ViewBag.activityId, partial = ViewBag.partial })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
+                        <a class="no-underline" href='@Url.Action("Edit", "Documents", new { id = item.Id, courseId = ViewBag.courseId, moduleId = ViewBag.moduleId, activityId = ViewBag.activityId, partial = ViewBag.partial })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
                             <img class="document-img" src="~/Images/document_edit.png" />
                         </a>
                     }

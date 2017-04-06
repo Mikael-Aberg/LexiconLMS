@@ -33,14 +33,28 @@
             <td>@Html.DisplayFor(modelItem => item.Name)</td>
             <td data-toggle="tooltip" title="@Html.DisplayFor(x => item.ToolTipText)">@Html.DisplayFor(modelItem => item.ShortDescription)</td>
             <td>@Html.DisplayFor(modelItem => item.Deadline)</td>
-            <td>
+            @if (User.IsInRole("Teacher"))
+            {
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ActivityId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ActivityId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ActivityId })
+                </td>
+            }
+            <td class="text-right">
+                @if (@item.DocumentCount > 0 && !User.IsInRole("Teacher"))
+                {
+                    <button class="feedback-btn btn no-background" value="@item.ActivityId" data-toggle="icons" title="Se din feedback">
+                        <img class="icon" src="~/Images/feedback.png" />
+                    </button>
+                }
                 <button class="doc-upload-btn btn no-background" value="@item.ActivityId" data-toggle="icons" title="@((User.IsInRole("Teacher") ? "Ladda upp dokument" : "Lämna in uppgift"))">
                     <img class="icon" src="~/Images/document_upload.png" />
                 </button>
                 @if (@item.DocumentCount > 0)
                 {
-                    <a href='@Url.Action("List", "Documents", new { activityId = item.ActivityId })' data-toggle="icons" title="@item.DocumentCount dokument tillhörande @item.ModuleName">
-                        <img class="documentsimg icon" src="~/Images/document_info.png" />
+                    <a href='@Url.Action("List", "Documents", new { activityId = item.ActivityId })' class="btn no-background" data-toggle="icons" title="@item.DocumentCount dokument tillhörande @item.">
+                        <img class="icon" src="~/Images/document_info.png" />
                     </a>
                 }
                 else

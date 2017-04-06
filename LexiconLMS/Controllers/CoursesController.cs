@@ -216,6 +216,29 @@ namespace LexiconLMS.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Course course = db.Courses.Find(id);
+
+            var documents = db.Documents.Where(x => x.CourseId == course.Id).ToList();
+            foreach (var document in documents)
+            {
+                if (document == null)
+                {
+                    break;
+                }
+                string fullPath = Request.MapPath("~/UploadedFiles/" + document.Name);
+
+                int count = db.Documents.Where(f => f.FilePath == document.FilePath).ToList().Count();
+
+                if (count == 1)
+                {
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+                }
+                db.Documents.Remove(document);
+                db.SaveChanges();
+            }
+
             db.Courses.Remove(course);
             db.SaveChanges();
             return RedirectToAction("Index");

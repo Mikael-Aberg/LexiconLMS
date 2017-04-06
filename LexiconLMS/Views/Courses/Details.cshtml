@@ -4,14 +4,14 @@
     ViewBag.Title = "Details";
 }
 
-<div class="container toppadding">
+<div class="container toppadding" id="detailsDiv">
     <div class="headerDiv">
         <h1>@Model.Name</h1><span>@Model.StartDate - @Model.EndDate</span>
         @if (@Model.DocumentCount > 0)
         {
             <span class="Courseheaderspan">
-                <a href='@Url.Action("List", "Documents", new { courseId = Model.Id })' data-toggle="icons" title="@Model.DocumentCount dokument tillhörande @Html.DisplayFor(modelItem => Model.Name)">
-                    <img class="documentsimg" src="~/Images/document_info.png" />
+                <a href='@Url.Action("List", "Documents", new { courseId = Model.Id })' class="no-underline" data-toggle="icons" title="@Model.DocumentCount dokument tillhörande @Html.DisplayFor(modelItem => Model.Name)">
+                    <img class="icon no-float" src="~/Images/document_info.png" />
                 </a>
             </span>
         }
@@ -29,12 +29,12 @@
                     @if (module.DocumentCount > 0)
                     {
                         <span>
-                                <img class="documentsimg moduledocuments" src="~/Images/document_info.png" name="@module.Id" data-toggle="icons" title="@module.DocumentCount dokument tillhörande @module.Name"/>
+                            <img class="documentsimg moduledocuments" src="~/Images/document_info.png" name="@module.Id" data-toggle="icons" title="@module.DocumentCount dokument tillhörande @module.Name" />
                         </span>
                     }
                     @if (User.IsInRole("Teacher"))
                     {
-                        <p class="fake-link edit-text" name="@module.Id">Redigera</p>
+                        <img class="edit-text icon-lg" data-toggle="icons" title="Redigera @module.Name" name="@module.Id" src="~/Images/edit.png">
                     }
                 </div>
             </a>
@@ -84,7 +84,9 @@
                                     <td>
                                         @if (User.IsInRole("Teacher"))
                                         {
-                                            @Html.ActionLink("Redigera", "Create", "CreateCourse", new { courseId = Model.Id, activityId = activity.Id, activityShow = true }, null)
+                                            <a data-toggle="icons" title="Redigera @activity.Name" class="no-underline" href="@Url.Action("Create", "CreateCourse", new { courseId = Model.Id, activityId = activity.Id, activityShow = true })">
+                                                <img class="icon" src="~/Images/edit.png" />
+                                            </a>
                                         }
                                         @if (activity.DocumentCount > 0)
                                         {

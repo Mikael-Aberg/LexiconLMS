@@ -104,6 +104,12 @@
         });
     </script>
     <script>
+        $(document).on('click', '.feedback-btn', function(){
+            var value = $(this).val();
+            var url = '@(Html.Raw(Url.Action("Messages", "Feedback", new { activityId = -1, userId = Model.StudentId})))'.replace('-1', value);
+            window.location.href = url;
+        });
+
         $(document).on("click", ".doc-upload-btn", function () {
             var value = $(this).val();
             $.ajax({

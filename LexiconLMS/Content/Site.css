@@ -70,6 +70,8 @@ textarea {
     margin: 0;
 }
 
+
+
 .Width-90 {
     width: 90%;
 }
@@ -314,12 +316,16 @@ textarea {
     text-decoration: none;
 }
 
-.headerDiv p {
+.headerDiv img:not(.no-float) {
     float: right;
 }
 
 .documentsimg {
     height: 20px;
+}
+
+.no-float {
+    float: none;
 }
 
 

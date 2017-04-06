@@ -21,13 +21,13 @@
                     <td class="end-date">@Html.DisplayFor(x => module.EndDate)</td>
                     <td>@Html.DisplayFor(x => module.NumberOfActivities)</td>
                     <td>
-                        <button data-toggle="tooltip" title="Redigera @module.Name" type="button" class="editModuleBtn btn no-background" name="@module.Id">
+                        <button data-toggle="icons" title="Redigera @module.Name" type="button" class="editModuleBtn btn no-background" name="@module.Id">
                             <img class="icon" src="~/Images/edit.png" />
                         </button>
-                        <button data-toggle="tooltip" title="Ta bort @module.Name" type="button" class="deleteModuleBtn btn no-background" name="@module.Id">
+                        <button data-toggle="icons" title="Ta bort @module.Name" type="button" class="deleteModuleBtn btn no-background" name="@module.Id">
                             <img class="icon" src="~/Images/delete.png" />
                         </button>
-                        <button data-toggle="tooltip" title="Ladda upp dokument" type="button" class="DocModuleBtn btn no-background" name="@module.Id">
+                        <button data-toggle="icons" title="Ladda upp dokument" type="button" class="DocModuleBtn btn no-background" name="@module.Id">
                             <img class="icon" src="~/Images/document_upload.png"/>
                         </button>
                     </td>
