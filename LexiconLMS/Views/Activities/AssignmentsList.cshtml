@@ -33,14 +33,6 @@
             <td>@Html.DisplayFor(modelItem => item.Name)</td>
             <td data-toggle="tooltip" title="@Html.DisplayFor(x => item.ToolTipText)">@Html.DisplayFor(modelItem => item.ShortDescription)</td>
             <td>@Html.DisplayFor(modelItem => item.Deadline)</td>
-            @if (User.IsInRole("Teacher"))
-            {
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ActivityId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ActivityId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ActivityId })
-                </td>
-            }
             <td class="text-right">
                 @if (@item.DocumentCount > 0 && !User.IsInRole("Teacher"))
                 {
