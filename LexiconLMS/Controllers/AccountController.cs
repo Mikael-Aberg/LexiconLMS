@@ -226,7 +226,7 @@ namespace LexiconLMS.Controllers
         //
         // GET: /Account/Register
         [Authorize(Roles = "Teacher")]
-        public ActionResult Register(string name, string msg = "")
+        public ActionResult Register(string name, string msg = "", bool partial = true)
         {
             var viewModel = new RegisterViewModel();
 
@@ -247,7 +247,9 @@ namespace LexiconLMS.Controllers
 
                 viewModel.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
                 viewModel.IsEditing = true;
-                return PartialView("_RegisterStudent", viewModel);
+                if (partial) return PartialView("_RegisterStudent", viewModel);
+                else return View(viewModel);
+
             }
 
             viewModel.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");

@@ -223,6 +223,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\AssignmentIcon.svg" />
+    <Content Include="Images\assignments.png" />
     <Content Include="Images\delete.png" />
     <Content Include="Images\details.png" />
     <Content Include="Images\documentdelete.png" />
