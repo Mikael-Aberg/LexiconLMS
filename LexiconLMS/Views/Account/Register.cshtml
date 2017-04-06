@@ -56,7 +56,9 @@
                     if (data) {
                         $('#registerDiv').html(data);
                         document.getElementById('registerBtn').value = "Uppdatera elev";
-
+                        $('html, body').animate({
+                            scrollTop: $("#registerDiv").offset().top
+                        }, 500);
                     }
                 }
             });

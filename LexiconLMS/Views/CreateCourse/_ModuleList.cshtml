@@ -14,7 +14,7 @@
             </tr>
             @foreach (var module in Model)
             {
-                <tr name="@module.Id">
+                <tr name="module" id="module@(module.Id)" class="@((module.Id.ToString() == ViewBag.EditedModuleId) ? "editedrow": "")">
                     <td>@Html.DisplayFor(x => module.Name)</td>
                     <td data-toggle="tooltip" title="@Html.DisplayFor(x => module.ToolTipText)">@Html.DisplayFor(x => module.ShortDescription)</td>
                     <td class="start-date">@Html.DisplayFor(x => module.StartDate)</td>

@@ -4,6 +4,7 @@
     ViewBag.Title = "Create";
 }
 <input id="documentfor" name="documentfor" type="hidden" value="course" />
+<input id="editedmoduleid" name="editedmoduleid" type="hidden" value="-1" />
 <div class="panel-group" id="accordion">
     <div class="panel panel-default">
         <a data-toggle="collapse" data-parent="#accordion" href="#collapseCourse" class="accordion-header-link">
@@ -445,6 +446,8 @@
         }
 
         $(document).on('click', '#ModuleBtn', function () {
+            var moduleId = document.getElementById("editedmoduleid").value;
+            alert(moduleId);
             $.ajax({
                 url: '@Url.Action("CreateModule")',
                 type: 'POST',
@@ -453,10 +456,11 @@
                     if (data) {
                         $('#moduleDiv').html(data);
                         moduleDatepicker();
-                        $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })', hideAddBtn)
+                        $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0), EditedModuleId = -1 })'.replace('-1',moduleId), hideAddBtn)
                         $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                         $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePickerInit)
                         document.getElementById("ModuleBtn").value = "Lägg till";
+                        
                     }
                     else {
                         alert('NoData');
@@ -471,6 +475,7 @@
         var moduleEdit = function () {
             $(document).on('click', '.editModuleBtn', function () {
                 var value = $(this).attr('name');
+                document.getElementById("editedmoduleid").value = value;
                 $.ajax({
                     url: '@Url.Action("GetEditModule")',
                     type: 'GET',
@@ -484,6 +489,9 @@
                             moduleDatepicker();
                             $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePickerInit)
                             document.getElementById("ModuleBtn").value = "Spara ändringar";
+                            $('html, body').animate({
+                                scrollTop: $("#documentfor").offset().top
+                            }, 500);
                         }
                         else {
                             alert('NoData');
@@ -580,6 +588,7 @@
                         $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
                         $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                         document.getElementById("ActivityBtn").value = "Lägg till";
+                        //scroll to activity
                     }
                     else {
                         alert('NoData');
@@ -611,6 +620,9 @@
                                 activityDatePicker($(row).find('td[class=start-date]').text(), $(row).find('td[class=end-date]').text() + ' 23:59:59');
                             }
                             document.getElementById("ActivityBtn").value = "Spara ändringar";
+                            $('html, body').animate({
+                                scrollTop: $("#moduleDiv").offset().top
+                            }, 500);
                         }
                         else {
                             alert('NoData');
