@@ -57,9 +57,9 @@
             {
                     <a href='@Url.Action("Create", "CreateCourse", new {courseId = item.CourseId, activityId = item.ActivityId, activityShow = true })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
                         <img class="genericimg" src="~/Images/document_edit.png" /></a>
-                    <button type="button" data-toggle="icons" title="Ta bort @item.Name" class="deleteActivityBtn btn no-background" name="item.ActivityId">
+                    @*<button type="button" data-toggle="icons" title="Ta bort @item.Name" class="deleteActivityBtn btn no-background" name="@item.ActivityId">
                         <img class="icon" src="~/Images/delete.png" />
-                    </button>
+                    </button>*@
                     @*@Html.ActionLink("Delete", "Delete", new { id = item.ActivityId })*@
             }
             </td>

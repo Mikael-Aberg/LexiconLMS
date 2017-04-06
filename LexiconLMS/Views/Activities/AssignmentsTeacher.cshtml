@@ -5,7 +5,7 @@
         <div class="col-sm-12">
             <h3>Kommande inlämningar</h3>
             <div id="AssignmentsList">
-                @Html.Action("AssignmentsList", "Activities", new { partial = true })
+                @Html.Action("AssignmentsList", "Activities", new { partial = true, courseId = ViewBag.courseId })
             </div>
         </div>
     </div>
@@ -114,6 +114,7 @@
         });
         var deleteActivity = function(){
             $(document).on('click', '.deleteActivityBtn', function () {
+                alert("testestest");
                 var value = $(this).attr("name");
                 $.ajax({
                     url: '@Url.Action("DeleteActivity")',

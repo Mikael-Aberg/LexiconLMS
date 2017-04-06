@@ -47,6 +47,9 @@
                 <a class="no-background no-underline" data-toggle="tooltip" title="Ta bort @course.Name" href="@Url.Action("Delete", new { id = course.Id })">
                     <img class="icon-lg" src="~/Images/delete.png" />
                 </a>
+                <a class="no-background no-underline" data-toggle="tooltip" title="Inlämningsuppgifter för @course.Name" href="@Url.Action("AssignmentsTeacher", "Activities", new { courseId = course.Id })">
+                    <img class="icon-lg" src="~/Images/Assignments.png" />
+                </a>
             </td>
         </tr>
     }

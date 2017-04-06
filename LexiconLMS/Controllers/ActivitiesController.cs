@@ -21,9 +21,9 @@ namespace LexiconLMS.Controllers
             return View(db.Activities.ToList());
         }
 
-        public ActionResult AssignmentsTeacher()
+        public ActionResult AssignmentsTeacher(int? courseId)
         {
-
+            ViewBag.courseId = courseId;
             return View();
         }
 
