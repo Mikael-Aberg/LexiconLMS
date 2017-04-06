@@ -115,16 +115,21 @@
 
 @section scripts{
     <script>
+        $(document).on('click', '.editUserBtn', function () {
+            var value = $(this).attr('name');
+            var url = '@(Html.Raw(Url.Action("Register", "Account", new { name = -1, partial = false })))'.replace('-1', value);
+            window.location.href = url;
+        });
         $(document).on('click', ".activitydocuments", function (e) {
             e.stopPropagation();
             var value = $(this).attr('name');
-            var url = '@(Html.Raw(Url.Action("List", "Documents", new { activityId = -1,})))'.replace('-1', value);
+            var url = '@(Html.Raw(Url.Action("List", "Documents", new { activityId = -1 })))'.replace('-1', value);
             window.location.href = url;
         });
         $(document).on('click', ".moduledocuments", function (e) {
             e.stopPropagation();
             var value = $(this).attr('name');
-            var url = '@(Html.Raw(Url.Action("List", "Documents", new { moduleId = -1,})))'.replace('-1', value);
+            var url = '@(Html.Raw(Url.Action("List", "Documents", new { moduleId = -1 })))'.replace('-1', value);
             window.location.href = url;
         });
         $(document).on('click', ".edit-text", function (e) {
