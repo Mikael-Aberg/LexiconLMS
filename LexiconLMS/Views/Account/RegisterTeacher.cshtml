@@ -4,9 +4,9 @@
 }
 
 @*@model LexiconLMS.Models.RegisterViewModel
-@{
-    ViewBag.Title = "Lägg till elev";
-}*@
+    @{
+        ViewBag.Title = "Lägg till elev";
+    }*@
 
 @using (Html.BeginForm("RegisterTeacher", "Account", FormMethod.Post, new { @class = "form-horizontal", @id = "register-form", @role = "form" }))
 {
@@ -25,6 +25,25 @@
     @Html.Action("ListTeacher", "Account", new { ControlRef = "Account", ActionRef = "RegisterTeacher" })
 </div>
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Ta bort användare</h4>
+            </div>
+            <div class="modal-body">
+                Är du säker på att du vill ta bort "<span id="spanUser"></span>"?
+            </div>
+            <div class="modal-footer">
+                <div id="testOutput"></div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
+                <a href="" id="deleteLink" class="btn btn-danger">Ta bort</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
@@ -34,9 +53,7 @@
             document.getElementById("spanUser").innerHTML = value;
             document.getElementById("deleteLink").href = "/Account/Delete?CourseId=@ViewBag.CourseId&ControlRef=Account&ActionRef=RegisterTeacher&id=" + value;
             $('#myModal').modal();
-
         });
-
     </script>
     <script>
         $(document).on('click', '#registerBtn', function () {
