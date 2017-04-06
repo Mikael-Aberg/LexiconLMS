@@ -43,7 +43,7 @@
                     {
                         if (item.Activity.IsAssignment)
                         {
-                            <a class="no-background no-underline" data-toggle="icons" title="@((User.IsInRole("Teacher")? "Ge feedback till " + item.User.FullName : "Se din feedback"))" href="@Url.Action("Create", "Feedback",new { userId = item.UserId, activityId = item.ActivityId})">
+                            <a class="no-background no-underline" data-toggle="icons" title="@((User.IsInRole("Teacher")? "Ge feedback till " + item.User.FullName : "Se din feedback"))" href="@Url.Action("Messages", "Feedback",new { userId = item.UserId, activityId = item.ActivityId})">
                                 <img class="icon-lg" src="~/Images/feedback.png" />
                             </a>
                         }
