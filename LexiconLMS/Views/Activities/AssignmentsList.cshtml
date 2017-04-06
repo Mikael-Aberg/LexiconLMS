@@ -20,7 +20,6 @@
         }
         <th></th>
         <th></th>
-        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -42,13 +41,19 @@
                     @Html.ActionLink("Delete", "Delete", new { id = item.ActivityId })
                 </td>
             }
-            <td><button class="fake-link doc-upload-btn" value="@item.ActivityId">@((User.IsInRole("Teacher") ? "Ladda upp dokument" : "Lämna in uppgift"))</button></td>
             <td>
+                <button class="doc-upload-btn btn no-background" value="@item.ActivityId" data-toggle="icons" title="@((User.IsInRole("Teacher") ? "Ladda upp dokument" : "Lämna in uppgift"))">
+                    <img class="icon" src="~/Images/document_upload.png" />
+                </button>
                 @if (@item.DocumentCount > 0)
                 {
                     <a href='@Url.Action("List", "Documents", new { activityId = item.ActivityId })' data-toggle="icons" title="@item.DocumentCount dokument tillhörande @item.ModuleName">
-                        <img class="documentsimg" src="~/Images/documents.png" />
+                        <img class="documentsimg icon" src="~/Images/document_info.png" />
                     </a>
+                }
+                else
+                {
+                    <img class="icon" src="~/Images/Empty.png" />
                 }
             </td>
         </tr>

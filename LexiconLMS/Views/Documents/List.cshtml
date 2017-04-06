@@ -40,10 +40,10 @@
                 <td>@Html.DisplayFor(modelItem => item.abbrContentLength)</td>
                 <td class="text-right">
                     @if (item.Activity != null)
-                {
-                    if (item.Activity.IsAssignment)
                     {
-                            <a class="no-background no-underline" data-toggle="tooltip" title="Ge feedback till @item.User.FullName" href="@Url.Action("Create", "Feedback",new { userId = item.UserId, activityId = item.ActivityId})">
+                        if (item.Activity.IsAssignment)
+                        {
+                            <a class="no-background no-underline" data-toggle="icons" title="@((User.IsInRole("Teacher")? "Ge feedback till " + item.User.FullName : "Se din feedback"))" href="@Url.Action("Create", "Feedback",new { userId = item.UserId, activityId = item.ActivityId})">
                                 <img class="icon-lg" src="~/Images/feedback.png" />
                             </a>
                         }
@@ -52,7 +52,7 @@
                         <img class="document-img" src="~/Images/document_download.png" />
                     </a>
                     @if (User.Identity.Name == item.User.UserName || User.IsInRole("Teacher"))
-                {
+                    {
                         <a href='@Url.Action("Edit", "Documents", new { id = item.Id, courseId = ViewBag.courseId, moduleId = ViewBag.moduleId, activityId = ViewBag.activityId, partial = ViewBag.partial })' data-toggle="icons" title="Redigera: @Html.DisplayFor(modelItem => item.Name)">
                             <img class="document-img" src="~/Images/document_edit.png" />
                         </a>
@@ -62,7 +62,7 @@
                         <img class="document-img" src="~/Images/Empty.png" />
                     }
                     @if (User.IsInRole("Teacher"))
-                {
+                    {
                         <img name="@Html.DisplayFor(modelItem => item.Name)" id="@item.Id" class="document-img deleteDocument" src="~/Images/document_delete.png" data-toggle="icons" title="Ta bort: @Html.DisplayFor(modelItem => item.Name)" />
                     }
                     else

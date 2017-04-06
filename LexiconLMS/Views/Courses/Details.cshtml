@@ -11,7 +11,7 @@
         {
             <span class="Courseheaderspan">
                 <a href='@Url.Action("List", "Documents", new { courseId = Model.Id })' data-toggle="icons" title="@Model.DocumentCount dokument tillhörande @Html.DisplayFor(modelItem => Model.Name)">
-                    <img class="documentsimg" src="~/Images/documents.png" />
+                    <img class="documentsimg" src="~/Images/document_info.png" />
                 </a>
             </span>
         }
@@ -29,7 +29,7 @@
                     @if (module.DocumentCount > 0)
                     {
                         <span>
-                                <img class="documentsimg moduledocuments" src="~/Images/documents.png" name="@module.Id" data-toggle="icons" title="@module.DocumentCount dokument tillhörande @module.Name"/>
+                                <img class="documentsimg moduledocuments" src="~/Images/document_info.png" name="@module.Id" data-toggle="icons" title="@module.DocumentCount dokument tillhörande @module.Name"/>
                         </span>
                     }
                     @if (User.IsInRole("Teacher"))
@@ -89,7 +89,7 @@
                                         @if (activity.DocumentCount > 0)
                                         {
                                             <span>
-                                                <img class="documentsimg activitydocuments" src="~/Images/documents.png" name="@activity.Id" data-toggle="icons" title="@activity.DocumentCount dokument tillhörande @activity.Name" />
+                                                <img class="documentsimg activitydocuments" src="~/Images/document_info.png" name="@activity.Id" data-toggle="icons" title="@activity.DocumentCount dokument tillhörande @activity.Name" />
                                             </span>
                                         }
                                     </td>

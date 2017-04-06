@@ -231,6 +231,7 @@
     <Content Include="Images\document_delete.png" />
     <Content Include="Images\document_download.png" />
     <Content Include="Images\document_edit.png" />
+    <Content Include="Images\document_info.png" />
     <Content Include="Images\document_upload.png" />
     <Content Include="Images\edit.png" />
     <Content Include="Images\Empty.png" />
