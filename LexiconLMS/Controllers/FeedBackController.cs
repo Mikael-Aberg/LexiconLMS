@@ -7,6 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LexiconLMS.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace LexiconLMS.Controllers
 {
@@ -16,15 +19,26 @@ namespace LexiconLMS.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: FeedBack
-        public ActionResult Index()
+        public ActionResult Index(string userId, int? activityId)
         {
+            ViewBag.userId = userId;
+            ViewBag.activityId = activityId;
+
             var feedBackMessages = db.FeedBackMessages.Include(f => f.Feedback).Include(f => f.User);
+
+            feedBackMessages = db.FeedBackMessages
+                .Where(f => f.Feedback.ApplicationUserId == userId)
+                .Where(f => f.Feedback.ActivityId == activityId);
+
             return View(feedBackMessages.ToList());
         }
 
         // GET: FeedBack/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, string userId, int? activityId)
         {
+            ViewBag.userId = userId;
+            ViewBag.activityId = activityId;
+
             if (id == null) { return new HttpStatusCodeResult(HttpStatusCode.BadRequest); }
             FeedBackMessage feedBackMessage = db.FeedBackMessages.Find(id);
             if (feedBackMessage == null) { return HttpNotFound(); }
@@ -75,22 +89,24 @@ namespace LexiconLMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StudentId,PostedById,Message,FeedbackId")] FeedBackCreateViewModel model)
+        public ActionResult Create([Bind(Include = "StudentId,PostedById,Message,FeedbackId")] FeedBackCreateViewModel model, string userId, int? activityId)
         {
             if (ModelState.IsValid)
             {
                 var message = new FeedBackMessage { FeedbackId = model.FeedbackId, Message = model.Message, PostedBy = model.PostedById };
                 db.FeedBackMessages.Add(message);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { userId=userId, activityId=activityId });
             }
 
             return View(model);
         }
 
         // GET: FeedBack/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, string userId, int? activityId)
         {
+            ViewBag.userId = userId;
+            ViewBag.activityId = activityId;
             if (id == null) { return new HttpStatusCodeResult(HttpStatusCode.BadRequest); }
             FeedBackMessage feedBackMessage = db.FeedBackMessages.Find(id);
             if (feedBackMessage == null) { return HttpNotFound(); }
@@ -104,13 +120,16 @@ namespace LexiconLMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FeedbackId,Message,PostedBy,PostedTime")] FeedBackMessage feedBackMessage)
+        public ActionResult Edit([Bind(Include = "Id,FeedbackId,Message,PostedBy,PostedTime")] FeedBackMessage feedBackMessage, string userId, int? activityId)
         {
+            ViewBag.userId = userId;
+            ViewBag.activityId = activityId;
+
             if (ModelState.IsValid)
             {
                 db.Entry(feedBackMessage).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { userId = userId, activityId = activityId });
             }
             ViewBag.FeedbackId = new SelectList(db.Feedbacks, "Id", "ApplicationUserId", feedBackMessage.FeedbackId);
             ViewBag.PostedBy = new SelectList(db.Users, "Id", "FirstName", feedBackMessage.PostedBy);

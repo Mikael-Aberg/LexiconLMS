@@ -17,6 +17,7 @@ namespace LexiconLMS.Models
         public string Message { get; set; }
         [DisplayName("Skrivet av")]
         public string PostedBy { get; set; }
+        [DisplayName("Skickat")]
         public DateTime PostedTime { get; private set; }
 
         [ForeignKey("PostedBy")]
