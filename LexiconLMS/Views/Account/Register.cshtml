@@ -42,7 +42,7 @@
                         $('#registerDiv').html(data);
                         $('#studentList').load('@Url.Action("List", "Account", new { ControlRef = "Account", ActionRef = "Register" })');
                         document.getElementById('registerBtn').value = "Lägg till elev";
-                        window.location.href = "/Account/RegisterTeacher/";
+                        window.location.href = "/Account/Register/";
                     }
                 }
             });
