@@ -22,7 +22,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-@Scripts.Render("~/bundles/bootstrap")
+
     <script type="text/javascript">
         $(document).on('click', '.deleteUser', function () {
             var value = $(this).attr('name');
@@ -42,6 +42,7 @@
                         $('#registerDiv').html(data);
                         $('#studentList').load('@Url.Action("List", "Account", new { ControlRef = "Account", ActionRef = "Register" })');
                         document.getElementById('registerBtn').value = "Lägg till elev";
+                        window.location.href = "/Account/RegisterTeacher/";
                     }
                 }
             });

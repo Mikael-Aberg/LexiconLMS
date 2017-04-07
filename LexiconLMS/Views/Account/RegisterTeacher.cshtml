@@ -68,6 +68,7 @@
                         $('#registerDiv').html(data);
                         $('#teacherList').load('@Url.Action("ListTeacher", "Account", new { ControlRef = "Account", ActionRef = "RegisterTeacher" })');
                         document.getElementById('registerBtn').value = "Lägg till lärare";
+                        window.location.href = "/Account/RegisterTeacher/";
                     }
                 }
             });
