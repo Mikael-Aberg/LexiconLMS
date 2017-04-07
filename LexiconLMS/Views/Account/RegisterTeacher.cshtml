@@ -9,7 +9,7 @@
     }*@
 
 @using (Html.BeginForm("RegisterTeacher", "Account", FormMethod.Post, new { @class = "form-horizontal", @id = "register-form", @role = "form" }))
-{
+{ <input type="hidden" id="msgEnd" value="har lagts till." />
     <div id="registerDiv">
         @Html.Partial("_RegisterTeacher", Model)
     </div>
@@ -57,6 +57,7 @@
     </script>
     <script>
         $(document).on('click', '#registerBtn', function () {
+            var msg = document.getElementById("FirstName").value + " " + document.getElementById("LastName").value + " " + document.getElementById("msgEnd").value;
             $.ajax({
                 url: '@Url.Action("RegisterTeacher","Account",null)',
                 type: 'POST',
@@ -66,7 +67,7 @@
                         $('#registerDiv').html(data);
                         $('#teacherList').load('@Url.Action("ListTeacher", "Account", new { ControlRef = "Account", ActionRef = "RegisterTeacher" })');
                         document.getElementById('registerBtn').value = "Lägg till lärare";
-                        window.location.href = "/Account/RegisterTeacher/";
+                        window.location.href = "/Account/RegisterTeacher?msg=" + msg;
                     }
                 }
             });
@@ -82,6 +83,7 @@
                     if (data) {
                         $('#registerDiv').html(data);
                         document.getElementById('registerBtn').value = "Uppdatera lärare";
+                        document.getElementById("msgEnd").value = "har uppdaterats.";
                         $('html, body').animate({
                             scrollTop: $("#registerDiv").offset().top
                         }, 500);
