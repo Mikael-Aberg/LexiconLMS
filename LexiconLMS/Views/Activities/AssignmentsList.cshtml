@@ -43,8 +43,9 @@
                 <button class="doc-upload-btn btn no-background" value="@item.ActivityId" data-toggle="icons" title="@((User.IsInRole("Teacher") ? "Ladda upp dokument" : "Lämna in uppgift"))">
                     <img class="icon" src="~/Images/document_upload.png" />
                 </button>
-                @if (@item.DocumentCount > 0)
+                @if (item.DocumentCount > 0)
                 {
+                    
                     <a href='@Url.Action("List", "Documents", new { activityId = item.ActivityId })' class="btn no-background" data-toggle="icons" title="@item.DocumentCount dokument tillhörande @item.Name">
                         <img class="icon" src="~/Images/document_info.png" />
                     </a>
