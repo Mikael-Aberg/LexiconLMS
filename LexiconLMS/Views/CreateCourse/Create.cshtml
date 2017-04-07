@@ -424,7 +424,9 @@
         var list = document.getElementsByClassName('activityDatepicker');
 
         for(var i = 0; i < list.length; i++){
-            $(list[i]).datetimepicker('destroy');
+            if($(list[i].datetimepicker != null)){
+                $(list[i]).datetimepicker('destroy');
+            }
         }
 
         $('.activityDatepicker').datetimepicker({
@@ -450,7 +452,6 @@
 
     $(document).on('click', '#ModuleBtn', function () {
         var moduleId = document.getElementById("editedmoduleid").value;
-        alert(moduleId);
         $.ajax({
             url: '@Url.Action("CreateModule")',
             type: 'POST',
