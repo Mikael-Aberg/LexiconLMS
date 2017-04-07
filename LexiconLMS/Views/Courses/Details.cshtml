@@ -26,15 +26,16 @@
             <a data-parent="#accordion-@module.Id" href="#module-@module.Id" data-toggle="collapse">
                 <div class="panel-heading headerDiv">
                     <h3>@module.Name</h3><span>@module.StartDate - @module.EndDate</span>
+                    @if (User.IsInRole("Teacher"))
+                    {
+                        <img class="edit-text documentsimg" data-toggle="icons" title="Redigera @module.Name" name="@module.Id" src="~/Images/edit.png">
+                        <img class="documentsimg" src="~/Images/Empty.png" />
+                    }
                     @if (module.DocumentCount > 0)
                     {
                         <span>
                             <img class="documentsimg moduledocuments" src="~/Images/document_info.png" name="@module.Id" data-toggle="icons" title="@module.DocumentCount dokument tillhörande @module.Name" />
                         </span>
-                    }
-                    @if (User.IsInRole("Teacher"))
-                    {
-                        <img class="edit-text icon-lg" data-toggle="icons" title="Redigera @module.Name" name="@module.Id" src="~/Images/edit.png">
                     }
                 </div>
             </a>

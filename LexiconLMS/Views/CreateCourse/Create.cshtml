@@ -18,64 +18,64 @@
             <div class="panel-body">
                 @using (Html.BeginForm("CreateCourse", "CreateCourse", FormMethod.Post, new { @id = "courseForm" }))
                 {
-                    @Html.AntiForgeryToken()
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    @if (Model.Course != null)
+                    {
+                    <input id="courseId" name="courseId" type="hidden" value="@Model.Course.Id" />
+                    }
+                </div>
+                <div class="form-horizontal">
+                    <br />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Course.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Course.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Course.Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6" id="CourseFileInfo">
+
+                        </div>
+                    </div>
 
                     <div class="form-group">
+                        @Html.LabelFor(model => model.Course.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Course.Description, new { @class = "form-control", @rows = 3, @style = "resize: none;" })
+                            @Html.ValidationMessageFor(model => model.Course.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Course.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Course.StartDate, new { htmlAttributes = new { @class = "form-control datepicker", @id = "courseStartDate" } })
+                            @Html.ValidationMessageFor(model => model.Course.StartDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Course.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Course.EndDate, new { htmlAttributes = new { @class = "form-control datepicker", @id = "courseEndDate" } })
+                            @Html.ValidationMessageFor(model => model.Course.EndDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="btn-group form-group" id="courseButtons">
+
+                        <input type="submit" value="Spara och lägg till moduler" class="btn btn-default" />
+
                         @if (Model.Course != null)
                         {
-                            <input id="courseId" name="courseId" type="hidden" value="@Model.Course.Id" />
+                        <input id="createNew" type="button" value="Skapa ny kurs" class="btn btn-default" />
+                        <button type="button" class="DocBtn btn btn-info" name="@Model.Course.Id">Ladda upp dokument</button>
                         }
                     </div>
-                    <div class="form-horizontal">
-                        <br />
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Course.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.Course.Name, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Course.Name, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-6" id="CourseFileInfo">
-
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Course.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.TextAreaFor(model => model.Course.Description, new { @class = "form-control", @rows = 3, @style = "resize: none;" })
-                                @Html.ValidationMessageFor(model => model.Course.Description, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Course.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Course.StartDate, new { htmlAttributes = new { @class = "form-control datepicker", @id = "courseStartDate" } })
-                                @Html.ValidationMessageFor(model => model.Course.StartDate, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Course.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Course.EndDate, new { htmlAttributes = new { @class = "form-control datepicker", @id = "courseEndDate" } })
-                                @Html.ValidationMessageFor(model => model.Course.EndDate, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <br />
-                        <div class="btn-group form-group" id="courseButtons">
-
-                            <input type="submit" value="Spara och lägg till moduler" class="btn btn-default" />
-
-                            @if (Model.Course != null)
-                            {
-                                <input id="createNew" type="button" value="Skapa ny kurs" class="btn btn-default" />
-                                <button type="button" class="DocBtn btn btn-info" name="@Model.Course.Id">Ladda upp dokument</button>
-                            }
-                        </div>
-                    </div>
+                </div>
                 }
             </div>
         </div>
@@ -92,48 +92,48 @@
             <div class="panel-body">
                 @using (Html.BeginForm("CreateModule", "CreateCourse", FormMethod.Post, new { @id = "ModuleForm" }))
                 {
-                    <div id="moduleDiv">
-                        @if (Model.Course != null)
-                        {
-                            @Html.Action("CreateModuleInput", new { courseId = Model.Course.Id })
-                        }
-                    </div>
-                    if (Model.Course != null)
+                <div id="moduleDiv">
+                    @if (Model.Course != null)
                     {
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input id="ModuleBtn" type="button" value="@( ((Model.ModuleModel.Module != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default" />
-                            </div>
-                        </div>
+                    @Html.Action("CreateModuleInput", new { courseId = Model.Course.Id })
                     }
+                </div>
+                if (Model.Course != null)
+                {
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input id="ModuleBtn" type="button" value="@( ((Model.ModuleModel.Module != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default" />
+                    </div>
+                </div>
+                }
                 }
 
                 <div id="moduleListDiv">
                     @if (Model.Course != null)
                     {
-                        @Html.Action("GetModuleList", new { courseId = Model.Course.Id })
+                    @Html.Action("GetModuleList", new { courseId = Model.Course.Id })
                     }
                 </div>
                 @if (Model.ModuleModel.Modules != null)
                 {
-                    if (Model.ModuleModel.Modules.Count > 0)
-                    {
-                        <div id="addActivity" class="col-md-10">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseActivity" class="btn btn-default">Lägg till aktiviteter</a>
-                        </div>
-                    }
-                    else
-                    {
-                        <div id="addActivity" class="col-md-10 hidden">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseActivity" class="btn btn-default">Lägg till aktiviteter</a>
-                        </div>
-                    }
+                if (Model.ModuleModel.Modules.Count > 0)
+                {
+                <div id="addActivity" class="col-md-10">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseActivity" class="btn btn-default">Lägg till aktiviteter</a>
+                </div>
                 }
                 else
                 {
-                    <div id="addActivity" class="col-md-10 hidden">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseActivity" class="btn btn-default">Lägg till aktiviteter</a>
-                    </div>
+                <div id="addActivity" class="col-md-10 hidden">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseActivity" class="btn btn-default">Lägg till aktiviteter</a>
+                </div>
+                }
+                }
+                else
+                {
+                <div id="addActivity" class="col-md-10 hidden">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseActivity" class="btn btn-default">Lägg till aktiviteter</a>
+                </div>
                 }
 
             </div>
@@ -151,47 +151,47 @@
             <div class="panel-body">
                 @using (Html.BeginForm("CreateActivity", "CreateCourse", FormMethod.Post, new { @id = "ActivityForm" }))
                 {
-                    <div id="activityDiv">
-                        @if (Model.Course != null)
-                        {
-                            @Html.Action("CreateActivityInput", new { courseId = Model.Course.Id })
-                        }
+                <div id="activityDiv">
+                    @if (Model.Course != null)
+                    {
+                    @Html.Action("CreateActivityInput", new { courseId = Model.Course.Id })
+                    }
+                </div>
+
+                if (Model.ModuleModel.Modules != null)
+                {
+                if (Model.ModuleModel.Modules.Count > 0)
+                {
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" id="ActivityBtn" value="@( ((Model.ActivityModel.Activity != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default" />
                     </div>
+                </div>
+                }
+                else
+                {
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" id="ActivityBtn" value="@( ((Model.ActivityModel.Activity != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default hidden" />
+                    </div>
+                </div>
+                }
+                }
+                else
+                {
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" id="ActivityBtn" value="@( ((Model.ActivityModel.Activity != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default hidden" />
 
-                    if (Model.ModuleModel.Modules != null)
-                    {
-                        if (Model.ModuleModel.Modules.Count > 0)
-                        {
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="button" id="ActivityBtn" value="@( ((Model.ActivityModel.Activity != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default" />
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="button" id="ActivityBtn" value="@( ((Model.ActivityModel.Activity != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default hidden" />
-                                </div>
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="button" id="ActivityBtn" value="@( ((Model.ActivityModel.Activity != null) ? "Spara ändringar" : "Lägg till") )" class="btn btn-default hidden" />
-
-                            </div>
-                        </div>
-                    }
+                    </div>
+                </div>
+                }
                 }
 
                 <div id="activityListDiv">
                     @if (Model.Course != null)
                     {
-                        @Html.Action("GetActivityList", new { courseId = Model.Course.Id })
+                    @Html.Action("GetActivityList", new { courseId = Model.Course.Id })
                     }
                 </div>
 
@@ -227,239 +227,274 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        $(document).ready(function(){
-            $('[data-toggle="icons"]').tooltip(); 
-        });
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="icons"]').tooltip();
+    });
 
-        $(document).on('change', '#file', function () {
-            var filetext = document.getElementById("file").value.slice(12);
-            document.getElementById("fileselected").innerHTML = filetext;
-            document.getElementById("Name").value = filetext;
-        });
+    $(document).on('change', '#file', function () {
+        var filetext = document.getElementById("file").value.slice(12);
+        document.getElementById("fileselected").innerHTML = filetext;
+        document.getElementById("Name").value = filetext;
+    });
 
-        $(document).on("click", ".DocBtn", function () {
-            var value = @( (Model.Course != null)? Model.Course.Id : 0);
-            var CourseName = "@( (Model.Course != null)? Model.Course.Name : "")";
-            document.getElementById("myModalLabel").innerHTML = "Ladda upp dokument för kurs: " + CourseName;
-            document.getElementById("documentfor").value = "course";
-            $.ajax({
-                url: '@Url.Action("UploadModal", "Documents")',
-                data: {
-                    courseId: value,
-                    showAsPartial: true
-                },
-                type: "GET",
-                success: function (data) {
-                    if(data){
-                        $("#modalBody").html(data);
-                        $("#docModal").modal();
-                    }
-                    else{
-                        alert("No data");
-                    }
-                },
-                error: function (xhr, textStatus, thrownError, data) {
-                    alert("Error: " + thrownError);
+    $(document).on("click", ".DocBtn", function () {
+        var value = @( (Model.Course != null)? Model.Course.Id : 0);
+        var CourseName = "@( (Model.Course != null)? Model.Course.Name : "")";
+        document.getElementById("myModalLabel").innerHTML = "Ladda upp dokument för kurs: " + CourseName;
+        document.getElementById("documentfor").value = "course";
+        $.ajax({
+            url: '@Url.Action("UploadModal", "Documents")',
+            data: {
+                courseId: value,
+                showAsPartial: true
+            },
+            type: "GET",
+            success: function (data) {
+                if(data){
+                    $("#modalBody").html(data);
+                    $("#docModal").modal();
                 }
-            });
-        });
-
-        $(document).on("click", ".DocModuleBtn", function () {
-            document.getElementById("documentfor").value = "module";
-            var courseId = @( (Model.Course != null)? Model.Course.Id : 0);
-            var value = $(this).attr('name');
-            document.getElementById("myModalLabel").innerHTML = "Ladda upp dokument för modul";
-            $.ajax({
-                url: '@Url.Action("UploadModal", "Documents")',
-                data: {
-                    courseId: courseId,
-                    ModuleId: value,
-                    showAsPartial: true
-                },
-                type: "GET",
-                success: function (data) {
-                    if(data){
-                        $("#modalBody").html(data);
-                        $("#docModal").modal();
-                    }
-                    else{
-                        alert("No data");
-                    }
-                },
-                error: function (xhr, textStatus, thrownError, data) {
-                    alert("Error: " + thrownError);
+                else{
+                    alert("No data");
                 }
-            });
-        });
-
-        $(document).on("click", ".DocActivityBtn", function () {
-            document.getElementById("documentfor").value = "activity";
-            var courseId = @( (Model.Course != null)? Model.Course.Id : 0);
-            var value = $(this).attr('name');
-            document.getElementById("myModalLabel").innerHTML = "Ladda upp dokument för aktivitet";
-            $.ajax({
-                url: '@Url.Action("UploadModal", "Documents")',
-                data: {
-                    courseId: courseId,
-                    ActivityId: value,
-                    showAsPartial: true
-                },
-                type: "GET",
-                success: function (data) {
-                    if(data){
-                        $("#modalBody").html(data);
-                        $("#docModal").modal();
-                    }
-                    else{
-                        alert("No data");
-                    }
-                },
-                error: function (xhr, textStatus, thrownError, data) {
-                    alert("Error: " + thrownError);
-                }
-            });
-        });
-
-        $(document).on('click', '#uploadBtn', function () {
-            var formData = new FormData($('#document-form')[0]);
-            formData.append('file', $('input[type=file]')[0].files[0]);
-            var file = $('input[type=file]')[0].files[0];
-            var documentfor = document.getElementById("documentfor").value
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("CreateModal","Documents",null)',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    if (data) {
-                        $('#modalBody').html(data);
-                        document.getElementById("CourseFileInfo").innerHTML = "";
-                        document.getElementById("ModuleFileInfo").innerHTML = "";
-                        document.getElementById("ActivityFileInfo").innerHTML = "";
-                        @*$('#CourseFileInfo').load('@Url.Action("List", "Documents", new { ControlRef = "CreateCourse", ActionRef = "Create" })');*@
-                        // Use above code instead to reload list of documents on the appropriate place?
-                        // This is temporary code to view the most recent uploaded document - should be replaced by lists
-                        switch(documentfor) {
-                            case "course":
-                                document.getElementById("CourseFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";    
-                                break;
-                            case "module":
-                                document.getElementById("ModuleFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";
-                                break;
-                            case "activity":
-                                document.getElementById("ActivityFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";
-                                break;
-                            default:
-                                break;
-                        }
-                        $('#docModal').modal('hide')
-                    }
-                }
-            });
-        });
-
-        $(document).on('change','#ActivityDropDown', function(){
-            if($('#ActivityDropDown').val()){
-                var row = $('#moduleListDiv').find('tr[name=' + $('#ActivityDropDown').val() +']');
-                activityDatePicker($(row).find('td[class=start-date]').text(), $(row).find('td[class=end-date]').text() + ' 23:59:59');
-            }
-            else{
-                activityDatePicker();
+            },
+            error: function (xhr, textStatus, thrownError, data) {
+                alert("Error: " + thrownError);
             }
         });
+    });
 
-        var datePicker = function(){
-            $('.datepicker').datetimepicker({
-                locale:'sv',
-                format: 'YYYY-MM-DD',
-                daysOfWeekDisabled: [6, 0],
-                calendarWeeks: true,
-            });
-            $('#courseStartDate').val($('#courseStartDate').attr('value')).change();
-            $('#courseEndDate').val($('#courseEndDate').attr('value')).change();
+    $(document).on("click", ".DocModuleBtn", function () {
+        document.getElementById("documentfor").value = "module";
+        var courseId = @( (Model.Course != null)? Model.Course.Id : 0);
+        var value = $(this).attr('name');
+        document.getElementById("myModalLabel").innerHTML = "Ladda upp dokument för modul";
+        $.ajax({
+            url: '@Url.Action("UploadModal", "Documents")',
+            data: {
+                courseId: courseId,
+                ModuleId: value,
+                showAsPartial: true
+            },
+            type: "GET",
+            success: function (data) {
+                if(data){
+                    $("#modalBody").html(data);
+                    $("#docModal").modal();
+                }
+                else{
+                    alert("No data");
+                }
+            },
+            error: function (xhr, textStatus, thrownError, data) {
+                alert("Error: " + thrownError);
+            }
+        });
+    });
+
+    $(document).on("click", ".DocActivityBtn", function () {
+        document.getElementById("documentfor").value = "activity";
+        var courseId = @( (Model.Course != null)? Model.Course.Id : 0);
+        var value = $(this).attr('name');
+        document.getElementById("myModalLabel").innerHTML = "Ladda upp dokument för aktivitet";
+        $.ajax({
+            url: '@Url.Action("UploadModal", "Documents")',
+            data: {
+                courseId: courseId,
+                ActivityId: value,
+                showAsPartial: true
+            },
+            type: "GET",
+            success: function (data) {
+                if(data){
+                    $("#modalBody").html(data);
+                    $("#docModal").modal();
+                }
+                else{
+                    alert("No data");
+                }
+            },
+            error: function (xhr, textStatus, thrownError, data) {
+                alert("Error: " + thrownError);
+            }
+        });
+    });
+
+    $(document).on('click', '#uploadBtn', function () {
+        var formData = new FormData($('#document-form')[0]);
+        formData.append('file', $('input[type=file]')[0].files[0]);
+        var file = $('input[type=file]')[0].files[0];
+        var documentfor = document.getElementById("documentfor").value
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CreateModal","Documents",null)',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data) {
+                    $('#modalBody').html(data);
+                    document.getElementById("CourseFileInfo").innerHTML = "";
+                    document.getElementById("ModuleFileInfo").innerHTML = "";
+                    document.getElementById("ActivityFileInfo").innerHTML = "";
+                    @*$('#CourseFileInfo').load('@Url.Action("List", "Documents", new { ControlRef = "CreateCourse", ActionRef = "Create" })');*@
+                    // Use above code instead to reload list of documents on the appropriate place?
+                    // This is temporary code to view the most recent uploaded document - should be replaced by lists
+                    switch(documentfor) {
+                        case "course":
+                            document.getElementById("CourseFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";
+                            break;
+                        case "module":
+                            document.getElementById("ModuleFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";
+                            break;
+                        case "activity":
+                            document.getElementById("ActivityFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";
+                            break;
+                        default:
+                            break;
+                    }
+                    $('#docModal').modal('hide')
+                }
+            }
+        });
+    });
+
+    $(document).on('change','#ActivityDropDown', function(){
+        if($('#ActivityDropDown').val()){
+
+            var row = document.getElementById('module' + $('#ActivityDropDown').val());
+            var start = $(row).find('.start-date').html();
+            var end = $(row).find('.end-date').html() + ' 23:59:59';
+
+            activityDatePicker(start, end);
         }
-        datePicker();
+        else{
+            activityDatePicker();
+        }
+    });
 
-        @{
+    var datePicker = function(){
+        $('.datepicker').datetimepicker({
+            locale:'sv',
+            format: 'YYYY-MM-DD',
+            daysOfWeekDisabled: [6, 0],
+            calendarWeeks: true,
+        });
+        $('#courseStartDate').val($('#courseStartDate').attr('value')).change();
+        $('#courseEndDate').val($('#courseEndDate').attr('value')).change();
+    }
+    datePicker();
+
+    @{
             String max = (Model.Course != null) ? Model.Course.EndDate.ToShortDateString() : DateTime.Now.ToShortDateString();
             String min = (Model.Course != null) ? Model.Course.StartDate.ToShortDateString() : DateTime.Now.ToShortDateString();
         }
 
-        var moduleDatepicker = function(){
-            var max = '@max';
-            var min = '@min';
+    var moduleDatepicker = function(){
+        var max = '@max';
+        var min = '@min';
 
-            $('.moduleDatepicker').datetimepicker({
-                locale:'sv',
-                format: 'YYYY-MM-DD',
-                daysOfWeekDisabled: [6, 0],
-                maxDate: max,
-                minDate: min,
-                calendarWeeks: true,
-            });
+        $('.moduleDatepicker').datetimepicker({
+            locale:'sv',
+            format: 'YYYY-MM-DD',
+            daysOfWeekDisabled: [6, 0],
+            maxDate: max,
+            minDate: min,
+            calendarWeeks: true,
+        });
 
-            $('#moduleStartDate').val($('#moduleStartDate').attr('value')).change();
-            $('#moduleEndDate').val($('#moduleEndDate').attr('value')).change();
-        };
-        moduleDatepicker();
+        $('#moduleStartDate').val($('#moduleStartDate').attr('value')).change();
+        $('#moduleEndDate').val($('#moduleEndDate').attr('value')).change();
+    };
+    moduleDatepicker();
 
-        var activityDatePickerInit = function(){
-            $('.activityDatepicker').datetimepicker({
-                daysOfWeekDisabled: [6, 0],
-                locale:'sv',
-            });
+    var activityDatePickerInit = function(){
+        $('.activityDatepicker').datetimepicker({
+            daysOfWeekDisabled: [6, 0],
+            locale:'sv',
+        });
 
-            $('#activityStartDate').val($('#activityStartDate').attr('value')).change();
-            $('#activityEndDate').val($('#activityEndDate').attr('value')).change();
+        $('#activityStartDate').val($('#activityStartDate').attr('value')).change();
+        $('#activityEndDate').val($('#activityEndDate').attr('value')).change();
+    }
+    activityDatePickerInit();
+
+    var activityDatePicker = function(startDate, endDate){
+        var list = document.getElementsByClassName('activityDatepicker');
+
+        for(var i = 0; i < list.length; i++){
+            $(list[i]).datetimepicker('destroy');
         }
-        activityDatePickerInit();
 
-        var activityDatePicker = function(startDate, endDate){
-            var list = document.getElementsByClassName('activityDatepicker');
+        $('.activityDatepicker').datetimepicker({
+            locale:'sv',
+            daysOfWeekDisabled: [6, 0],
+            minDate: startDate,
+            maxDate: endDate,
+            calendarWeeks: true,
+        });
 
-            for(var i = 0; i < list.length; i++){
-                $(list[i]).datetimepicker('destroy');
+        $('#activityStartDate').val($('#activityStartDate').attr('value')).change();
+        $('#activityEndDate').val($('#activityEndDate').attr('value')).change();
+    }
+
+    function getSelectedText() {
+        var elt = document.getElementById('ActivityDropDown');
+
+        if (elt.selectedIndex == -1)
+            return null;
+
+        return elt.options[elt.selectedIndex].text;
+    }
+
+    $(document).on('click', '#ModuleBtn', function () {
+        var moduleId = document.getElementById("editedmoduleid").value;
+        alert(moduleId);
+        $.ajax({
+            url: '@Url.Action("CreateModule")',
+            type: 'POST',
+            data: $('#ModuleForm').serialize(),
+            success: function (data) {
+                if (data) {
+                    $('#moduleDiv').html(data);
+                    moduleDatepicker();
+                    $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0), EditedModuleId = -1 })'.replace('-1',moduleId), hideAddBtn)
+                    $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
+                    $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePickerInit)
+                    document.getElementById("ModuleBtn").value = "Lägg till";
+
+                }
+                else {
+                    alert('NoData');
+                }
+            },
+            error: function (xhr, textStatus, thrownError, data) {
+                alert("Error: " + thrownError);
             }
+        });
+    });
 
-            $('.activityDatepicker').datetimepicker({
-                locale:'sv',
-                daysOfWeekDisabled: [6, 0],
-                minDate: startDate,
-                maxDate: endDate,
-                calendarWeeks: true,
-            });
-
-            $('#activityStartDate').val($('#activityStartDate').attr('value')).change();
-            $('#activityEndDate').val($('#activityEndDate').attr('value')).change();
-        }
-
-        function getSelectedText() {
-            var elt = document.getElementById('ActivityDropDown');
-
-            if (elt.selectedIndex == -1)
-                return null;
-
-            return elt.options[elt.selectedIndex].text;
-        }
-
-        $(document).on('click', '#ModuleBtn', function () {
-            var moduleId = document.getElementById("editedmoduleid").value;
-            alert(moduleId);
+    var moduleEdit = function () {
+        $(document).on('click', '.editModuleBtn', function () {
+            var value = $(this).attr('name');
+            document.getElementById("editedmoduleid").value = value;
             $.ajax({
-                url: '@Url.Action("CreateModule")',
-                type: 'POST',
-                data: $('#ModuleForm').serialize(),
+                url: '@Url.Action("GetEditModule")',
+                type: 'GET',
+                data:{
+                    moduleId: value,
+                    courseId: @(((Model.Course != null)? Model.Course.Id : 0)),
+                },
                 success: function (data) {
                     if (data) {
                         $('#moduleDiv').html(data);
                         moduleDatepicker();
-                        $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0), EditedModuleId = -1 })'.replace('-1',moduleId), hideAddBtn)
-                        $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
                         $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePickerInit)
-                        document.getElementById("ModuleBtn").value = "Lägg till";
-                        
+                        document.getElementById("ModuleBtn").value = "Spara ändringar";
+                        $('html, body').animate({
+                            scrollTop: $("#documentfor").offset().top
+                        }, 500);
                     }
                     else {
                         alert('NoData');
@@ -470,124 +505,127 @@
                 }
             });
         });
+    }
+    moduleEdit();
 
-        var moduleEdit = function () {
-            $(document).on('click', '.editModuleBtn', function () {
-                var value = $(this).attr('name');
-                document.getElementById("editedmoduleid").value = value;
-                $.ajax({
-                    url: '@Url.Action("GetEditModule")',
-                    type: 'GET',
-                    data:{
-                        moduleId: value,
-                        courseId: @(((Model.Course != null)? Model.Course.Id : 0)),
-                    },
-                    success: function (data) {
-                        if (data) {
-                            $('#moduleDiv').html(data);
-                            moduleDatepicker();
-                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePickerInit)
-                            document.getElementById("ModuleBtn").value = "Spara ändringar";
-                            $('html, body').animate({
-                                scrollTop: $("#documentfor").offset().top
-                            }, 500);
-                        }
-                        else {
-                            alert('NoData');
-                        }
-                    },
-                    error: function (xhr, textStatus, thrownError, data) {
-                        alert("Error: " + thrownError);
-                    }
-                });
-            });
-        }
-        moduleEdit();
-
-        var deleteModule = function(){
-            $(document).on('click', '.deleteModuleBtn', function () {
-                var value = $(this).attr("name");
-                $.ajax({
-                    url: '@Url.Action("Delete")',
-                    type: 'POST',
-                    data: {
-                        id: value,
-                        courseId: @(((Model.Course != null)? Model.Course.Id : 0)),
-                    },
-                    success: function (data) {
-                        if (data) {
-                            $('#moduleListDiv').html(data);
-                            hideAddBtn();
-                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePickerInit)
-                            $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
-                        }
-                        else {
-                            alert('NoData');
-                        }
-                    },
-                    error: function (xhr, textStatus, thrownError, data) {
-                        alert("Error: " + thrownError);
-                    }
-                });
-            });
-        }
-        deleteModule();
-
-        var deleteActivity = function(){
-            $(document).on('click', '.deleteActivityBtn', function () {
-                var value = $(this).attr("name");
-                $.ajax({
-                    url: '@Url.Action("DeleteActivity")',
-                    type: 'POST',
-                    data: {
-                        activityId: value,
-                        courseId: @(((Model.Course != null)? Model.Course.Id : 0)),
-                    },
-                    success: function (data) {
-                        if (data) {
-                            $('#activityListDiv').html(data);
-                            $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePicker)
-                            $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
-                        }
-                        else {
-                            alert('NoData');
-                        }
-                    },
-                    error: function (xhr, textStatus, thrownError, data) {
-                        alert("Error: " + thrownError);
-                    }
-                });
-            });
-        }
-        deleteActivity();
-
-        var hideAddBtn = function(){
-            var list = document.getElementById("moduleListDiv");
-            var listSize = list.getElementsByTagName("td").length;
-            if(listSize > 1){
-                $("#ActivityBtn").removeClass("hidden");
-                $('#addActivity').removeClass("hidden");
-            }
-            else
-            {
-                $("#ActivityBtn").addClass("hidden");
-                $('#addActivity').addClass("hidden");
-            }
-        }
-
-        $(document).on('click', '#ActivityBtn', function () {
+    var deleteModule = function(){
+        $(document).on('click', '.deleteModuleBtn', function () {
+            var value = $(this).attr("name");
             $.ajax({
-                url: '@Url.Action("CreateActivity")',
+                url: '@Url.Action("Delete")',
                 type: 'POST',
-                data: $('#ActivityForm').serialize(),
+                data: {
+                    id: value,
+                    courseId: @(((Model.Course != null)? Model.Course.Id : 0)),
+                },
+                success: function (data) {
+                    if (data) {
+                        $('#moduleListDiv').html(data);
+                        hideAddBtn();
+                        $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePickerInit)
+                        $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
+                    }
+                    else {
+                        alert('NoData');
+                    }
+                },
+                error: function (xhr, textStatus, thrownError, data) {
+                    alert("Error: " + thrownError);
+                }
+            });
+        });
+    }
+    deleteModule();
+
+    var deleteActivity = function(){
+        $(document).on('click', '.deleteActivityBtn', function () {
+            var value = $(this).attr("name");
+            $.ajax({
+                url: '@Url.Action("DeleteActivity")',
+                type: 'POST',
+                data: {
+                    activityId: value,
+                    courseId: @(((Model.Course != null)? Model.Course.Id : 0)),
+                },
+                success: function (data) {
+                    if (data) {
+                        $('#activityListDiv').html(data);
+                        $('#activityDiv').load('@Url.Action("CreateActivityInput", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })', activityDatePicker)
+                        $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
+                    }
+                    else {
+                        alert('NoData');
+                    }
+                },
+                error: function (xhr, textStatus, thrownError, data) {
+                    alert("Error: " + thrownError);
+                }
+            });
+        });
+    }
+    deleteActivity();
+
+    var hideAddBtn = function(){
+        var list = document.getElementById("moduleListDiv");
+        var listSize = list.getElementsByTagName("td").length;
+        if(listSize > 1){
+            $("#ActivityBtn").removeClass("hidden");
+            $('#addActivity').removeClass("hidden");
+        }
+        else
+        {
+            $("#ActivityBtn").addClass("hidden");
+            $('#addActivity').addClass("hidden");
+        }
+    }
+
+    $(document).on('click', '#ActivityBtn', function () {
+        $.ajax({
+            url: '@Url.Action("CreateActivity")',
+            type: 'POST',
+            data: $('#ActivityForm').serialize(),
+            success: function (data) {
+                if (data) {
+                    $('#activityDiv').html(data);
+                    activityDatePickerInit();
+                    $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
+                    $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
+                    document.getElementById("ActivityBtn").value = "Lägg till";
+                    //scroll to activity
+                }
+                else {
+                    alert('NoData');
+                }
+            },
+            error: function (xhr, textStatus, thrownError, data) {
+                alert("Error: " + thrownError);
+            }
+        });
+    });
+
+    var activityEdit = function () {
+        $(document).on('click', '.editActivityBtn', function () {
+            var value = $(this).attr('name');
+
+            $.ajax({
+                url: '@Url.Action("CreateActivityInput")',
+                type: 'GET',
+                data:{
+                    activityId: value,
+                    courseId: @(((Model.Course != null)? Model.Course.Id : 0)),
+                },
                 success: function (data) {
                     if (data) {
                         $('#activityDiv').html(data);
                         activityDatePickerInit();
-                        $('#moduleListDiv').load('@Url.Action("GetModuleList", new { courseId = ((Model.Course != null)? Model.Course.Id : 0) })')
-                        $('#activityListDiv').load('@Url.Action("GetActivityList", new { courseId = ((Model.Course != null) ? Model.Course.Id : 0) })')
-                        document.getElementById("ActivityBtn").value = "Lägg till";
-                        //scroll to activity
+                        if($('#ActivityDropDown').val()){
+                            var row = $('#moduleListDiv').find('tr[name=' + $('#ActivityDropDown').val() +']');
+                            activityDatePicker($(row).find('td[class=start-date]').text(), $(row).find('td[class=end-date]').text() + ' 23:59:59');
+                        }
+                        document.getElementById("ActivityBtn").value = "Spara ändringar";
+                        $('html, body').animate({
+                            scrollTop: $("#moduleDiv").offset().top
+                        }, 500);
                     }
                     else {
                         alert('NoData');
@@ -598,42 +636,8 @@
                 }
             });
         });
+    }
 
-        var activityEdit = function () {
-            $(document).on('click', '.editActivityBtn', function () {
-                var value = $(this).attr('name');
-
-                $.ajax({
-                    url: '@Url.Action("CreateActivityInput")',
-                    type: 'GET',
-                    data:{
-                        activityId: value,
-                        courseId: @(((Model.Course != null)? Model.Course.Id : 0)),
-                    },
-                    success: function (data) {
-                        if (data) {
-                            $('#activityDiv').html(data);
-                            activityDatePickerInit();
-                            if($('#ActivityDropDown').val()){
-                                var row = $('#moduleListDiv').find('tr[name=' + $('#ActivityDropDown').val() +']');
-                                activityDatePicker($(row).find('td[class=start-date]').text(), $(row).find('td[class=end-date]').text() + ' 23:59:59');
-                            }
-                            document.getElementById("ActivityBtn").value = "Spara ändringar";
-                            $('html, body').animate({
-                                scrollTop: $("#moduleDiv").offset().top
-                            }, 500);
-                        }
-                        else {
-                            alert('NoData');
-                        }
-                    },
-                    error: function (xhr, textStatus, thrownError, data) {
-                        alert("Error: " + thrownError);
-                    }
-                });
-            });
-        }
-
-        activityEdit();
-    </script>
+    activityEdit();
+</script>
 }
