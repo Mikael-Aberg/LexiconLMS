@@ -619,8 +619,11 @@
                         $('#activityDiv').html(data);
                         activityDatePickerInit();
                         if($('#ActivityDropDown').val()){
-                            var row = $('#moduleListDiv').find('tr[name=' + $('#ActivityDropDown').val() +']');
-                            activityDatePicker($(row).find('td[class=start-date]').text(), $(row).find('td[class=end-date]').text() + ' 23:59:59');
+                            var row = document.getElementById('module' + $('#ActivityDropDown').val());
+                            var start = $(row).find('.start-date').html();
+                            var end = $(row).find('.end-date').html() + ' 23:59:59';
+
+                            activityDatePicker(start, end);
                         }
                         document.getElementById("ActivityBtn").value = "Spara ändringar";
                         $('html, body').animate({
