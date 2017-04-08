@@ -34,7 +34,7 @@
             <td data-toggle="tooltip" title="@Html.DisplayFor(x => item.ToolTipText)">@Html.DisplayFor(modelItem => item.ShortDescription)</td>
             <td>@Html.DisplayFor(modelItem => item.Deadline)</td>
             <td class="text-right">
-                @if (@item.DocumentCount > 0 && !User.IsInRole("Teacher"))
+                @if (item.ShowFeedback && !User.IsInRole("Teacher"))
                 {
                     <button class="feedback-btn btn no-background" value="@item.ActivityId" data-toggle="icons" title="Se din feedback">
                         <img class="icon" src="~/Images/feedback.png" />
