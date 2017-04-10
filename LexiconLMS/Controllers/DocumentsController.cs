@@ -26,8 +26,6 @@ namespace LexiconLMS.Controllers
             return View(documents.ToList());
         }
 
-
-
         // GET: Documents/Details/5
         public ActionResult Details(int? id)
         {

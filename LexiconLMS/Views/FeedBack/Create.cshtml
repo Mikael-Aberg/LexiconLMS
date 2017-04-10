@@ -3,7 +3,7 @@
 @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <hr />
+    @*<hr />*@
     @Html.HiddenFor(x => x.FeedbackId)
     @Html.HiddenFor(x => x.PostedById)
     @Html.HiddenFor(x => x.StudentId)

@@ -41,12 +41,21 @@
                 <td class="text-right">
                     @if (item.Activity != null)
                     {
-                        if (item.Activity.IsAssignment)
+                        if ((item.Activity.IsAssignment && item.User.UserName == User.Identity.Name && !User.IsInRole("Teacher"))
+                         || (item.Activity.IsAssignment && item.User.UserName != User.Identity.Name && User.IsInRole("Teacher")))
                         {
-                            <a class="no-background no-underline" data-toggle="icons" title="@((User.IsInRole("Teacher")? "Ge feedback till " + item.User.FullName : "Se din feedback"))" href="@Url.Action("Messages", "Feedback",new { userId = item.UserId, activityId = item.ActivityId})">
-                                <img class="icon-lg" src="~/Images/feedback.png" />
+                            <a class="no-underline" data-toggle="icons" title="@((User.IsInRole("Teacher")? "Ge feedback till " + item.User.FullName : "Se din feedback"))" href="@Url.Action("Messages", "Feedback",new { userId = item.UserId, activityId = item.ActivityId})">
+                                <img class="document-img" src="~/Images/feedback.png" />
                             </a>
                         }
+                        else
+                        {
+                            <img class="document-img" src="~/Images/Empty.png" />
+                        }
+                    }
+                    else
+                    {
+                        <img class="document-img" src="~/Images/Empty.png" />
                     }
                     <a class="no-underline" href='@Url.Action("DownloadFile", "Documents", new { id = item.Id })' data-toggle="icons" title="Ladda ned: @Html.DisplayFor(modelItem => item.Name)">
                         <img class="document-img" src="~/Images/document_download.png" />

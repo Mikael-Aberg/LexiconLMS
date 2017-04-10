@@ -52,12 +52,12 @@ namespace LexiconLMS.Models
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Du måste fylla i en e-post.")]
         [Display(Name = "E-post")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Du måste fylla i ett lösenord.")]
         [DataType(DataType.Password)]
         [Display(Name = "Lösenord")]
         public string Password { get; set; }
