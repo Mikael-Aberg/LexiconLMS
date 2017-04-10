@@ -442,6 +442,9 @@ namespace LexiconLMS.Controllers
 
                         //if (User.IsInRole("Teacher"))
                         //{
+                        var adminUser = UserManager.FindByName(model.Email);
+                        UserManager.AddToRole(adminUser.Id, "Teacher");
+
                         var viewModel = new RegisterTeacherViewModel();
                         viewModel.Title = "Lägg till lärare";
                         //model.Courses = new SelectList(db.Courses.ToList(), "Id", "Name");
