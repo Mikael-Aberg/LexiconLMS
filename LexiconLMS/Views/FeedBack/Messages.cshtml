@@ -4,7 +4,7 @@
     ViewBag.Title = "Messages";
 }
 
-<h2>Feedback för inlämningsuppgift '@Model.ActivityName'</h2>
+<h3>Feedback för inlämningsuppgift '@Model.ActivityName'</h3>
 <div class="container">
     <div id="historyDiv">
         @Html.Action("Index", new { userId = Model.StudentId, activityId = Model.ActivityId, partial = true })

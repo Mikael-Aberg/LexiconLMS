@@ -36,6 +36,7 @@ textarea {
     10. Footer always on the bottom
     11. Feedback
     12. Navbar with logotype
+    13. Color for h1 and h3 tags
 */
 
 
@@ -160,8 +161,9 @@ textarea {
 
 .scheduleTitle {
     font-weight: normal;
-    font-size: 20px;
+    font-size: 26px;
     margin-left: 15px;
+    color: darkgray;
 }
 
 .assignment-img {
@@ -195,7 +197,7 @@ textarea {
 }
 
 .panel-group {
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 #courseButtons {
@@ -248,14 +250,14 @@ textarea {
     width: 700px;
     padding-left: 50px;
     padding-right: 50px;
-    border-bottom: 1px solid #eeeeee;
+    /*border-bottom: 1px solid #eeeeee;*/
     padding-bottom: 20px;
 }
 
 .row > img {
     margin-top: 50px;
     margin-bottom: 30px;
-    width: 60%;
+    width: 50%;
 }
 
 @media(max-width:767px) {
@@ -341,8 +343,16 @@ textarea {
     margin-bottom: 20px;
 }
 
-.assignmentList {
-    margin-top: 40px;
+#AssignmentsList {
+    margin-top: 25px;
+}
+
+/*.bordetTop th{
+    border-top: none;
+}*/
+
+.page-header{
+    margin: 0;
 }
 
 
@@ -454,7 +464,8 @@ footer
 	bottom: 0;
 	left: 0;
 	padding: 1rem;
-    background-color: #efefef;
+    background-color: black;
+    color: white;
 }
 
 
@@ -592,4 +603,19 @@ footer
 .navbar-brand {
     margin-top: -7px;
     height: 50px;
+}
+
+
+/*============================== 13. Color for h1 and h3 tags =================================*/
+
+h3 {
+    margin-bottom: 0;
+    padding: 0;
+    color: darkgray;
+}
+
+h1 {
+    margin-bottom: 0;
+    padding: 0;
+    color: darkgray;
 }
