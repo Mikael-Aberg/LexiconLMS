@@ -35,9 +35,12 @@ textarea {
     9. List Document
     10. Footer always on the bottom
     11. Feedback
+    12. Navbar with logotype
 */
 
+
 /*======================================= 1. All around ===================================*/
+
 .no-background {
     background: transparent;
     padding: 2px;
@@ -97,6 +100,7 @@ textarea {
 .genericimg {
         height: 20px;
     }
+
 
 /*======================================= 2. Schedule ===================================*/
 
@@ -168,8 +172,6 @@ textarea {
 
 /*======================================= 3. Create Course ===================================*/
 
-
-
 #nextWeek {
     float: right;
 }
@@ -208,7 +210,6 @@ textarea {
 .bootstrap-datetimepicker-widget table td.disabled:hover {
     color: rgba(189, 189, 189, 0.48);
 }
-
 
 
 /*========================================== 4. Log in ======================================*/
@@ -273,7 +274,6 @@ textarea {
 
 
 /*======================================= 5. Register student ==================================*/
-
 
 #redisterHeadDiv {
     margin-top: 20px;
@@ -345,13 +345,17 @@ textarea {
     margin-top: 40px;
 }
 
+
 /*======================================= 8. Create Document ==================================*/
+
 #fileselected {
     margin-left: 10px;
 }
 .editedrow{
     background-color:#e9f8ed;
 }
+
+
 /*======================================= 9. List Document ==================================*/
 
 .document-list {
@@ -452,6 +456,8 @@ footer
 	padding: 1rem;
     background-color: #efefef;
 }
+
+
 /*======================================= 11. Feedback ==================================*/
 
 .glyphicon.glyphicon-one-fine-dot-you:before {
@@ -581,10 +587,9 @@ footer
 }
 
 
-
+/*================================ 12. Navbar with logotype ==================================*/
 
 .navbar-brand {
-    /*vertical-align: central;*/
     margin-top: -7px;
     height: 50px;
 }
