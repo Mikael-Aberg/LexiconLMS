@@ -279,19 +279,17 @@ textarea {
 
 #redisterHeadDiv {
     margin-top: 20px;
+    margin-bottom:20px;
 }
-
-    #redisterHeadDiv h2 {
-        display: inline;
-    }
 
     #redisterHeadDiv span {
         display: inline;
         vertical-align: text-bottom;
     }
 
-    #redisterHeadDiv h2 {
+    #redisterHeadDiv h3 {
         display: inline;
+        margin-bottom:10px;
     }
 
     #redisterHeadDiv span {

@@ -321,6 +321,8 @@
         });
     });
 
+
+
     $(document).on('click', '#uploadBtn', function () {
         var formData = new FormData($('#document-form')[0]);
         formData.append('file', $('input[type=file]')[0].files[0]);
@@ -338,18 +340,18 @@
                     document.getElementById("CourseFileInfo").innerHTML = "";
                     document.getElementById("ModuleFileInfo").innerHTML = "";
                     document.getElementById("ActivityFileInfo").innerHTML = "";
-                    @*$('#CourseFileInfo').load('@Url.Action("List", "Documents", new { ControlRef = "CreateCourse", ActionRef = "Create" })');*@
-                    // Use above code instead to reload list of documents on the appropriate place?
-                    // This is temporary code to view the most recent uploaded document - should be replaced by lists
                     switch(documentfor) {
                         case "course":
-                            document.getElementById("CourseFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";
+                            document.getElementById("CourseFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + 
+                                file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";
                             break;
                         case "module":
-                            document.getElementById("ModuleFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";
+                            document.getElementById("ModuleFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + 
+                                file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";
                             break;
                         case "activity":
-                            document.getElementById("ActivityFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";
+                            document.getElementById("ActivityFileInfo").innerHTML = "Fil uppladdad:<br/><a href='/UploadedFiles/" + file.name + "' target='_blank'><img src='/Images/" + 
+                                file.name.substring(file.name.length - 3) + ".png'/>" + file.name + "</a>";
                             break;
                         default:
                             break;
@@ -359,6 +361,8 @@
             }
         });
     });
+
+
 
     $(document).on('change','#ActivityDropDown', function(){
         if($('#ActivityDropDown').val()){
